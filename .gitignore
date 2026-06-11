@@ -48,3 +48,5 @@ replay_pid*
 /data/*.db
 /frontend/node_modules/
 /frontend/dist/
+/frontend/.vite/
+/frontend/*.tsbuildinfo
