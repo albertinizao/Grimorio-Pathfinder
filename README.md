@@ -225,3 +225,28 @@ Una funcionalidad se considera bien implementada si:
 
 - Backend: `./mvnw test` (`mvnw.cmd test` en Windows)
 - Frontend: `cd frontend && npm install && npm run build`
+
+## Verificación local completa
+
+Cuando quieras comprobar el flujo local completo, ejecuta:
+
+```powershell
+python .\scripts\verify_local.py
+```
+
+Ese comando encadena:
+
+1. tests del backend;
+2. typecheck del frontend;
+3. build del frontend;
+4. smoke E2E `spell-editing-ui`.
+
+GitHub Actions ejecuta el mismo flujo en `windows-latest` usando el workflow
+`.github/workflows/verify-local.yml`.
+
+Si es la primera vez que trabajas con el frontend, instala antes sus dependencias:
+
+```powershell
+cd .\frontend
+npm install
+```
