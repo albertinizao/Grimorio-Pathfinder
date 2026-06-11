@@ -50,11 +50,18 @@ export interface SpellSearchResult {
   nameEs: string;
   selectedList: SpellSelectedList;
   school: string | null;
+  subschool: string | null;
   descriptors: string[];
   castingTime: string | null;
+  components: string | null;
   range: string | null;
+  target: string | null;
+  effect: string | null;
+  area: string | null;
+  duration: string | null;
   savingThrow: string | null;
   spellResistance: string | null;
+  descriptionEs: string | null;
   translationStatus: TranslationStatus;
   snippet: string | null;
   matchSource: string | null;

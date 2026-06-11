@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import {
   fetchSpellDetail,
-  fetchSpellListLevels,
   fetchSpellLists,
   formatDescriptors,
   formatTranslationStatus,
   fromDescriptorsInput,
-  getSearchSummary,
   searchSpells,
   toDescriptorsInput,
   updatePersonalNotes,
@@ -15,14 +13,12 @@ import {
   updateTranslationStatus,
 } from "./lib/spellApi";
 import type {
-  SearchFilters,
   SpellDetail,
   SpellListSummary,
   SpellSearchResult,
   TranslationStatus,
 } from "./types/spell";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
 const listType = "CLASS";
 
 const spellLists = ref<SpellListSummary[]>([]);
@@ -32,6 +28,7 @@ const errorMessage = ref<string | null>(null);
 const infoMessage = ref<string | null>(null);
 const searchBusy = ref(false);
 const detailBusy = ref(false);
+let infoMessageTimeoutId: ReturnType<typeof window.setTimeout> | null = null;
 
 const searchForm = reactive({
   listType,
@@ -94,38 +91,57 @@ const availableLevels = computed<number[]>(() => {
   return current?.levels ?? [];
 });
 
-const selectedSearchSummary = computed(() => {
-  if (!searchResults.value.length) {
-    return "Sin resultados todavía.";
-  }
-  return getSearchSummary(
-    {
-      page: 0,
-      size: 50,
-      totalItems: searchResults.value.length,
-      totalPages: 1,
-      hasNext: false,
-    },
-    {
-      listType: searchForm.listType,
-      listName: searchForm.listName,
-      maxLevel: searchForm.maxLevel,
-      q: searchForm.q,
-    } satisfies SearchFilters,
-  );
-});
+type SearchResultField = {
+  label: string;
+  value: string;
+  wide?: boolean;
+};
+
+function formatSearchValue(value: string | null | undefined): string {
+  return value && value.trim().length > 0 ? value : "—";
+}
+
+function getSearchResultFields(result: SpellSearchResult): SearchResultField[] {
+  return [
+    { label: "Escuela", value: formatSearchValue(result.school) },
+    { label: "Subescuela", value: formatSearchValue(result.subschool) },
+    { label: "Descriptores", value: formatSearchValue(formatDescriptors(result.descriptors)) },
+    { label: "Tiempo de lanzamiento", value: formatSearchValue(result.castingTime) },
+    { label: "Componentes", value: formatSearchValue(result.components) },
+    { label: "Alcance", value: formatSearchValue(result.range) },
+    { label: "Objetivo", value: formatSearchValue(result.target) },
+    { label: "Efecto", value: formatSearchValue(result.effect) },
+    { label: "Área", value: formatSearchValue(result.area) },
+    { label: "Duración", value: formatSearchValue(result.duration) },
+    { label: "TS", value: formatSearchValue(result.savingThrow) },
+    { label: "RC", value: formatSearchValue(result.spellResistance) },
+    { label: "Descripción española", value: formatSearchValue(result.descriptionEs), wide: true },
+  ];
+}
 
 function setMessage(kind: "error" | "info", message: string | null): void {
   if (kind === "error") {
     errorMessage.value = message;
     if (message) {
+      if (infoMessageTimeoutId !== null) {
+        window.clearTimeout(infoMessageTimeoutId);
+        infoMessageTimeoutId = null;
+      }
       infoMessage.value = null;
     }
     return;
   }
+  if (infoMessageTimeoutId !== null) {
+    window.clearTimeout(infoMessageTimeoutId);
+    infoMessageTimeoutId = null;
+  }
   infoMessage.value = message;
   if (message) {
     errorMessage.value = null;
+    infoMessageTimeoutId = window.setTimeout(() => {
+      infoMessage.value = null;
+      infoMessageTimeoutId = null;
+    }, 10_000);
   }
 }
 
@@ -173,15 +189,22 @@ function mergeUpdatedSpell(updated: SpellDetail): void {
   syncDraftsFromDetail(updated);
   searchResults.value = searchResults.value.map((result) =>
     result.spellId === updated.spellId
-      ? {
+          ? {
           ...result,
           nameEs: updated.nameEs ?? "",
           school: updated.school,
+          subschool: updated.subschool,
           descriptors: updated.descriptors,
           castingTime: updated.castingTime,
+          components: updated.components,
           range: updated.range,
+          target: updated.target,
+          effect: updated.effect,
+          area: updated.area,
+          duration: updated.duration,
           savingThrow: updated.savingThrow,
           spellResistance: updated.spellResistance,
+          descriptionEs: updated.descriptionEs,
           translationStatus: updated.translationStatus,
           snippet: updated.descriptionEs ? updated.descriptionEs.slice(0, 140) : result.snippet,
           hasPersonalNotes: Boolean(updated.personalNotes && updated.personalNotes.trim().length > 0),
@@ -217,7 +240,14 @@ async function runSearch(): Promise<void> {
     searchBusy.value = true;
     const response = await searchSpells(searchForm);
     searchResults.value = response.results;
-    infoMessage.value = response.results.length ? `${response.results.length} conjuros encontrados.` : "No hay conjuros para este filtro.";
+    setMessage(
+      "info",
+      response.results.length === 1
+        ? "1 conjuro encontrado."
+        : response.results.length > 1
+          ? `${response.results.length} conjuros encontrados.`
+          : "No hay conjuros para este filtro.",
+    );
     if (selectedSpell.value) {
       const stillVisible = response.results.some((result) => result.spellId === selectedSpell.value?.spellId);
       if (!stillVisible) {
@@ -343,6 +373,13 @@ watch(
 onMounted(() => {
   void loadListsAndSearch();
 });
+
+onBeforeUnmount(() => {
+  if (infoMessageTimeoutId !== null) {
+    window.clearTimeout(infoMessageTimeoutId);
+    infoMessageTimeoutId = null;
+  }
+});
 </script>
 
 <template>
@@ -351,22 +388,13 @@ onMounted(() => {
       <div>
         <p class="eyebrow">Grimorio Pathfinder</p>
         <h1>Edición local de conjuros</h1>
-        <p class="lead">
-          Consulta, abre detalle y guarda campos españoles, notas personales y
-          estado de traducción usando la API local.
-        </p>
       </div>
-      <aside class="status-card">
-        <span class="status-label">Backend</span>
-        <strong>{{ apiBaseUrl }}</strong>
-        <span>Modo oscuro · Offline-first · Tablet-friendly</span>
-      </aside>
     </header>
 
     <section v-if="errorMessage" class="banner banner-error" role="alert">
       {{ errorMessage }}
     </section>
-    <section v-if="infoMessage" class="banner banner-info" role="status">
+    <section v-if="infoMessage" class="toast toast-info" role="status" aria-live="polite">
       {{ infoMessage }}
     </section>
 
@@ -428,41 +456,43 @@ onMounted(() => {
             </button>
           </div>
         </form>
-
-        <p class="summary">{{ selectedSearchSummary }}</p>
-
         <div class="results-list">
-          <button
+          <article
             v-for="result in searchResults"
             :key="result.spellId"
-            type="button"
             class="result-card"
             :class="{ active: selectedSpell?.spellId === result.spellId }"
-            @click="openSpell(result.spellId)"
           >
             <div class="result-topline">
-              <strong>{{ result.nameEs }}</strong>
-              <span>{{ result.translationStatus }}</span>
+              <div class="result-title">
+                <strong>{{ result.nameEs }}</strong>
+                <span class="result-level">Lv {{ result.selectedList.level }}</span>
+              </div>
+              <button class="edit-button" type="button" @click="openSpell(result.spellId)">
+                Editar
+              </button>
             </div>
-            <div class="result-meta">
-              <span>Lv {{ result.selectedList.level }}</span>
-              <span>{{ result.school ?? "—" }}</span>
-              <span>{{ formatDescriptors(result.descriptors) }}</span>
-            </div>
-            <p class="snippet">
-              <strong v-if="result.matchSource">{{ result.matchSource }}:</strong>
-              {{ result.snippet ?? "Sin fragmento" }}
-            </p>
-          </button>
+            <dl class="result-fields">
+              <div
+                v-for="field in getSearchResultFields(result)"
+                :key="field.label"
+                class="result-field"
+                :class="{ 'result-field--wide': field.wide }"
+              >
+                <dt>{{ field.label }}</dt>
+                <dd>{{ field.value }}</dd>
+              </div>
+            </dl>
+          </article>
         </div>
       </article>
 
       <article class="panel detail-panel">
         <div class="panel-header">
           <div>
-            <p class="eyebrow">Detalle y edición</p>
+            <p class="eyebrow">Edición</p>
             <h2 v-if="selectedSpell">{{ selectedSpell.nameEs || "Conjuro" }}</h2>
-            <h2 v-else>Selecciona un conjuro</h2>
+            <h2 v-else>Haz clic en un conjuro</h2>
           </div>
           <span class="muted" v-if="selectedSpell">
             {{ formatTranslationStatus(selectedSpell.translationStatus) }}
@@ -470,7 +500,7 @@ onMounted(() => {
         </div>
 
         <div v-if="!selectedSpell" class="empty-state">
-          <p>Abre un resultado para editar sus campos españoles, notas o estado.</p>
+          <p>Haz clic en un resultado para editar sus campos españoles, notas o estado.</p>
         </div>
 
         <div v-else class="detail-grid">
@@ -576,38 +606,6 @@ onMounted(() => {
             </label>
           </section>
 
-          <section class="detail-section">
-            <h3>Referencia y metadatos</h3>
-            <dl class="detail-meta">
-              <div>
-                <dt>Texto inglés</dt>
-                <dd>{{ selectedSpell.descriptionEn ?? "—" }}</dd>
-              </div>
-              <div>
-                <dt>Lista de conjuros</dt>
-                <dd>
-                  <span v-for="entry in selectedSpell.lists" :key="`${entry.listType}-${entry.listName}-${entry.level}`" class="chip">
-                    {{ entry.listType }} · {{ entry.listName }} · {{ entry.level }}
-                  </span>
-                </dd>
-              </div>
-              <div>
-                <dt>Fuente</dt>
-                <dd>
-                  {{ selectedSpell.source.sourceBook ?? "—" }}
-                  <template v-if="selectedSpell.source.sourcePage"> · pág. {{ selectedSpell.source.sourcePage }}</template>
-                </dd>
-              </div>
-              <div>
-                <dt>Actualizado</dt>
-                <dd>{{ selectedSpell.updatedAt ?? "—" }}</dd>
-              </div>
-              <div>
-                <dt>Campos editables</dt>
-                <dd>{{ selectedSpell.editableFields.join(", ") }}</dd>
-              </div>
-            </dl>
-          </section>
         </div>
 
         <section v-if="hasLoadedSpell && selectedSpell" class="detail-footer">
