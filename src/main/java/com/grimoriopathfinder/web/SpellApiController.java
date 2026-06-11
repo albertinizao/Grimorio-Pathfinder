@@ -2,6 +2,8 @@ package com.grimoriopathfinder.web;
 
 import com.grimoriopathfinder.catalog.SpellCatalogService;
 import com.grimoriopathfinder.web.dto.SpellApiDtos;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,5 +50,29 @@ public class SpellApiController {
     @GetMapping("/spells/{spellId}")
     public SpellApiDtos.SpellDetailResponseDto getSpellDetail(@PathVariable String spellId) {
         return catalogService.getSpellDetail(spellId);
+    }
+
+    @PatchMapping("/spells/{spellId}/fields")
+    public SpellApiDtos.SpellDetailResponseDto updateSpellFields(
+            @PathVariable String spellId,
+            @RequestBody SpellApiDtos.UpdateSpellFieldsRequestDto request
+    ) {
+        return catalogService.updateSpellFields(spellId, request);
+    }
+
+    @PatchMapping("/spells/{spellId}/notes")
+    public SpellApiDtos.SpellDetailResponseDto updatePersonalNotes(
+            @PathVariable String spellId,
+            @RequestBody SpellApiDtos.UpdatePersonalNotesRequestDto request
+    ) {
+        return catalogService.updatePersonalNotes(spellId, request);
+    }
+
+    @PatchMapping("/spells/{spellId}/translation-status")
+    public SpellApiDtos.SpellDetailResponseDto updateTranslationStatus(
+            @PathVariable String spellId,
+            @RequestBody SpellApiDtos.UpdateTranslationStatusRequestDto request
+    ) {
+        return catalogService.updateTranslationStatus(spellId, request);
     }
 }
