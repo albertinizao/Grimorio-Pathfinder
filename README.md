@@ -213,3 +213,15 @@ Una funcionalidad se considera bien implementada si:
 - mantiene arquitectura hexagonal;
 - tiene tests básicos;
 - es cómoda para usar en mesa.
+
+## Estructura del repositorio
+
+- `src/` — backend Spring Boot con capas `domain`, `application`, `ports`, `infrastructure` y `web`.
+- `frontend/` — SPA Vue 3 independiente que consume la API local.
+- `data/` — dataset versionado y overrides regenerables.
+- `docs/` — visión, roadmap, contrato y especificaciones OpenSpec.
+
+## Comandos base
+
+- Backend: `./mvnw test` (`mvnw.cmd test` en Windows)
+- Frontend: `cd frontend && npm install && npm run build`
