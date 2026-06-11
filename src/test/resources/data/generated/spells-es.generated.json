@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-11T00:00:00Z",
+  "sourceName": "test-fixture",
+  "spells": [
+    {
+      "id": "delay-poison",
+      "slug": "delay-poison",
+      "sourceId": "delay-poison",
+      "sourceHash": "sha256:111111",
+      "nameEs": "Retrasar veneno",
+      "nameEn": "Delay Poison",
+      "school": "abjuración",
+      "subschool": null,
+      "descriptors": [],
+      "castingTime": "1 acción estándar",
+      "components": "V, S, FD",
+      "range": "toque",
+      "target": "criatura tocada",
+      "effect": null,
+      "area": null,
+      "duration": "1 h./nivel",
+      "savingThrow": "Voluntad niega (inofensivo)",
+      "spellResistance": "sí (inofensivo)",
+      "descriptionEs": "El objetivo queda temporalmente protegido contra el veneno.",
+      "descriptionEn": "The subject becomes temporarily immune to poison.",
+      "sourceBook": "Core Rulebook",
+      "sourcePage": 256,
+      "sourceName": "spells.csv",
+      "translationStatus": "AI_TRANSLATED",
+      "lists": [
+        { "spellId": "delay-poison", "listType": "CLASS", "listName": "Clérigo", "level": 3 },
+        { "spellId": "delay-poison", "listType": "CLASS", "listName": "Druida", "level": 2 }
+      ],
+      "personalNotes": "",
+      "createdAt": "2026-06-11T00:00:00Z",
+      "updatedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "neutralize-poison",
+      "slug": "neutralize-poison",
+      "sourceId": "neutralize-poison",
+      "sourceHash": "sha256:222222",
+      "nameEs": "Neutralizar veneno",
+      "nameEn": "Neutralize Poison",
+      "school": "conjuración",
+      "subschool": "curación",
+      "descriptors": [],
+      "castingTime": "1 acción estándar",
+      "components": "V, S, FD",
+      "range": "toque",
+      "target": "criatura u objeto tocado",
+      "effect": null,
+      "area": null,
+      "duration": "instantáneo",
+      "savingThrow": "Voluntad niega (inofensivo, objeto)",
+      "spellResistance": "sí (inofensivo, objeto)",
+      "descriptionEs": "Neutralizas cualquier tipo de veneno presente en la criatura u objeto tocado.",
+      "descriptionEn": "You detoxify any sort of venom in the creature or object touched.",
+      "sourceBook": "Core Rulebook",
+      "sourcePage": 264,
+      "sourceName": "spells.csv",
+      "translationStatus": "AI_TRANSLATED",
+      "lists": [
+        { "spellId": "neutralize-poison", "listType": "CLASS", "listName": "Clérigo", "level": 4 }
+      ],
+      "personalNotes": "",
+      "createdAt": "2026-06-11T00:00:00Z",
+      "updatedAt": "2026-06-11T00:00:00Z"
+    }
+  ]
+}
