@@ -2,6 +2,7 @@ package com.grimoriopathfinder.web.dto;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 public final class SpellApiDtos {
 
@@ -120,6 +121,26 @@ public final class SpellApiDtos {
             List<String> editableFields,
             Instant updatedAt,
             Instant reviewedAt
+    ) {
+    }
+
+    public record UpdateSpellFieldsRequestDto(
+            Map<String, Object> fields,
+            Instant expectedUpdatedAt,
+            String reason
+    ) {
+    }
+
+    public record UpdatePersonalNotesRequestDto(
+            String personalNotes,
+            Instant expectedUpdatedAt
+    ) {
+    }
+
+    public record UpdateTranslationStatusRequestDto(
+            String translationStatus,
+            Instant expectedUpdatedAt,
+            String reason
     ) {
     }
 }

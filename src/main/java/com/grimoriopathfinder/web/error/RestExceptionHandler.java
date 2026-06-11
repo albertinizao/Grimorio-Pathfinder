@@ -19,9 +19,19 @@ public class RestExceptionHandler {
         return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
     }
 
+    @ExceptionHandler(SpellEditValidationException.class)
+    public ProblemDetail handleEditValidation(SpellEditValidationException ex) {
+        return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
+    }
+
     @ExceptionHandler(SpellListNotFoundException.class)
     public ProblemDetail handleListNotFound(SpellListNotFoundException ex) {
         return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
+    }
+
+    @ExceptionHandler(SpellConflictException.class)
+    public ProblemDetail handleConflict(SpellConflictException ex) {
+        return problemDetail(HttpStatus.CONFLICT, ex.getMessage());
     }
 
     @ExceptionHandler(SpellNotFoundException.class)

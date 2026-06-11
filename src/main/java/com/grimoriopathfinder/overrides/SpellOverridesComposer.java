@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.time.Instant;
 
 public class SpellOverridesComposer {
 
@@ -117,7 +118,7 @@ public class SpellOverridesComposer {
                 generatedSpell.lists(),
                 override.personalNotes() != null ? override.personalNotes() : generatedSpell.personalNotes(),
                 generatedSpell.createdAt(),
-                generatedSpell.updatedAt()
+                parseInstant(override.updatedAt(), generatedSpell.updatedAt())
         );
     }
 
@@ -154,5 +155,16 @@ public class SpellOverridesComposer {
 
     private String stringValue(Object value, String fallback) {
         return value == null ? fallback : String.valueOf(value);
+    }
+
+    private Instant parseInstant(String value, Instant fallback) {
+        if (value == null || value.isBlank()) {
+            return fallback;
+        }
+        try {
+            return Instant.parse(value);
+        } catch (Exception ex) {
+            return fallback;
+        }
     }
 }
