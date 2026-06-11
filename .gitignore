@@ -45,6 +45,6 @@ replay_pid*
 # Build and local tooling outputs
 /target/
 /.tools/
-/data/
+/data/*.db
 /frontend/node_modules/
 /frontend/dist/

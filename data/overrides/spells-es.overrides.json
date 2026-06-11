@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-11T00:00:00Z",
+  "spells": {
+    "delay-poison": {
+      "personalNotes": "Preparar si esperamos drow o criaturas venenosas.",
+      "updatedAt": "2026-06-11T00:00:00Z"
+    },
+    "neutralize-poison": {
+      "fields": {
+        "descriptionEs": "Neutralizas cualquier tipo de veneno presente en la criatura u objeto tocado.",
+        "translationStatus": "LOCKED"
+      },
+      "personalNotes": "Traducción revisada y cerrada.",
+      "updatedAt": "2026-06-11T00:00:00Z"
+    }
+  }
+}
