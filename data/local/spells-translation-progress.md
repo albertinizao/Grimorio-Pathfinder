@@ -1,28 +1,165 @@
-# Progreso de traducción de spells.csv
+# Progreso de traducción de spells
 
-- Lote actual: 002
+- Lote actual: spell_full_short-1.csv
 - Estado: completado
-- Rango traducido: 11-20
-- Último hechizo traducido: 20 · Antipatía (`antipathy`)
-- Siguiente hechizo pendiente: 21 · Antiplant Shell (`antiplant-shell`)
+- Rango traducido: 1-150
+- Último hechizo traducido: Discern Lies
+- Siguiente hechizo pendiente: spell_full_short-2.csv
 
 ## Hechizos traducidos en este lote
 
-| # | sourceId | nameEn | nameEs |
-|---:|---:|---|---|
-| 11 | 11 | Animal Messenger | Animal mensajero |
-| 12 | 12 | Animal Shapes | Formas de animal |
-| 13 | 13 | Animal Trance | Trance animal |
-| 14 | 14 | Animate Dead | Reanimar a los muertos |
-| 15 | 15 | Animate Objects | Animar los objetos |
-| 16 | 16 | Animate Plants | Animar las plantas |
-| 17 | 17 | Animate Rope | Animar una cuerda |
-| 18 | 18 | Antilife Shell | Caparazón antivida |
-| 19 | 19 | Antimagic Field | Campo antimagia |
-| 20 | 20 | Antipathy | Antipatía |
+- Acid Arrow → Flecha ácida
+- Acid Fog → Niebla ácida
+- Acid Splash → Salpicadura de ácido
+- Aid → Ayuda
+- Air Walk → Caminar sobre el aire
+- Align Weapon → Alinear arma
+- Alter Self → Alterar el propio aspecto
+- Alarm → Alarma
+- Analyze Dweomer → Analizar Dweomer
+- Animal Growth → Crecimiento animal
+- Animal Messenger → Mensajero animal
+- Animal Shapes → Formas animales
+- Animal Trance → Trance animal
+- Animate Dead → Animar muertos
+- Animate Objects → Animar objetos
+- Animate Plants → Animar plantas
+- Animate Rope → Animar cuerda
+- Antilife Shell → Cáscara antivida
+- Antimagic Field → Campo antimagia
+- Antipathy → Antipatía
+- Antiplant Shell → Cáscara antiplantas
+- Arcane Eye → Ojo arcano
+- Arcane Lock → Cerradura arcana
+- Arcane Mark → Marca arcana
+- Arcane Sight → Visión arcana
+- Arcane Sight, Greater → Visión arcana mayor
+- Astral Projection → Proyección astral
+- Atonement → Expiación
+- Augury → Augurio
+- Awaken → Despertar
+- Bane → Azote
+- Banishment → Expulsión
+- Barkskin → Piel de corteza
+- Bear's Endurance → Aguante del oso
+- Bear's Endurance, Mass → Aguante del oso, en masa
+- Beast Shape I → Forma animal I
+- Beast Shape II → Forma animal II
+- Beast Shape III → Forma animal III
+- Beast Shape IV → Forma animal IV
+- Bestow Curse → Imponer maldición
+- Binding → Atadura
+- Black Tentacles → Tentáculos negros
+- Blade Barrier → Barrera de cuchillas
+- Blasphemy → Blasfemia
+- Bleed → Hemorragia
+- Bless → Bendición
+- Bless Water → Bendecir agua
+- Bless Weapon → Bendecir arma
+- Blight → Marchitar
+- Blindness/Deafness → Ceguera/sordera
+- Blink → Parpadeo
+- Blur → Difuminar
+- Break Enchantment → Romper encantamiento
+- Breath Of Life → Aliento de vida
+- Bull's Strength → Fuerza de toro
+- Bull's Strength, Mass → Fuerza de toro, en masa
+- Burning Hands → Manos ardientes
+- Call Lightning → Llamar relámpagos
+- Call Lightning Storm → Tormenta de relámpagos
+- Calm Animals → Calmar animales
+- Calm Emotions → Calmar emociones
+- Cat's Grace → Gracia felina
+- Cat's Grace, Mass → Gracia felina, en masa
+- Cause Fear → Causar miedo
+- Chain Lightning → Rayo encadenado
+- Changestaff → Bastón cambiante
+- Chaos Hammer → Martillo del caos
+- Charm Person → Encantar persona
+- Charm Animal → Encantar animal
+- Charm Monster → Encantar monstruo
+- Charm Monster, Mass → Encantar monstruo, en masa
+- Chill Metal → Metal helado
+- Chill Touch → Toque gélido
+- Circle Of Death → Círculo de muerte
+- Clairaudience/Clairvoyance → Clariaudiencia/clariavisión
+- Clenched Fist → Puño cerrado
+- Cloak of Chaos → Manto del caos
+- Clone → Clon
+- Cloudkill → Nube mortal
+- Color Spray → Rociada de color
+- Command → Mandato
+- Command, Greater → Mandato mayor
+- Command Plants → Mandato de plantas
+- Command Undead → Mandato de muertos vivientes
+- Commune → Comunión
+- Commune with Nature → Comunión con la naturaleza
+- Comprehend Languages → Comprender idiomas
+- Cone of Cold → Cono de frío
+- Confusion → Confusión
+- Confusion, Lesser → Confusión menor
+- Consecrate → Consagrar
+- Contact Other Plane → Contactar con otro plano
+- Contagion → Contagio
+- Contingency → Contingencia
+- Continual Flame → Llama continua
+- Control Plants → Controlar plantas
+- Control Undead → Controlar muertos vivientes
+- Control Water → Controlar agua
+- Control Weather → Controlar clima
+- Control Winds → Controlar vientos
+- Create Food and Water → Crear comida y agua
+- Create Undead → Crear muertos vivientes
+- Create Greater Undead → Crear muertos vivientes superiores
+- Create Water → Crear agua
+- Creeping Doom → Perdición reptante
+- Crushing Despair → Desesperación aplastante
+- Crushing Hand → Mano aplastante
+- Cure Light Wounds → Curar heridas leves
+- Cure Critical Wounds → Curar heridas críticas
+- Cure Light Wounds, Mass → Curar heridas leves, en masa
+- Cure Critical Wounds, Mass → Curar heridas críticas, en masa
+- Cure Moderate Wounds → Curar heridas moderadas
+- Cure Moderate Wounds, Mass → Curar heridas moderadas, en masa
+- Cure Serious Wounds → Curar heridas serias
+- Cure Serious Wounds, Mass → Curar heridas serias, en masa
+- Curse Water → Maldecir agua
+- Dancing Lights → Luces danzantes
+- Darkness → Oscuridad
+- Darkvision → Visión en la oscuridad
+- Daylight → Luz diurna
+- Daze → Aturdir
+- Daze Monster → Aturdir monstruo
+- Death Knell → Toque de muerte
+- Death Ward → Protección contra la muerte
+- Deathwatch → Vigilar a los muertos
+- Deeper Darkness → Oscuridad profunda
+- Deep Slumber → Sueño profundo
+- Delayed Blast Fireball → Bola de fuego retardada
+- Delay Poison → Retrasar veneno
+- Demand → Exigir
+- Desecrate → Profanar
+- Destruction → Destrucción
+- Detect Animals or Plants → Detectar animales o plantas
+- Detect Chaos → Detectar caos
+- Detect Evil → Detectar mal
+- Detect Good → Detectar bien
+- Detect Law → Detectar ley
+- Detect Magic → Detectar magia
+- Detect Poison → Detectar veneno
+- Detect Scrying → Detectar escrutinio
+- Detect Secret Doors → Detectar puertas secretas
+- Detect Snares and Pits → Detectar trampas y fosos
+- Detect Thoughts → Detectar pensamientos
+- Detect Undead → Detectar muertos vivientes
+- Dictum → Dictum
+- Dimensional Anchor → Anclaje dimensional
+- Dimensional Lock → Bloqueo dimensional
+- Dimension Door → Puerta dimensional
+- Diminish Plants → Reducir plantas
+- Discern Lies → Discernir mentiras
 
 ## Notas
 
-- El estado se guarda en un snapshot local adicional para reducir el riesgo de pérdida accidental.
-- `sourceHash` sigue calculándose sobre la fila original del CSV.
-- Los `listName` de clases se normalizan a la convención del proyecto y de Pathfinder es Wiki.
+- Dataset traducido desde cero con apoyo de traducción automática para este lote.
+- El archivo generado se actualizó en data/generated/spells-es.generated.json.
