@@ -6,6 +6,8 @@ export type TranslationStatus =
   | "MANUALLY_EDITED"
   | "LOCKED";
 
+export type LevelFilterMode = "UP_TO" | "EXACT";
+
 export interface SpellListSummary {
   listType: string;
   listName: string;
@@ -27,6 +29,7 @@ export interface SearchFilters {
   listType: string;
   listName: string;
   maxLevel: number;
+  levelMode: LevelFilterMode;
   q: string;
 }
 

@@ -40,11 +40,12 @@ public class SpellApiController {
             @RequestParam String listType,
             @RequestParam String listName,
             @RequestParam int maxLevel,
+            @RequestParam(defaultValue = "UP_TO") String levelMode,
             @RequestParam(required = false, defaultValue = "") String q,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size
     ) {
-        return catalogService.searchSpells(listType, listName, maxLevel, q, page, size);
+        return catalogService.searchSpells(listType, listName, maxLevel, levelMode, q, page, size);
     }
 
     @GetMapping("/spells/{spellId}")

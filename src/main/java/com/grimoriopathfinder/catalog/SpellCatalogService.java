@@ -62,6 +62,10 @@ public class SpellCatalogService {
             "MANUALLY_EDITED",
             "LOCKED"
     );
+    private static final Set<String> LEVEL_FILTER_MODES = Set.of(
+            "UP_TO",
+            "EXACT"
+    );
     private static final List<String> DETAIL_EDITABLE_FIELDS = List.of(
             "nameEs",
             "school",
@@ -147,6 +151,7 @@ public class SpellCatalogService {
             String listType,
             String listName,
             int maxLevel,
+            String levelMode,
             String q,
             int page,
             int size
@@ -162,6 +167,7 @@ public class SpellCatalogService {
         if (size < 1 || size > 200) {
             throw new SpellRequestValidationException("size must be between 1 and 200");
         }
+        validateLevelFilterMode(levelMode);
 
         var query = q == null ? "" : q.trim();
         if (query.length() > 200) {
@@ -174,7 +180,8 @@ public class SpellCatalogService {
             throw new SpellQueryValidationException("maxLevel is not compatible with the selected list");
         }
 
-        var candidates = repository.findCandidates(listType, listName, maxLevel).stream()
+        var exactLevel = "EXACT".equals(levelMode);
+        var candidates = repository.findCandidates(listType, listName, maxLevel, exactLevel).stream()
                 .filter(candidate -> matchesQuery(candidate.spell(), query))
                 .sorted(SEARCH_COMPARATOR)
                 .toList();
@@ -191,7 +198,7 @@ public class SpellCatalogService {
         var totalPages = totalItems == 0 ? 0 : (int) Math.ceil((double) totalItems / size);
         var pageDto = new SpellApiDtos.SpellSearchPageDto(page, size, totalItems, totalPages, page + 1 < totalPages);
         return new SpellApiDtos.SpellSearchResponseDto(
-                new SpellApiDtos.SpellSearchFiltersDto(listType, listName, maxLevel, query),
+                new SpellApiDtos.SpellSearchFiltersDto(listType, listName, maxLevel, levelMode, query),
                 pageDto,
                 SORT_NAME,
                 results
@@ -450,6 +457,15 @@ public class SpellCatalogService {
         }
         if (!TRANSLATION_STATUSES.contains(translationStatus)) {
             throw new SpellEditValidationException("translationStatus is not allowed in the MVP");
+        }
+    }
+
+    private void validateLevelFilterMode(String levelMode) {
+        if (isBlank(levelMode)) {
+            throw new SpellRequestValidationException("levelMode is required");
+        }
+        if (!LEVEL_FILTER_MODES.contains(levelMode)) {
+            throw new SpellQueryValidationException("levelMode is not allowed in the MVP");
         }
     }
 

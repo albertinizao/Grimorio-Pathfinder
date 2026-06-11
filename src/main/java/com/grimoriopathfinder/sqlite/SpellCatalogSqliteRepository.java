@@ -103,7 +103,7 @@ public class SpellCatalogSqliteRepository {
 
     public Optional<ListLevels> getSpellListLevels(String listType, String listName) {
         var sql = """
-                SELECT level
+                SELECT DISTINCT level
                 FROM spell_list_entries
                 WHERE list_type = ? AND list_name = ?
                 ORDER BY level ASC
@@ -127,8 +127,20 @@ public class SpellCatalogSqliteRepository {
         }
     }
 
-    public List<SearchCandidate> findCandidates(String listType, String listName, int maxLevel) {
-        var sql = """
+    public List<SearchCandidate> findCandidates(String listType, String listName, int level, boolean exactLevel) {
+        var sql = exactLevel ? """
+                SELECT
+                    s.id, s.slug, s.source_id, s.source_hash, s.name_es, s.name_en, s.school, s.subschool,
+                    s.descriptors_json, s.casting_time, s.components, s.range, s.target, s.effect, s.area,
+                    s.duration, s.saving_throw, s.spell_resistance, s.description_es, s.description_en,
+                    s.source_book, s.source_page, s.source_name, s.translation_status, s.personal_notes,
+                    s.created_at, s.updated_at,
+                    sle.spell_id, sle.list_type, sle.list_name, sle.level
+                FROM spells s
+                INNER JOIN spell_list_entries sle ON sle.spell_id = s.id
+                WHERE sle.list_type = ? AND sle.list_name = ? AND sle.level = ?
+                ORDER BY sle.level ASC, s.name_es COLLATE NOCASE ASC
+                """ : """
                 SELECT
                     s.id, s.slug, s.source_id, s.source_hash, s.name_es, s.name_en, s.school, s.subschool,
                     s.descriptors_json, s.casting_time, s.components, s.range, s.target, s.effect, s.area,
@@ -145,7 +157,7 @@ public class SpellCatalogSqliteRepository {
              var statement = connection.prepareStatement(sql)) {
             statement.setString(1, listType);
             statement.setString(2, listName);
-            statement.setInt(3, maxLevel);
+            statement.setInt(3, level);
             var results = new ArrayList<SearchCandidate>();
             try (var rs = statement.executeQuery()) {
                 while (rs.next()) {
@@ -376,7 +388,7 @@ public class SpellCatalogSqliteRepository {
 
     private List<Integer> readLevels(Connection connection, String listType, String listName) throws SQLException {
         var sql = """
-                SELECT level
+                SELECT DISTINCT level
                 FROM spell_list_entries
                 WHERE list_type = ? AND list_name = ?
                 ORDER BY level ASC

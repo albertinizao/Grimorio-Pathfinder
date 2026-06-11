@@ -48,6 +48,7 @@ class SpellApiControllerTest {
                         .param("listType", "CLASS")
                         .param("listName", "Clérigo")
                         .param("maxLevel", "3")
+                        .param("levelMode", "UP_TO")
                         .param("q", "drow"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.results.length()").value(1))
@@ -55,6 +56,20 @@ class SpellApiControllerTest {
                 .andExpect(jsonPath("$.results[0].matchSource").value("personalNotes"))
                 .andExpect(jsonPath("$.results[0].hasPersonalNotes").value(true))
                 .andExpect(jsonPath("$.results[0].translationStatus").value("AI_TRANSLATED"));
+    }
+
+    @Test
+    void searchesExactLevelWhenRequested() throws Exception {
+        mockMvc.perform(get("/api/spells/search")
+                        .param("listType", "CLASS")
+                        .param("listName", "Clérigo")
+                        .param("maxLevel", "4")
+                        .param("levelMode", "EXACT")
+                        .param("q", ""))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.filters.levelMode").value("EXACT"))
+                .andExpect(jsonPath("$.results.length()").value(1))
+                .andExpect(jsonPath("$.results[0].selectedList.level").value(4));
     }
 
     @Test

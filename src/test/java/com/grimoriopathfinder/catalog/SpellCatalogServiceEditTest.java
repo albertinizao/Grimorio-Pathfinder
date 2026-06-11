@@ -155,7 +155,7 @@ class SpellCatalogServiceEditTest {
                 .containsEntry("savingThrow", "Voluntad niega (inofensivo, objeto)")
                 .containsEntry("translationStatus", "MANUALLY_EDITED");
 
-        var search = service.searchSpells("CLASS", "Clérigo", 4, "escudo", 0, 50);
+        var search = service.searchSpells("CLASS", "Clérigo", 4, "UP_TO", "escudo", 0, 50);
         assertThat(search.results()).extracting("spellId").contains("neutralize-poison");
     }
 
@@ -176,7 +176,7 @@ class SpellCatalogServiceEditTest {
         assertThat(overrides.spells().get("delay-poison").personalNotes()).isEqualTo("Preparar si esperamos drow.");
         assertThat(overrides.spells().get("delay-poison").fields()).isNull();
 
-        var search = service.searchSpells("CLASS", "Clérigo", 3, "drow", 0, 50);
+        var search = service.searchSpells("CLASS", "Clérigo", 3, "UP_TO", "drow", 0, 50);
         assertThat(search.results()).hasSize(1);
         assertThat(search.results().getFirst().spellId()).isEqualTo("delay-poison");
         assertThat(search.results().getFirst().matchSource()).isEqualTo("personalNotes");

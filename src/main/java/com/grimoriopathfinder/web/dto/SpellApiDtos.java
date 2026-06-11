@@ -35,6 +35,7 @@ public final class SpellApiDtos {
             String listType,
             String listName,
             int maxLevel,
+            String levelMode,
             String q
     ) {
     }

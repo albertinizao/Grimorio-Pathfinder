@@ -6,6 +6,7 @@ import type {
   SpellListSummary,
   SpellSearchResponse,
   SpellSearchResult,
+  LevelFilterMode,
   TranslationStatus,
   UpdatePersonalNotesRequest,
   UpdateSpellFieldsRequest,
@@ -51,12 +52,14 @@ export async function searchSpells(params: {
   listType: string;
   listName: string;
   maxLevel: number;
+  levelMode: LevelFilterMode;
   q: string;
 }): Promise<SpellSearchResponse> {
   const query = new URLSearchParams({
     listType: params.listType,
     listName: params.listName,
     maxLevel: String(params.maxLevel),
+    levelMode: params.levelMode,
     q: params.q,
     page: "0",
     size: "50",
@@ -111,8 +114,16 @@ export function formatTranslationStatus(status: TranslationStatus): string {
   return labels[status];
 }
 
+export function formatLevelFilterMode(levelMode: LevelFilterMode): string {
+  const labels: Record<LevelFilterMode, string> = {
+    UP_TO: "Hasta nivel",
+    EXACT: "Nivel",
+  };
+  return labels[levelMode];
+}
+
 export function getSearchSummary(page: SearchPage, filters: SearchFilters): string {
-  return `${filters.listType} · ${filters.listName} · nivel máximo ${filters.maxLevel} · ${page.totalItems} resultados`;
+  return `${filters.listType} · ${filters.listName} · ${formatLevelFilterMode(filters.levelMode)} ${filters.maxLevel} · ${page.totalItems} resultados`;
 }
 
 export function toDescriptorsInput(descriptors: string[]): string {

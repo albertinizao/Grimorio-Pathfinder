@@ -4,9 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grimoriopathfinder.catalog.SpellCatalogService;
 import com.grimoriopathfinder.dataset.SpellDatasetImportService;
+import com.grimoriopathfinder.spells.Spell;
+import com.grimoriopathfinder.spells.SpellListEntry;
 import java.sql.DriverManager;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -44,7 +48,7 @@ class SpellCatalogSqliteRepositoryTest {
         var levels = service.getSpellListLevels("CLASS", "Clérigo");
         assertThat(levels.levels()).containsExactly(3, 4);
 
-        var search = service.searchSpells("CLASS", "Clérigo", 3, "drow", 0, 50);
+        var search = service.searchSpells("CLASS", "Clérigo", 3, "UP_TO", "drow", 0, 50);
         assertThat(search.results()).hasSize(1);
         assertThat(search.results().getFirst().spellId()).isEqualTo("delay-poison");
         assertThat(search.results().getFirst().matchSource()).isEqualTo("personalNotes");
@@ -52,5 +56,59 @@ class SpellCatalogSqliteRepositoryTest {
         var detail = service.getSpellDetail("neutralize-poison");
         assertThat(detail.translationStatus()).isEqualTo("LOCKED");
         assertThat(detail.personalNotes()).isEqualTo("Traducción revisada y cerrada.");
+    }
+
+    @Test
+    void deduplicatesLevelsWhenListingSpellLevels() {
+        var databasePath = tempDir.resolve("grimorio.sqlite");
+        var repository = new SpellCatalogSqliteRepository(databasePath);
+        repository.rebuild(List.of(
+                spell("spell-a", "Conjuro A", 2),
+                spell("spell-b", "Conjuro B", 2),
+                spell("spell-c", "Conjuro C", 5)
+        ));
+
+        var service = new SpellCatalogService(repository);
+
+        var levels = service.getSpellListLevels("CLASS", "Clérigo");
+        assertThat(levels.levels()).containsExactly(2, 5);
+
+        var lists = service.listSpellLists("CLASS");
+        assertThat(lists.items()).hasSize(1);
+        assertThat(lists.items().getFirst().levels()).containsExactly(2, 5);
+        assertThat(lists.items().getFirst().spellCount()).isEqualTo(3);
+    }
+
+    private Spell spell(String id, String nameEs, int level) {
+        return new Spell(
+                id,
+                id,
+                id,
+                "sha256:" + id,
+                nameEs,
+                nameEs + " EN",
+                "abjuración",
+                null,
+                List.of(),
+                "1 acción estándar",
+                "V, S",
+                "toque",
+                null,
+                null,
+                null,
+                "instantáneo",
+                "ninguno",
+                "no",
+                nameEs + " descripción",
+                nameEs + " description",
+                "Core Rulebook",
+                1,
+                "spells.csv",
+                "AI_TRANSLATED",
+                List.of(new SpellListEntry(id, "CLASS", "Clérigo", level)),
+                "",
+                Instant.parse("2026-06-11T00:00:00Z"),
+                Instant.parse("2026-06-11T00:00:00Z")
+        );
     }
 }

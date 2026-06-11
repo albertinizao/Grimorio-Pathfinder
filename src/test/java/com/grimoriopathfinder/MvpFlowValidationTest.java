@@ -49,7 +49,7 @@ class MvpFlowValidationTest {
         repository.rebuild(initialImport.effectiveSpells());
         assertThat(Files.exists(databasePath)).isTrue();
 
-        var searchByTerm = service.searchSpells("CLASS", "Clérigo", 3, "veneno", 0, 50);
+        var searchByTerm = service.searchSpells("CLASS", "Clérigo", 3, "UP_TO", "veneno", 0, 50);
         assertThat(searchByTerm.results()).hasSize(1);
 
         var searchResult = searchByTerm.results().getFirst();
@@ -76,7 +76,7 @@ class MvpFlowValidationTest {
                         org.assertj.core.groups.Tuple.tuple("CLASS", "Druida", 2)
                 );
 
-        var browsedWithoutTerm = service.searchSpells("CLASS", "Clérigo", 3, "", 0, 50);
+        var browsedWithoutTerm = service.searchSpells("CLASS", "Clérigo", 3, "UP_TO", "", 0, 50);
         assertThat(browsedWithoutTerm.results()).hasSize(1);
         assertThat(browsedWithoutTerm.results().getFirst().spellId()).isEqualTo("delay-poison");
 
@@ -146,7 +146,7 @@ class MvpFlowValidationTest {
                 .isEqualTo("Neutralizas cualquier tipo de veneno presente en la criatura u objeto tocado.");
         assertThat(lockedAfterReimport.nameEn()).isEqualTo("Neutralize Poison");
 
-        var finalBrowse = service.searchSpells("CLASS", "Clérigo", 3, "veneno", 0, 50);
+        var finalBrowse = service.searchSpells("CLASS", "Clérigo", 3, "UP_TO", "veneno", 0, 50);
         assertThat(finalBrowse.results()).hasSize(1);
         assertThat(finalBrowse.results().getFirst().spellId()).isEqualTo("delay-poison");
     }
