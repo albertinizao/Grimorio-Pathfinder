@@ -1,0 +1,4 @@
+interface:
+  display_name: "Combat Manager Catalog Transform"
+  short_description: "Normalize Combat Manager JSON into app catalog"
+  default_prompt: "Use $combat-manager-catalog-transform to convert raw Combat Manager monster JSON into the project catalog format."

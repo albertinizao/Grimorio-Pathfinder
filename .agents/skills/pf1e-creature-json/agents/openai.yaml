@@ -1,0 +1,4 @@
+interface:
+  display_name: "PF1e Creature JSON"
+  short_description: "Convert PF1e stat blocks to catalog JSON"
+  default_prompt: "Use $pf1e-creature-json to convert Pathfinder 1e creature stat blocks into this repository's catalog JSON schema. Output only valid JSON."

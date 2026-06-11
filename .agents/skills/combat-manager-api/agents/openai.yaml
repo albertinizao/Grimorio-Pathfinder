@@ -1,0 +1,4 @@
+interface:
+  display_name: "Combat Manager API"
+  short_description: "Inspect and fetch Combat Manager monsters"
+  default_prompt: "Use $combat-manager-api to inspect the local Combat Manager API and fetch raw monster JSON."

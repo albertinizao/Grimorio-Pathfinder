@@ -1,0 +1,13 @@
+schema: spec-driven
+
+context: |
+  Project: Grimorio Pathfinder
+  Stack: Java + Spring Boot backend, Vue frontend, SQLite projection, offline/local-first
+  Architecture: Hexagonal backend, separate SPA frontend
+  Data: Versioned Spanish dataset + overrides, SQLite is reconstructible
+
+rules:
+  specs:
+    - Use Given/When/Then for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+    - Describe architecture, dependencies, and boundaries only
