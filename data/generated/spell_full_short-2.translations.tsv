@@ -1,0 +1,150 @@
+Discernir ubicación	Detecta la ubicación exacta de una criatura u objeto y atraviesa la mayoría de protecciones contra localización y escrutinio.
+Disfrazarse	Cambia tu apariencia, incluyendo ropa, armadura, armas y equipo. Puedes parecer hasta 1 pie más bajo o más alto, delgado, gordo o intermedio, pero no cambias de tipo de criatura ni obtienes rasgos del nuevo aspecto. Si se usa para crear un disfraz, concede +10 a la prueba de Disfraz; una criatura que interactúe con la ilusión obtiene una tirada de Voluntad para reconocerla.
+Desintegración	Un rayo verde sale de tu dedo apuntado. Debes acertar con un ataque de toque a distancia. La criatura alcanzada sufre 2d6 puntos de daño por nivel de lanzador, hasta un máximo de 40d6. Si queda reducida a 0 pg o menos, se desintegra por completo y solo deja un rastro de polvo fino; su equipo no se ve afectado. Contra objetos, el rayo desintegra hasta un cubo de 10 pies de materia no viva. Una criatura u objeto que supere la salvación de Fortaleza sufre solo 5d6 puntos de daño.
+Destierro	Expulsa a una criatura extraplanar a su plano natal si falla una salvación de Voluntad. Si tiene éxito, la criatura desaparece de inmediato, aunque existe un 20% de posibilidades de que sea enviada a un plano distinto del suyo.
+Disipar caos	Funciona como disipar el mal, salvo que te rodea una energía lawful azul y afecta a criaturas y conjuros caóticos en lugar de malignos.
+Disipar el mal	Una energía sagrada blanca te rodea. Te concede +4 de bonificación por deflexión a la CA contra ataques de criaturas malignas. Además, con un ataque de toque cuerpo a cuerpo exitoso contra una criatura extraplanar maligna puedes enviarla de vuelta a su plano natal con una salvación de Voluntad con éxito (se aplica resistencia a conjuros). También puedes disipar automáticamente, con un toque, un conjuro de encantamiento lanzado por una criatura maligna o cualquier conjuro maligno.
+Disipar el bien	Funciona como disipar el mal, salvo que te rodea una energía impía oscura y fluctuante, y afecta a criaturas y conjuros buenos en lugar de malignos.
+Disipar la ley	Funciona como disipar el mal, salvo que te rodea una energía caótica amarilla y centelleante, y afecta a criaturas y conjuros lawful en lugar de malignos.
+Disipar magia	Sirve para terminar un conjuro en curso lanzado sobre una criatura u objeto, suprimir temporalmente las capacidades mágicas de un objeto mágico o contrarrestar el conjuro de otro lanzador. Puedes usarla como disipación dirigida o como contraconjuro. La disipación dirigida hace una sola tirada de disipar contra los conjuros que afecten al objetivo, empezando por el de nivel de lanzador más alto. Un conjuro con duración instantánea no puede disiparse. Si se usa como contraconjuro, debes hacer una tirada de disipar para anular el conjuro del otro lanzador.
+Disipar magia mayor	Funciona como disipar magia, pero puede acabar con más de un conjuro sobre el objetivo y también puede afectar a múltiples criaturas. Puede usarse como disipación dirigida, de área o como contraconjuro. En área, afecta a todo lo que se encuentre dentro de una explosión de 20 pies de radio; los objetos mágicos no se ven afectados por la disipación de área. También puede afectar a efectos de área cuyos puntos de origen estén dentro del área o se solapen con ella. Puedes elegir superar automáticamente las tiradas de disipar contra los conjuros que hayas lanzado tú.
+Desplazamiento	El objetivo parece estar unos 2 pies fuera de su ubicación real. Obtiene un 50% de posibilidades de fallo, como si tuviera ocultación total. A diferencia de la ocultación total real, no impide que los enemigos lo seleccionen normalmente. Ver lo invisible revela su posición real y anula la probabilidad de fallo.
+Arma disruptora	Convierte un arma cuerpo a cuerpo en una amenaza letal para los muertos vivientes. Cualquier muerto viviente con DG igual o inferior a tu nivel de lanzador debe superar una salvación de Voluntad o ser destruido por completo si es golpeado en combate con ese arma. La resistencia a conjuros no se aplica contra este efecto.
+Disrupción de muertos vivientes	Diriges un rayo de energía positiva. Debes acertar con un ataque de toque a distancia; si impacta a un muerto viviente, le inflige 1d6 puntos de daño.
+Adivinación	Similar a augurio, pero más potente. Puede darte un consejo útil en respuesta a una pregunta sobre un objetivo, evento o actividad concreta que vaya a ocurrir en el plazo de 1 semana. La respuesta puede ser una frase breve, una rima críptica o un presagio. La probabilidad base de una adivinación correcta es 70% + 1% por nivel de lanzador, hasta un máximo de 90%.
+Favor divino	Invocas la fuerza y la sabiduría de una deidad para obtener una bonificación de suerte de +1 a las tiradas de ataque y daño con armas por cada tres niveles de lanzador que poseas, hasta un máximo de +3. La bonificación no se aplica al daño de conjuros.
+Poder divino	Invocas el poder divino de tu patrono y te imbuyes de fuerza y habilidad en combate. Obtienes una bonificación de suerte de +1 a las tiradas de ataque, daño con armas, pruebas de Fuerza y habilidades basadas en Fuerza por cada tres niveles de lanzador que poseas, hasta un máximo de +6. También obtienes 1 pg temporal por nivel de lanzador. Cada vez que realizas una acción de ataque completo, puedes hacer un ataque adicional con tu bonificación base de ataque máxima.
+Dominar animal	Permite encantar al animal objetivo y dirigirlo con órdenes simples como «Ataca», «Corre» y «Trae». Las órdenes suicidas o autodestructivas se ignoran. Se establece un vínculo mental entre tú y la criatura; puedes dirigirla por orden mental silenciosa mientras permanezca a alcance. No necesitas ver al animal para controlarlo.
+Dominar monstruo	Funciona como dominar persona, salvo que no está restringido por el tipo de criatura.
+Dominar persona	Controlas las acciones de una criatura humanoide mediante un vínculo telepático con su mente. Si compartís idioma, puedes obligarla a actuar como desees dentro de los límites de sus capacidades. Si no hay idioma común, solo puedes dar órdenes básicas como «Ven aquí», «Ve allí», «Lucha» o «Quédate quieto». Concentrándote por completo en el conjuro, puedes recibir percepción completa interpretada por la mente del sujeto. Las órdenes contra su naturaleza le permiten una nueva salvación con +2 de bonificación.
+Perdición	Una criatura viva sufre una penalización de -2 a las tiradas de ataque, daño, salvaciones, pruebas y tiradas de habilidad durante 1 minuto por nivel.
+Sueño	Puedes enviar un mensaje a través de un sueño o invadirlo con pesadillas. Al usarlo de forma ofensiva, la criatura objetivo puede sufrir daño y agotamiento o fatiga, y puede reconocer al emisor si está familiarizada con él.
+Esplendor del águila	Concede una bonificación de mejora de +4 a Carisma.
+Esplendor del águila, en masa	Funciona como esplendor del águila, pero afecta a múltiples criaturas.
+Terremoto	Provoca un terremoto en un área amplia: abre grietas, derriba estructuras, desestabiliza el terreno y puede derribar criaturas. También puede causar deslizamientos y apagar fuegos.
+Cuerpo elemental I	Te transformas en un elemental de tamaño pequeño, obteniendo rasgos elementales, resistencia y formas de movimiento propias del elemento elegido.
+Cuerpo elemental II	Te transformas en un elemental de tamaño Mediano, con rasgos elementales más potentes y mejores capacidades físicas y de desplazamiento.
+Cuerpo elemental III	Te transformas en un elemental de tamaño Grande, con mejoras adicionales en fuerza, movilidad y rasgos elementales.
+Cuerpo elemental IV	Te transformas en un elemental de tamaño Enorme, con las capacidades más poderosas de la serie y rasgos elementales completos.
+Enjambre elemental	Convoca un enjambre de elementales que ataca a las criaturas cercanas. El tipo de enjambre depende del elemento elegido.
+Resistir elementos	Protege al objetivo del calor o del frío naturales y de condiciones ambientales extremas, como clima severo o terrenos hostiles.
+Drenaje de energía	Un rayo de energía negativa inflige niveles negativos al objetivo vivo. Si estos niveles no se eliminan, pueden volverse permanentes tras 24 horas.
+Enervación	Un rayo de energía negativa inflige 1d4 niveles negativos al objetivo sin tirada de salvación.
+Agrandar persona	Una criatura humanoide aumenta una categoría de tamaño. Obtiene bonificaciones de Fuerza y alcance, pero sufre penalizaciones a Destreza, ataque y CA, además de moverse más lentamente y cargar más peso.
+Agrandar persona, en masa	Funciona como agrandar persona, pero afecta a múltiples humanoides.
+Enmarañar	Las plantas y raíces de un área se retuercen para dificultar el movimiento. Las criaturas afectadas quedan inmovilizadas o ralentizadas si fallan la salvación.
+Cautivar	Captura la atención de una audiencia mediante palabras, música o gestos. Los oyentes quedan distraídos y tienen más dificultad para notar otras cosas, pero un peligro evidente puede romper el efecto.
+Escudo entrópico	Los ataques a distancia contra ti tienen un 20% de probabilidades de fallar. Si un ataque falla por este motivo, revela la posición del atacante oculto.
+Borrar	Elimina escritura de una superficie de hasta una página por nivel. También puede borrar escritura mágica o suprimirla temporalmente si supera las defensas apropiadas.
+Tránsito etéreo	Te desplazas brevemente al Plano Etéreo y puedes moverte por él antes de volver al Plano Material. Durante ese tiempo no puedes afectar ni ser afectado normalmente por criaturas materiales.
+Eterealidad	Te vuelves etéreo y puedes atravesar materia sólida, aunque solo interactúas plenamente con otras criaturas o efectos etéreos o de fuerza.
+Retirada apresurada	Aumenta tu velocidad de movimiento de forma notable durante la duración del conjuro.
+Runas explosivas	Inscribes runas que explotan cuando se leen o se activan. La explosión inflige daño en un área y cada conjunto de runas solo puede detonarse una vez.
+Mal de ojo	Una mirada maléfica inflige un efecto debilitante cada ronda. Dependiendo de los DG del objetivo, puede provocar temor, fatiga o incluso dejarlo inconsciente, además de otras penalizaciones.
+Fabricar	Transforma materias primas en objetos acabados o componentes, siempre que tengas los materiales y el conocimiento apropiado. Puede requerir una prueba de la habilidad adecuada.
+Fuego feérico	Rodea a las criaturas u objetos afectados con una luz visible que revela su posición y anula las ventajas de la invisibilidad o el ocultamiento por oscuridad.
+Falsa vida	Te otorga 1d10 puntos de golpe temporales +1 por nivel de lanzador, hasta un máximo de +10.
+Falsa visión	Hace que las adivinaciones y conjuros de escrutinio muestren una escena falsa o engañosa en lugar de la realidad. Dura varias horas por nivel.
+Caída suave	Reduce la velocidad de caída de una o más criaturas, permitiéndoles descender sin sufrir daño por caída.
+Mente en blanco	Una criatura sufre un colapso mental severo: su Inteligencia y Carisma se reducen a 1, y tiene grandes dificultades para lanzar conjuros o funcionar con normalidad.
+Encontrar el camino	Muestra la ruta más corta y segura hacia un lugar, objeto o criatura que conozcas y que exista realmente. Ignora gran parte de la confusión o del trazado incierto.
+Encontrar trampas	Te concede la capacidad de detectar trampas como un pícaro experimentado, aunque no revela automáticamente todos sus detalles.
+Dedo de la muerte	Un rayo letal intenta matar a una criatura viva. Si falla la salvación de Fortaleza, la víctima muere; si la supera, sufre una cantidad importante de daño.
+Escudo de fuego	Te rodea una pared de fuego o frío que daña a quienes te golpeen en cuerpo a cuerpo y te protege frente al tipo opuesto de energía.
+Semillas de fuego	Transforma bellotas o bayas en proyectiles o trampas incendiarias que explotan en llamas al activarse.
+Tormenta de fuego	Invoca una tormenta de llamas en un área amplia que inflige un gran daño por fuego a las criaturas expuestas.
+Trampa de fuego	Hace que un objeto explote en llamas cuando se abre, toca o manipula de la forma prevista.
+Bola de fuego	Una esfera de fuego estalla en el punto elegido e inflige 1d6 puntos de daño por nivel de lanzador, hasta un máximo de 10d6.
+Flecha flamígera	Imbuye flechas o proyectiles para que inflijan daño adicional por fuego. También puede crear un conjunto de flechas ardientes.
+Hoja de fuego	Conjura una hoja llameante en tu mano que funciona como arma y añade daño de fuego.
+Golpe flameante	Desciende una columna de fuego sagrado sobre el objetivo, infligiendo daño por fuego y energía divina.
+Esfera flamígera	Conjura una esfera de fuego que puedes mover cada ronda para dañar a las criaturas que atraviese o que se acerquen demasiado.
+Fulgor	Un destello breve de luz dificulta la visión de una criatura y puede deslumbrarla momentáneamente.
+Carne en piedra	Convierte a una criatura en piedra de manera permanente si falla la salvación de Fortaleza.
+Disco flotante	Conjura un disco invisible que te sigue y puede transportar carga limitada.
+Volar	Concede al objetivo una velocidad de vuelo de 60 pies y buena maniobrabilidad durante la duración del conjuro.
+Nube de niebla	Crea una densa niebla que bloquea la visión y dificulta la observación a través del área afectada.
+Interdicción	Consagra un área contra entradas no deseadas, el viaje planar y ciertas criaturas o alineamientos. También puede dañar a intrusos o impedirles permanecer en ella.
+Jaula de fuerza	Crea una jaula inmóvil de fuerza que encierra al objetivo y dificulta casi toda interacción física.
+Mano forzosa	Una mano telequinética enorme empuja, aparta y puede derribar a una criatura, manteniéndola a raya mientras dura el conjuro.
+Presagio	Te concede una intuición sobrenatural sobre el futuro inmediato: no puedes ser sorprendido y recibes advertencias sobre peligros inminentes.
+Forma de dragón I	Te transformas en un dragón de menor poder, obteniendo rasgos dracónicos, armadura natural, garras, sentidos agudos y un arma de aliento.
+Forma de dragón II	Te transformas en un dragón más poderoso que en la versión anterior, con mejores atributos y capacidades dracónicas.
+Forma de dragón III	Te transformas en un dragón de gran poder, con las máximas mejoras físicas y rasgos dracónicos de la serie.
+Astucia del zorro	Concede una bonificación de mejora de +4 a Inteligencia.
+Astucia del zorro, en masa	Funciona como astucia del zorro, pero afecta a múltiples criaturas.
+Libertad	Rompe o mitiga efectos de encarcelamiento, sujeción y otras restricciones mágicas que impiden actuar o moverse.
+Libertad de movimiento	Permite moverse y actuar con normalidad pese a la inmovilización, el agarre, las redes, el barro, el agua o efectos similares.
+Esfera de hielo	Lanza una esfera de frío que puede estallar al impactar y causar daño por frío en un área.
+Forma gaseosa	Transforma al objetivo en vapor o niebla, permitiéndole pasar por rendijas, flotar lentamente y volverse muy difícil de afectar físicamente.
+Portal	Abre una puerta entre planos para llamar a una criatura extraplanar o viajar a otro plano.
+Geas/quest	Impone una orden o misión poderosa. El objetivo debe obedecer; si desobedece, sufre penalizaciones y daño hasta que cumpla la tarea o el efecto termine.
+Geas menor	Impone una compulsión más breve que obliga al objetivo a cumplir una tarea concreta y lo castiga si desobedece.
+Reposo gentil	Preserva un cadáver, impide su descomposición y dificulta que sea levantado como muerto viviente.
+Sonido fantasma	Crea un sonido ilusorio en el punto elegido, capaz de imitar voces, pasos, campanas u otros ruidos.
+Toque de necrófago	Tu toque paraliza a una criatura viva y puede causar un hedor repulsivo que incomoda a quienes están cerca.
+Forma de gigante I	Te transformas en un gigante de tamaño grande o equivalente, obteniendo mejoras físicas y capacidades de combate propias de esa forma.
+Forma de gigante II	Te transformas en una forma de gigante más poderosa, con mejores atributos, alcance y rasgos de combate.
+Alimaña gigante	Convierte una alimaña o insecto normal en una versión gigante con estadísticas y capacidades muy superiores.
+Locuacidad	Te vuelves extraordinariamente persuasivo y puedes mentir con una facilidad sobrenatural, recibiendo una gran bonificación a Engañar.
+Polvo brillante	Una lluvia de polvo dorado revela criaturas invisibles y puede cegar a quienes fallan la salvación de Voluntad.
+Globo de invulnerabilidad menor	Crea una barrera que impide que los conjuros de nivel bajo afecten al área o al objetivo protegido.
+Globo de invulnerabilidad	Crea una barrera mayor que bloquea conjuros de nivel inferior a un umbral más alto y protege contra la magia de bajo nivel.
+Glifo custodio	Inscribe un glifo que libera un conjuro preparado o una descarga al activarse la condición establecida.
+Glifo custodio mayor	Versión más poderosa de glifo custodio que puede almacenar conjuros de mayor nivel y liberar un efecto más peligroso.
+Bayas buenas	Crea bayas mágicas que curan daño menor y proporcionan sustento nutricional.
+Buena esperanza	Concede a los aliados bonificaciones de moral a las tiradas de ataque, salvaciones, pruebas de habilidad y daño con armas.
+Mano asidora	Conjura una mano enorme que agarre y sujete a una criatura, pudiendo inmovilizarla y aplastarla.
+Grasa	Cubre un área o un objeto con una capa resbaladiza que hace caer a las criaturas y dificulta el agarre.
+Guardias y protecciones	Protege un área con múltiples efectos defensivos, como niebla, confusión, cerraduras mágicas y otras trampas arcanas.
+Guía	Concede una bonificación de intuición de +1 a una tirada de ataque, salvación o habilidad.
+Ráfaga de viento	Genera un viento fuerte que dispersa nieblas y gases, empuja criaturas y puede desviar proyectiles ligeros.
+Consagrar	Santifica un área contra el mal, los muertos vivientes y ciertos efectos de plano. También puede vincular un conjuro adicional al lugar.
+Terreno ilusorio	Hace que un tipo de terreno parezca otro, ocultando la verdadera naturaleza del área.
+Detener muertos vivientes	Hace que los muertos vivientes se queden inmóviles o pierdan la capacidad de actuar durante la duración del efecto si fallan la salvación.
+Herir	Inflige daño por energía negativa a una criatura viva. En la práctica, descarga una gran cantidad de energía negativa que puede dejar al objetivo muy debilitado.
+Acelerar	Aumenta la velocidad y la capacidad de combate de las criaturas afectadas, concediendo acciones y movilidad adicionales.
+Curar	Recupera una gran cantidad de puntos de golpe y elimina numerosos efectos negativos, enfermedades y condiciones debilitantes.
+Curar, en masa	Funciona como curar, pero afecta a varias criaturas a la vez.
+Curar montura	Cura a tu montura de daño y le elimina algunas condiciones perjudiciales.
+Calentar metal	Calienta intensamente un objeto metálico, causando daño y obligando al portador a soltarlo o sufrir más quemaduras.
+Mano amiga	Envía una mano espectral a una criatura conocida para transmitirle una breve indicación o guiarla hacia tu posición.
+Banquete de héroes	Prepara una comida mágica que protege contra el veneno y el miedo, otorga puntos de golpe temporales y mejora la resistencia de los comensales.
+Heroísmo	Concede bonificaciones de moral a ataques, salvaciones y pruebas de habilidad, además de resistencia al miedo.
+Heroísmo mayor	Versión superior de heroísmo que concede mejores bonificaciones y puntos de golpe temporales.
+Ocultarse de animales	Los animales no pueden percibir al objetivo a menos que éste actúe de forma hostil.
+Ocultarse de muertos vivientes	Los muertos vivientes no pueden percibir al objetivo a menos que éste rompa el sigilo con una acción hostil.
+Risa histérica	El objetivo ríe sin control, cae al suelo y pierde sus acciones mientras dura el efecto, salvo que supere las salvaciones posteriores.
+Inmovilizar persona	Paraliza a un humanoide si falla la salvación de Voluntad.
+Inmovilizar monstruo	Paraliza a una criatura de cualquier tipo si falla la salvación de Voluntad.
+Inmovilizar monstruo, en masa	Paraliza a varias criaturas a la vez si fallan la salvación de Voluntad.
+Inmovilizar persona, en masa	Paraliza a varios humanoides a la vez si fallan la salvación de Voluntad.
+Cerrar portal	Sella mágicamente un portal, puerta o abertura y dificulta abrirlo o cruzarlo.
+Aura sagrada	Te rodea un aura protectora poderosa que dificulta que las criaturas malignas te afecten, mejora tu defensa y puede cegar o repeler a los atacantes malignos.
+Castigo divino	Una explosión de energía sagrada hiere a las criaturas malignas en el área y puede cegarlas brevemente.
+Espada sagrada	Tu arma se convierte en un instrumento sagrado poderoso, con mejores bonificaciones y daño adicional contra el mal.
+Palabra sagrada	Una palabra de poder divino afecta a las criaturas según sus DG y alineamiento, debilitándolas, cegándolas o expulsándolas del área.
+Marchitamiento horrendo	Extrae la humedad de las criaturas de un área y les inflige un gran daño, especialmente devastador contra los vivos.
+Patrón hipnótico	Un patrón colorido fascina a quienes lo contemplan, dejándolos incapaces de actuar con normalidad mientras permanezcan afectados.
+Hipnotismo	Sugestiona y calma a uno o varios sujetos, volviéndolos vulnerables a tu influencia.
+Tormenta de hielo	Una mezcla de granizo y frío azota un área, infligiendo daño contundente y por frío y dificultando la visión.
+Identificar	Revela las propiedades de un objeto mágico o el funcionamiento de un conjuro, normalmente tras invertir tiempo y componentes valiosos.
+Escritura ilusoria	Oculta un mensaje con escritura mágica que solo los lectores designados pueden entender; los demás ven un texto falso o incomprensible.
+Muro ilusorio	Crea la apariencia de un muro sólido que en realidad es ilusorio y puede atravesarse.
+Imbuir con aptitud para conjuros	Traslada parte de tus conjuros preparados a una criatura tocada para que ésta pueda lanzarlos más tarde.
+Implosión	Un cuerpo queda sometido a una presión invisible que lo aplasta. Cada ronda puede afectar a una criatura dentro del alcance; si falla la salvación de Fortaleza, muere.
+Prisión	Encierra a una criatura mediante uno de varios métodos mágicos, como enterrarla, sumirla en letargo o atraparla en un laberinto, hasta que sea liberada.
+Nube incendiaria	Una nube de fuego y humo se extiende por el área, infligiendo daño por fuego y ocultando la visión.
+Infligir heridas leves	El toque de energía negativa inflige daño a una criatura viva.
+Infligir heridas críticas	El toque de energía negativa inflige un gran daño a una criatura viva.
+Infligir heridas críticas, en masa	Funciona como infligir heridas críticas, pero afecta a varias criaturas.
+Infligir heridas leves, en masa	Funciona como infligir heridas leves, pero afecta a varias criaturas.
+Infligir heridas moderadas	El toque de energía negativa inflige un daño moderado a una criatura viva.
+Infligir heridas moderadas, en masa	Funciona como infligir heridas moderadas, pero afecta a varias criaturas.
+Infligir heridas graves	El toque de energía negativa inflige un daño grave a una criatura viva.
+Infligir heridas graves, en masa	Funciona como infligir heridas graves, pero afecta a varias criaturas.
+Locura	La mente del objetivo se fragmenta, provocando un estado de insanidad que altera su comportamiento y lo vuelve impredecible.
+Mano interpuesta	Conjura una mano inmensa entre tú y un enemigo para darte cobertura y bloquear ataques o proyectiles.
+Invisibilidad	El objetivo se vuelve invisible hasta que ataca, lanza un conjuro o termina el efecto.
+Invisibilidad mayor	Funciona como invisibilidad, pero el objetivo permanece invisible incluso después de atacar o lanzar conjuros.
+Invisibilidad, en masa	Funciona como invisibilidad, pero afecta a varias criaturas a la vez.

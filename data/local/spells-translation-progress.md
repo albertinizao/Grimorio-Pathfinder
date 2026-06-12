@@ -163,3 +163,19 @@
 
 - Dataset traducido desde cero con apoyo de traducción automática para este lote.
 - El archivo generado se actualizó en data/generated/spells-es.generated.json.
+
+## Lote 2 - spell_full_short-2.csv
+
+- Estado: completado
+- Rango traducido: 151-300
+- Último hechizo traducido: Invisibility, Mass
+- Siguiente hechizo pendiente: spell_full_short-3.csv
+
+## Lote 3 - spell_full_short-3.csv
+
+- Estado: completado
+- Rango traducido: 301-450
+- Último hechizo traducido: Reverse Gravity
+- Siguiente hechizo pendiente: ninguno
+- Dataset generado actualizado en data/generated/spells-es.generated.json.
+
