@@ -133,6 +133,20 @@ h1 {
   align-items: center;
 }
 
+.results-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.page-size-field {
+  display: grid;
+  gap: 6px;
+  min-width: 120px;
+}
+
 .search-form {
   display: grid;
   gap: 12px;
@@ -259,6 +273,15 @@ textarea:focus {
   margin: 0 0 2px;
   color: #cbd5e1;
   font-size: 0.84rem;
+}
+
+.pagination-bar {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .result-card {

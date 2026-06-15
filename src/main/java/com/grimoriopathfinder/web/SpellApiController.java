@@ -42,8 +42,8 @@ public class SpellApiController {
             @RequestParam int maxLevel,
             @RequestParam(defaultValue = "UP_TO") String levelMode,
             @RequestParam(required = false, defaultValue = "") String q,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size
     ) {
         return catalogService.searchSpells(listType, listName, maxLevel, levelMode, q, page, size);
     }

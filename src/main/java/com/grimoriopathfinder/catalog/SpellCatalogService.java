@@ -153,19 +153,13 @@ public class SpellCatalogService {
             int maxLevel,
             String levelMode,
             String q,
-            int page,
-            int size
+            Integer page,
+            Integer size
     ) {
         validateRequiredText("listType", listType);
         validateRequiredText("listName", listName);
         if (maxLevel < 0) {
             throw new SpellRequestValidationException("maxLevel must be greater than or equal to 0");
-        }
-        if (page < 0) {
-            throw new SpellRequestValidationException("page must be greater than or equal to 0");
-        }
-        if (size < 1 || size > 200) {
-            throw new SpellRequestValidationException("size must be between 1 and 200");
         }
         validateLevelFilterMode(levelMode);
 
@@ -181,22 +175,37 @@ public class SpellCatalogService {
         }
 
         var exactLevel = "EXACT".equals(levelMode);
-        var candidates = repository.findCandidates(listType, listName, maxLevel, exactLevel).stream()
-                .filter(candidate -> matchesQuery(candidate.spell(), query))
+        var matches = repository.findCandidates(listType, listName, maxLevel, exactLevel).stream()
+                .map(candidate -> new SearchMatch(candidate, locateMatch(candidate.spell(), query)))
+                .filter(match -> query.isBlank() || match.hit() != null)
                 .sorted(SEARCH_COMPARATOR)
                 .toList();
 
-        var totalItems = candidates.size();
-        var fromIndex = Math.min(page * size, totalItems);
-        var toIndex = Math.min(fromIndex + size, totalItems);
-        var pageItems = candidates.subList(fromIndex, toIndex);
+        var totalItems = matches.size();
+        if (size != null && size < 0) {
+            throw new SpellRequestValidationException("size must be greater than or equal to 0");
+        }
+        var paged = size != null && size > 0;
+        int effectivePage = page == null ? 0 : page;
+        int effectiveSize = paged ? size : totalItems;
+        if (effectivePage < 0) {
+            throw new SpellRequestValidationException("page must be greater than or equal to 0");
+        }
+        if (paged && (size < 1 || size > 200)) {
+            throw new SpellRequestValidationException("size must be between 1 and 200");
+        }
+
+        var fromIndex = paged ? Math.min(effectivePage * effectiveSize, totalItems) : 0;
+        var toIndex = paged ? Math.min(fromIndex + effectiveSize, totalItems) : totalItems;
+        var pageItems = matches.subList(fromIndex, toIndex);
 
         var results = pageItems.stream()
-                .map(candidate -> toSearchResult(candidate, query))
+                .map(match -> toSearchResult(match.candidate(), match.hit()))
                 .toList();
 
-        var totalPages = totalItems == 0 ? 0 : (int) Math.ceil((double) totalItems / size);
-        var pageDto = new SpellApiDtos.SpellSearchPageDto(page, size, totalItems, totalPages, page + 1 < totalPages);
+        var totalPages = paged ? (totalItems == 0 ? 0 : (int) Math.ceil((double) totalItems / effectiveSize)) : (totalItems == 0 ? 0 : 1);
+        var hasNext = paged && effectivePage + 1 < totalPages;
+        var pageDto = new SpellApiDtos.SpellSearchPageDto(effectivePage, effectiveSize, totalItems, totalPages, hasNext);
         return new SpellApiDtos.SpellSearchResponseDto(
                 new SpellApiDtos.SpellSearchFiltersDto(listType, listName, maxLevel, levelMode, query),
                 pageDto,
@@ -351,9 +360,8 @@ public class SpellCatalogService {
         );
     }
 
-    private SpellApiDtos.SpellSearchResultDto toSearchResult(SpellCatalogSqliteRepository.SearchCandidate candidate, String query) {
+    private SpellApiDtos.SpellSearchResultDto toSearchResult(SpellCatalogSqliteRepository.SearchCandidate candidate, SearchHit searchHit) {
         var spell = candidate.spell();
-        var searchHit = locateMatch(spell, query);
         var selectedList = new SpellApiDtos.SpellSelectedListDto(
                 candidate.selectedList().listType(),
                 candidate.selectedList().listName(),
@@ -618,6 +626,7 @@ public class SpellCatalogService {
         }
 
         var fields = searchableFields(spell);
+        SearchHit bestHit = null;
         if (query.contains("\"")) {
             var phrase = normalize(query.replace("\"", ""));
             if (phrase.isBlank()) {
@@ -626,10 +635,11 @@ public class SpellCatalogService {
             for (var entry : fields.entrySet()) {
                 var normalizedField = normalize(entry.getValue());
                 if (!normalizedField.isBlank() && normalizedField.contains(phrase)) {
-                    return new SearchHit(entry.getKey(), snippet(entry.getValue()));
+                    var candidateHit = new SearchHit(entry.getKey(), snippet(entry.getValue()), matchRank(entry.getKey()));
+                    bestHit = betterHit(bestHit, candidateHit);
                 }
             }
-            return null;
+            return bestHit;
         }
 
         var terms = tokenize(normalize(query));
@@ -640,11 +650,13 @@ public class SpellCatalogService {
             }
             for (var term : terms) {
                 if (tokenMatches(normalizedField, term)) {
-                    return new SearchHit(entry.getKey(), snippet(entry.getValue()));
+                    var candidateHit = new SearchHit(entry.getKey(), snippet(entry.getValue()), matchRank(entry.getKey()));
+                    bestHit = betterHit(bestHit, candidateHit);
+                    break;
                 }
             }
         }
-        return null;
+        return bestHit;
     }
 
     private boolean tokenMatches(String fieldValue, String term) {
@@ -720,10 +732,34 @@ public class SpellCatalogService {
         return values == null ? List.of() : List.copyOf(values);
     }
 
-    private static final Comparator<SpellCatalogSqliteRepository.SearchCandidate> SEARCH_COMPARATOR =
-            Comparator.comparingInt((SpellCatalogSqliteRepository.SearchCandidate candidate) -> candidate.selectedList().level())
-                    .thenComparing(candidate -> normalizeForOrdering(candidate.spell().nameEs()))
-                    .thenComparing(candidate -> candidate.spell().id());
+    private int matchRank(String matchSource) {
+        if ("nameEs".equals(matchSource)) {
+            return 0;
+        }
+        if ("descriptionEs".equals(matchSource)) {
+            return 2;
+        }
+        return 1;
+    }
+
+    private SearchHit betterHit(SearchHit current, SearchHit candidate) {
+        if (current == null) {
+            return candidate;
+        }
+        if (candidate == null) {
+            return current;
+        }
+        if (candidate.rank() < current.rank()) {
+            return candidate;
+        }
+        return current;
+    }
+
+    private static final Comparator<SearchMatch> SEARCH_COMPARATOR =
+            Comparator.comparingInt((SearchMatch match) -> match.sortRank())
+                    .thenComparingInt(match -> match.candidate().selectedList().level())
+                    .thenComparing(match -> normalizeForOrdering(match.candidate().spell().nameEs()))
+                    .thenComparing(match -> match.candidate().spell().id());
 
     private static String normalizeForOrdering(String input) {
         if (input == null) {
@@ -735,6 +771,12 @@ public class SpellCatalogService {
         return normalized.trim().replaceAll("\\s+", " ");
     }
 
-    private record SearchHit(String matchSource, String snippet) {
+    private record SearchHit(String matchSource, String snippet, int rank) {
+    }
+
+    private record SearchMatch(SpellCatalogSqliteRepository.SearchCandidate candidate, SearchHit hit) {
+        private int sortRank() {
+            return hit == null ? 0 : hit.rank();
+        }
     }
 }

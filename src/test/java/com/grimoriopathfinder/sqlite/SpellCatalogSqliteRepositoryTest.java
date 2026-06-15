@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.List;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -79,6 +80,54 @@ class SpellCatalogSqliteRepositoryTest {
         assertThat(lists.items().getFirst().spellCount()).isEqualTo(3);
     }
 
+    @Test
+    void returnsAllSearchMatchesWhenPaginationIsOmitted() {
+        var databasePath = tempDir.resolve("grimorio-all.sqlite");
+        var repository = new SpellCatalogSqliteRepository(databasePath);
+        var spells = new ArrayList<Spell>();
+        for (int i = 0; i < 55; i++) {
+            spells.add(spell("spell-" + i, "Conjuro " + i, 0));
+        }
+        repository.rebuild(spells);
+
+        var service = new SpellCatalogService(repository);
+        var search = service.searchSpells("CLASS", "Clérigo", 0, "UP_TO", "", null, null);
+
+        assertThat(search.results()).hasSize(55);
+        assertThat(search.page().totalItems()).isEqualTo(55);
+        assertThat(search.page().size()).isEqualTo(55);
+        assertThat(search.page().totalPages()).isEqualTo(1);
+        assertThat(search.page().hasNext()).isFalse();
+    }
+
+    @Test
+    void ordersSearchResultsByNameMatchesThenOtherFieldsThenDescriptionAndThenLevel() {
+        var databasePath = tempDir.resolve("grimorio-order.sqlite");
+        var repository = new SpellCatalogSqliteRepository(databasePath);
+        repository.rebuild(List.of(
+                spellWithSearchData("name-high", "Veneno superior", 4, "Texto neutro", List.of()),
+                spellWithSearchData("name-low", "Veneno básico", 1, "Texto neutro", List.of()),
+                spellWithSearchData("other-mid", "Conjuro neutro", 2, "Texto neutro", List.of("veneno")),
+                spellWithSearchData("description-low", "Conjuro neutro 2", 0, "Contiene veneno en la descripción.", List.of())
+        ));
+
+        var service = new SpellCatalogService(repository);
+        var search = service.searchSpells("CLASS", "Clérigo", 4, "UP_TO", "veneno", null, null);
+
+        assertThat(search.results()).extracting("spellId").containsExactly(
+                "name-low",
+                "name-high",
+                "other-mid",
+                "description-low"
+        );
+        assertThat(search.results()).extracting("matchSource").containsExactly(
+                "nameEs",
+                "nameEs",
+                "descriptors",
+                "descriptionEs"
+        );
+    }
+
     private Spell spell(String id, String nameEs, int level) {
         return new Spell(
                 id,
@@ -101,6 +150,39 @@ class SpellCatalogSqliteRepositoryTest {
                 "no",
                 nameEs + " descripción",
                 nameEs + " description",
+                "Core Rulebook",
+                1,
+                "spells.csv",
+                "AI_TRANSLATED",
+                List.of(new SpellListEntry(id, "CLASS", "Clérigo", level)),
+                "",
+                Instant.parse("2026-06-11T00:00:00Z"),
+                Instant.parse("2026-06-11T00:00:00Z")
+        );
+    }
+
+    private Spell spellWithSearchData(String id, String nameEs, int level, String descriptionEs, List<String> descriptors) {
+        return new Spell(
+                id,
+                id,
+                id,
+                "sha256:" + id,
+                nameEs,
+                nameEs + " EN",
+                "abjuración",
+                null,
+                descriptors,
+                "1 acción estándar",
+                "V, S",
+                "toque",
+                null,
+                null,
+                null,
+                "instantáneo",
+                "ninguno",
+                "no",
+                descriptionEs,
+                descriptionEs + " description",
                 "Core Rulebook",
                 1,
                 "spells.csv",

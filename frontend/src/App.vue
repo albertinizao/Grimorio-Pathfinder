@@ -15,6 +15,7 @@ import {
 } from "./lib/spellApi";
 import type {
   LevelFilterMode,
+  SearchPage,
   SpellDetail,
   SpellListSummary,
   SpellSearchResult,
@@ -26,6 +27,13 @@ type ModalMode = "view" | "edit";
 
 const spellLists = ref<SpellListSummary[]>([]);
 const searchResults = ref<SpellSearchResult[]>([]);
+const searchPage = ref<SearchPage>({
+  page: 0,
+  size: 20,
+  totalItems: 0,
+  totalPages: 0,
+  hasNext: false,
+});
 const selectedSpell = ref<SpellDetail | null>(null);
 const modalMode = ref<ModalMode | null>(null);
 const errorMessage = ref<string | null>(null);
@@ -41,6 +49,8 @@ const searchForm = reactive({
   maxLevel: 3,
   q: "",
 });
+
+const pageSizeOptions = [10, 20, 50];
 
 const levelFilterModes: Array<{ value: LevelFilterMode; label: string }> = [
   { value: "UP_TO", label: "Hasta nivel" },
@@ -109,6 +119,34 @@ type SearchResultField = {
 function formatSearchValue(value: string | null | undefined): string {
   return value && value.trim().length > 0 ? value : "—";
 }
+
+const currentPageStart = computed(() =>
+  searchPage.value.totalItems === 0 ? 0 : searchPage.value.page * searchPage.value.size + 1,
+);
+
+const currentPageEnd = computed(() =>
+  searchPage.value.totalItems === 0
+    ? 0
+    : Math.min((searchPage.value.page + 1) * searchPage.value.size, searchPage.value.totalItems),
+);
+
+const paginationSummary = computed(() =>
+  searchPage.value.totalItems === 0
+    ? "0 resultados"
+    : `Mostrando ${currentPageStart.value}-${currentPageEnd.value} de ${searchPage.value.totalItems}`,
+);
+
+const paginationDetails = computed(() =>
+  searchPage.value.totalItems === 0
+    ? "Sin paginación"
+    : `Página ${searchPage.value.page + 1} de ${Math.max(searchPage.value.totalPages, 1)}`,
+);
+
+const paginationLabel = computed(() =>
+  searchPage.value.totalItems === 0
+    ? "Página 0 / 0"
+    : `Página ${searchPage.value.page + 1} / ${searchPage.value.totalPages}`,
+);
 
 function formatSpellLists(spell: SpellDetail): string {
   if (spell.lists.length === 0) {
@@ -243,7 +281,7 @@ async function loadListsAndSearch(): Promise<void> {
     if (availableLevels.value.length > 0 && !availableLevels.value.includes(searchForm.maxLevel)) {
       searchForm.maxLevel = availableLevels.value[availableLevels.value.length - 1] ?? 0;
     }
-    await runSearch();
+    await runSearch(0);
   } catch (error) {
     setMessage("error", toReadableError(error));
   } finally {
@@ -251,12 +289,18 @@ async function loadListsAndSearch(): Promise<void> {
   }
 }
 
-async function runSearch(): Promise<void> {
+async function runSearch(page = 0): Promise<void> {
   try {
     setMessage("error", null);
     searchBusy.value = true;
-    const response = await searchSpells(searchForm);
+    searchPage.value.page = page;
+    const response = await searchSpells({
+      ...searchForm,
+      page,
+      size: searchPage.value.size,
+    });
     searchResults.value = response.results;
+    searchPage.value = response.page;
     setMessage(
       "info",
       response.results.length === 1
@@ -277,6 +321,23 @@ async function runSearch(): Promise<void> {
     setMessage("error", toReadableError(error));
   } finally {
     searchBusy.value = false;
+  }
+}
+
+async function changePageSize(size: number): Promise<void> {
+  searchPage.value.size = size;
+  await runSearch(0);
+}
+
+async function goToPreviousPage(): Promise<void> {
+  if (searchPage.value.page > 0) {
+    await runSearch(searchPage.value.page - 1);
+  }
+}
+
+async function goToNextPage(): Promise<void> {
+  if (searchPage.value.hasNext) {
+    await runSearch(searchPage.value.page + 1);
   }
 }
 
@@ -308,7 +369,7 @@ async function saveFields(): Promise<void> {
       reason: detailReasonDraft.value || null,
     });
     mergeUpdatedSpell(updated);
-    await runSearch();
+    await runSearch(searchPage.value.page);
     setMessage("info", "Campos españoles guardados.");
   } catch (error) {
     setMessage("error", toReadableError(error));
@@ -329,7 +390,7 @@ async function saveNotes(): Promise<void> {
       expectedUpdatedAt: selectedSpell.value.updatedAt,
     });
     mergeUpdatedSpell(updated);
-    await runSearch();
+    await runSearch(searchPage.value.page);
     setMessage("info", "Notas personales guardadas.");
   } catch (error) {
     setMessage("error", toReadableError(error));
@@ -351,7 +412,7 @@ async function saveTranslationStatus(): Promise<void> {
       reason: detailReasonDraft.value || null,
     });
     mergeUpdatedSpell(updated);
-    await runSearch();
+    await runSearch(searchPage.value.page);
     setMessage("info", "Estado actualizado.");
   } catch (error) {
     setMessage("error", toReadableError(error));
@@ -488,10 +549,26 @@ onBeforeUnmount(() => {
             <p class="eyebrow">Resultados</p>
             <h2>Hechizos encontrados</h2>
           </div>
-          <span class="muted">
-            {{ formatLevelFilterMode(searchForm.levelMode) }} {{ searchForm.maxLevel }}
-          </span>
+          <div class="results-toolbar">
+            <span class="muted">
+              {{ formatLevelFilterMode(searchForm.levelMode) }} {{ searchForm.maxLevel }}
+            </span>
+            <label class="page-size-field">
+              <span>Por página</span>
+              <select
+                v-model.number="searchPage.size"
+                :disabled="searchBusy"
+                @change="void changePageSize(searchPage.size)"
+              >
+                <option v-for="size in pageSizeOptions" :key="size" :value="size">
+                  {{ size }}
+                </option>
+              </select>
+            </label>
+          </div>
         </div>
+
+        <p class="search-summary">{{ paginationSummary }} · {{ paginationDetails }}</p>
 
         <div class="results-list">
           <article
@@ -526,6 +603,21 @@ onBeforeUnmount(() => {
               </div>
             </dl>
           </article>
+        </div>
+
+        <div class="pagination-bar" aria-label="Paginación de resultados">
+          <button class="secondary-button" type="button" :disabled="searchBusy || searchPage.page <= 0" @click="goToPreviousPage">
+            Anterior
+          </button>
+          <span class="muted">{{ paginationLabel }}</span>
+          <button
+            class="secondary-button"
+            type="button"
+            :disabled="searchBusy || !searchPage.hasNext"
+            @click="goToNextPage"
+          >
+            Siguiente
+          </button>
         </div>
       </article>
     </section>

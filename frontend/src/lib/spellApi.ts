@@ -54,6 +54,8 @@ export async function searchSpells(params: {
   maxLevel: number;
   levelMode: LevelFilterMode;
   q: string;
+  page?: number;
+  size?: number;
 }): Promise<SpellSearchResponse> {
   const query = new URLSearchParams({
     listType: params.listType,
@@ -61,9 +63,13 @@ export async function searchSpells(params: {
     maxLevel: String(params.maxLevel),
     levelMode: params.levelMode,
     q: params.q,
-    page: "0",
-    size: "50",
   });
+  if (typeof params.page === "number") {
+    query.set("page", String(params.page));
+  }
+  if (typeof params.size === "number") {
+    query.set("size", String(params.size));
+  }
   return requestJson<SpellSearchResponse>(`/api/spells/search?${query.toString()}`);
 }
 

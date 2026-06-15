@@ -388,8 +388,11 @@ Campos mínimos:
 
 Orden obligatorio para el MVP:
 
-1. nivel ascendente;
-2. nombre español ascendente normalizado.
+1. coincidencia por `nameEs`;
+2. coincidencia por cualquier campo buscable que no sea `descriptionEs`;
+3. coincidencia por `descriptionEs`;
+4. nivel ascendente dentro de cada grupo anterior;
+5. nombre español ascendente normalizado como desempate estable.
 
 Ejemplo:
 
@@ -637,6 +640,8 @@ GET /api/spells/search?listType=CLASS&listName=Clérigo&maxLevel=3&q=veneno
 ```
 
 Este endpoint es conceptual. La ruta final puede ajustarse en implementación, pero debe cubrir los parámetros principales.
+
+La búsqueda puede devolverse completa por defecto o paginarse de forma opcional, siempre que no exista una limitación artificial de 50 resultados.
 
 La especificación REST cerrada debe documentarse en:
 
