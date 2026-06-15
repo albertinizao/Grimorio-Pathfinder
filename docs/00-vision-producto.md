@@ -87,16 +87,20 @@ Durante el uso normal no debe depender de:
 
 La fuente española canónica debe vivir en archivos versionados.
 
-Estructura conceptual:
+Estructura actual:
 
 ```text
 data/
   raw/
-    spells.csv
+    Hechizos-1.json
+    Hechizos-2.json
+    Hechizos-3.json
   generated/
     spells-es.generated.json
   overrides/
     spells-es.overrides.json
+  local/
+    grimorio.sqlite
 ```
 
 La base SQLite local es una proyección reconstruible desde esos archivos y se usa para búsqueda rápida.
@@ -157,7 +161,7 @@ En el MVP se persiste canónicamente dentro de:
 data/overrides/spells-es.overrides.json
 ```
 
-No vive en `spells-es.generated.json` ni en un archivo separado.
+La implementación actual mantiene el campo en el dataset generado cuando está presente, pero las notas del usuario se consideran canónicas en overrides.
 
 SQLite guarda una copia efectiva para mostrarla y buscarla.
 
@@ -232,10 +236,10 @@ La búsqueda debe ignorar mayúsculas/minúsculas y acentos.
 
 La documentación actual fija el contrato funcional mínimo, pero no cierra todavía una especificación REST definitiva.
 
-El contrato final debe quedar en un documento separado:
+El contrato final queda en:
 
 ```text
-docs/10-api-rest.md
+docs/07-contrato-api-rest.md
 ```
 
 Hasta que exista, las rutas mencionadas en otros documentos son ejemplos funcionales mínimos, no una especificación OpenAPI cerrada.

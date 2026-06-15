@@ -646,7 +646,7 @@ La búsqueda puede devolverse completa por defecto o paginarse de forma opcional
 La especificación REST cerrada debe documentarse en:
 
 ```text
-docs/10-api-rest.md
+docs/07-contrato-api-rest.md
 ```
 
 ### Respuesta conceptual

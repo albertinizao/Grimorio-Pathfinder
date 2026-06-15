@@ -126,9 +126,9 @@ The REST contract MUST remain local, offline, and application-facing.
 
 - The backend runs locally inside the offline application boundary.
 - The Spanish generated dataset and overrides have already been imported into the reconstructible SQLite projection before search and detail requests are served.
-- The functional REST contract in this spec intentionally precedes any final route freeze in `docs/10-api-rest.md`.
+- The functional REST contract in this spec intentionally precedes any final route freeze in `docs/07-contrato-api-rest.md`.
 
 ## Open Questions
 
-- Which exact URI structure should `docs/10-api-rest.md` standardize for the four MVP resources?
+- Which exact URI structure should `docs/07-contrato-api-rest.md` standardize for the four MVP resources?
 - Should client error payloads use a single shared envelope across all local endpoints, or lightweight per-endpoint validation messages?

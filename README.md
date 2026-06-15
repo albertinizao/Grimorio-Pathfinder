@@ -44,22 +44,26 @@ La aplicación no traduce conjuros al vuelo.
 
 El dataset español se genera previamente y se guarda en archivos versionados.
 
-Estructura conceptual:
+Estructura actual:
 
 ```text
 data/
   raw/
-    spells.csv
+    Hechizos-1.json
+    Hechizos-2.json
+    Hechizos-3.json
   generated/
     spells-es.generated.json
   overrides/
     spells-es.overrides.json
+  local/
+    grimorio.sqlite
 ```
 
 Responsabilidades:
 
 - `spells-es.generated.json`: dataset español generado, regenerable y no editable desde la app.
-- `spells-es.overrides.json`: única fuente canónica del MVP para correcciones manuales, estados manuales y `personalNotes`.
+- `spells-es.overrides.json`: fuente canónica del MVP para correcciones manuales, estados manuales y `personalNotes`.
 - SQLite: proyección local reconstruible usada para búsqueda rápida y consulta.
 
 Las correcciones manuales tienen prioridad sobre el dataset generado y no deben sobrescribirse automáticamente.
@@ -119,7 +123,13 @@ Reglas principales:
 - ignora acentos;
 - normaliza espacios y puntuación básica;
 - permite navegar sin término de búsqueda;
-- ordena por nivel ascendente y nombre español ascendente.
+- ordena por coincidencia, nivel, nombre español y `spellId`.
+
+La implementación actual también expone:
+
+- `levelMode = UP_TO | EXACT`;
+- paginación local opcional (`page` y `size`);
+- ranking estable por campo de coincidencia para el snippet.
 
 Campos buscables:
 
@@ -146,7 +156,7 @@ Los documentos actuales describen endpoints de forma funcional y conceptual.
 El contrato REST cerrado, con rutas finales, DTOs, códigos HTTP y validaciones de entrada/salida, debe documentarse más adelante en un documento específico:
 
 ```text
-docs/10-api-rest.md
+docs/07-contrato-api-rest.md
 ```
 
 Hasta que ese documento exista, los endpoints incluidos en la documentación son contratos funcionales mínimos, no una especificación OpenAPI definitiva.
@@ -196,6 +206,10 @@ docs/02-modelo-dominio.md
 docs/03-dataset-importacion-overrides.md
 docs/04-busqueda-navegacion.md
 docs/05-traduccion-edicion.md
+docs/06-esquema-dataset-overrides.md
+docs/07-contrato-api-rest.md
+docs/08-reglas-busqueda-normalizacion.md
+docs/09-diagramas-flujos-secuencia.md
 ```
 
 `AGENTS.md` contiene las reglas globales para agentes IA.

@@ -145,5 +145,5 @@ Spanish-facing labels derived from this behavior SHOULD preserve the project's c
 
 ## Open Questions
 
-- Should the final implementation return every matching result in one response for MVP, or should `docs/10-api-rest.md` later define a lightweight pagination shape?
+- Should the final implementation return every matching result in one response for MVP, or should `docs/07-contrato-api-rest.md` later define a lightweight pagination shape?
 - How should snippets be generated when the only match comes from `personalNotes`: raw note excerpt, highlighted fragment, or a generic match indicator?
