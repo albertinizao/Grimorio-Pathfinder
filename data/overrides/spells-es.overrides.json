@@ -1,18 +1,65 @@
 {
-  "version": 1,
-  "updatedAt": "2026-06-11T00:00:00Z",
-  "spells": {
-    "delay-poison": {
-      "personalNotes": "Preparar si esperamos drow o criaturas venenosas.",
-      "updatedAt": "2026-06-11T00:00:00Z"
+  "version" : 1,
+  "updatedAt" : "2026-06-15T12:05:34.843548500Z",
+  "spells" : {
+    "delay-poison" : {
+      "fields" : null,
+      "personalNotes" : "Preparar si esperamos drow o criaturas venenosas.",
+      "updatedAt" : "2026-06-11T00:00:00Z",
+      "reason" : null
     },
-    "neutralize-poison": {
-      "fields": {
-        "descriptionEs": "Neutralizas cualquier tipo de veneno presente en la criatura u objeto tocado.",
-        "translationStatus": "LOCKED"
+    "neutralize-poison" : {
+      "fields" : {
+        "descriptionEs" : "Neutralizas cualquier tipo de veneno presente en la criatura u objeto tocado.",
+        "translationStatus" : "LOCKED"
       },
-      "personalNotes": "Traducción revisada y cerrada.",
-      "updatedAt": "2026-06-11T00:00:00Z"
+      "personalNotes" : "Traducción revisada y cerrada.",
+      "updatedAt" : "2026-06-11T00:00:00Z",
+      "reason" : null
+    },
+    "lee-magic" : {
+      "fields" : {
+        "nameEs" : "Leer Magia",
+        "school" : "adivinación",
+        "subschool" : "",
+        "descriptors" : [ ],
+        "castingTime" : "1 Acción estándar",
+        "components" : "V, S, F (un prisma cristalino o mineral transparente)",
+        "range" : "Vida personal",
+        "target" : "tú",
+        "effect" : "",
+        "area" : "",
+        "duration" : "10 min./nivel",
+        "savingThrow" : "",
+        "spellResistance" : "",
+        "descriptionEs" : "Puedes descifrar inscripciones mágicas en objetos—libros, pergaminos, armas y similares—que de otro modo serían ininteligibles. Este descifrado normalmente no invoca la magia contenida en la escritura, aunque puede hacerlo en el caso de un pergamino maldito o atrapado. Además, una vez que se ha lanzado el hechizo y has leído la inscripción mágica, a partir de entonces puedes leer esa escritura en particular sin recurrir a la magia de lectura. Puedes leer a razón de una página (250 palabras) por minuto. El hechizo te permite identificar un glifo de protección con una tirada de Hechizos CD 13, un glifo mayor de protección con una tirada de Hechizos CD 16, o cualquier símbolo con una tirada de Hechizos (CD 10 + nivel de hechizo). La magia de lectura puede hacerse permanente con un hechizo de permanencia.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-06-15T12:05:25.633880500Z",
+      "reason" : null
+    },
+    "luces-dancing" : {
+      "fields" : {
+        "nameEs" : "Luces Danzantes",
+        "school" : "evocación",
+        "subschool" : "",
+        "descriptors" : [ "luz" ],
+        "castingTime" : "1 Acción estándar",
+        "components" : "V, S",
+        "range" : "Medio (100 pies + 10 pies/nivel)",
+        "target" : "",
+        "effect" : "Hasta cuatro luces, todas dentro de un área de radio de 10 pies",
+        "area" : "",
+        "duration" : "1 minuto",
+        "savingThrow" : "ninguno",
+        "spellResistance" : "no",
+        "descriptionEs" : "Dependiendo de la versión seleccionada, creas hasta cuatro luces que se asemejan a faroles o antorchas (y proyectan esa cantidad de luz), o hasta cuatro esferas luminosas (que parecen fatuos), o una forma vagamente humanoide y tenuemente luminosa. Las luces danzantes deben mantenerse dentro de un radio de 10 pies respecto unas a otras, pero por lo demás moverse según lo que deseen (sin necesidad de concentración): hacia adelante o hacia atrás, arriba o abajo, rectas o girando, o similares. Las luces pueden moverse hasta 30 metros por ronda. Una luz se apaga si la distancia entre tú y ella supera el alcance del hechizo. Solo puedes tener un hechizo de luces danzantes activo a la vez. Si lanzas este hechizo mientras otro aún está activo, el lanzamiento anterior se disipa. Si haces que este hechizo sea permanente, no cuenta para este límite. Las luces danzantes pueden hacerse permanentes con un hechizo de permanencia.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-06-15T12:05:34.843548500Z",
+      "reason" : null
     }
   }
 }

@@ -6,6 +6,7 @@ import com.grimoriopathfinder.overrides.SpellOverridesJsonRepository;
 import com.grimoriopathfinder.overrides.SpellOverridesResult;
 import com.grimoriopathfinder.spells.Spell;
 import com.grimoriopathfinder.spells.SpellListEntry;
+import com.grimoriopathfinder.spells.SpellListNameNormalizer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,12 +50,16 @@ public class SpellDatasetImportService {
         var generatedFile = generatedRepository.read(generatedPath);
         validateGeneratedFile(generatedFile);
 
+        var normalizedGeneratedSpells = generatedFile.spells().stream()
+                .map(this::normalizeSpellLists)
+                .toList();
+
         SpellOverridesFile overridesFile = Files.exists(overridesPath)
                 ? overridesRepository.read(overridesPath)
                 : new SpellOverridesFile(1, null, java.util.Map.of());
         validateOverridesFile(overridesFile);
 
-        SpellOverridesResult result = overridesComposer.apply(generatedFile.spells(), overridesFile);
+        SpellOverridesResult result = overridesComposer.apply(normalizedGeneratedSpells, overridesFile);
         return new SpellImportResult(result.effectiveSpells(), result.warnings());
     }
 
@@ -109,5 +114,38 @@ public class SpellDatasetImportService {
 
     private boolean isBlank(String value) {
         return value == null || value.isBlank();
+    }
+
+    private Spell normalizeSpellLists(Spell spell) {
+        return new Spell(
+                spell.id(),
+                spell.slug(),
+                spell.sourceId(),
+                spell.sourceHash(),
+                spell.nameEs(),
+                spell.nameEn(),
+                spell.school(),
+                spell.subschool(),
+                spell.descriptors(),
+                spell.castingTime(),
+                spell.components(),
+                spell.range(),
+                spell.target(),
+                spell.effect(),
+                spell.area(),
+                spell.duration(),
+                spell.savingThrow(),
+                spell.spellResistance(),
+                spell.descriptionEs(),
+                spell.descriptionEn(),
+                spell.sourceBook(),
+                spell.sourcePage(),
+                spell.sourceName(),
+                spell.translationStatus(),
+                SpellListNameNormalizer.normalizeClassEntries(spell.lists()),
+                spell.personalNotes(),
+                spell.createdAt(),
+                spell.updatedAt()
+        );
     }
 }

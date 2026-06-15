@@ -99,8 +99,9 @@ def run_browser_flow(frontend_port: int) -> int:
             )
 
             search_form = page.locator(".search-form")
-            search_form.locator("select").nth(0).select_option(value="Clérigo")
-            search_form.locator("select").nth(1).select_option(value="3")
+            search_form.locator(".search-field--list select").select_option(value="Clérigo")
+            search_form.locator(".search-field--mode select").select_option(value="UP_TO")
+            search_form.locator(".search-field--level select").select_option(value="3")
             search_form.locator('input[type="text"]').fill("drow")
             page.get_by_role("button", name="Buscar").click()
 
@@ -109,34 +110,38 @@ def run_browser_flow(frontend_port: int) -> int:
             result_card.click()
 
             page.get_by_role("heading", name="Retrasar veneno").wait_for(timeout=30_000)
-            page.get_by_label("Descripción española").fill(updated_description)
+            page.locator(".modal-shell").get_by_role("button", name="Editar").click()
+            page.locator(".fields-grid").wait_for(timeout=30_000)
+            page.locator(".fields-grid label.textarea-field textarea").fill(updated_description)
 
             page.get_by_role("button", name="Guardar campos").click()
             wait_for_banner(page, "Campos españoles guardados.")
 
-            page.get_by_label("personalNotes").fill(note_text)
+            page.locator(".modal-shell .detail-section").nth(1).locator("textarea").fill(note_text)
             page.get_by_role("button", name="Guardar notas").click()
             wait_for_banner(page, "Notas personales guardadas.")
-            assert page.get_by_label("personalNotes").input_value() == note_text
+            assert page.locator(".modal-shell .detail-section").nth(1).locator("textarea").input_value() == note_text
 
-            page.get_by_label("translationStatus").select_option(value="LOCKED")
+            page.locator(".modal-shell .detail-section").nth(2).locator("select").select_option(value="LOCKED")
             page.get_by_role("button", name="Guardar estado").click()
             wait_for_banner(page, "Estado actualizado.")
 
-            page.locator(".detail-panel .muted").filter(has_text="Bloqueado").wait_for(timeout=30_000)
-            assert page.get_by_label("Descripción española").input_value() == updated_description
-            assert page.get_by_label("translationStatus").input_value() == "LOCKED"
+            assert page.locator(".fields-grid label.textarea-field textarea").input_value() == updated_description
+            assert page.locator(".modal-shell .detail-section").nth(2).locator("select").input_value() == "LOCKED"
 
-            page.get_by_role("button", name="Volver a resultados").click()
+            page.locator(".modal-shell").get_by_role("button", name="Cancelar").click()
 
             assert page.locator(".search-form").locator('input[type="text"]').input_value() == "drow"
-            assert page.locator(".search-form").locator("select").nth(0).input_value() == "Clérigo"
-            assert page.locator(".search-form").locator("select").nth(1).input_value() == "3"
+            assert page.locator(".search-field--list select").input_value() == "Clérigo"
+            assert page.locator(".search-field--mode select").input_value() == "UP_TO"
+            assert page.locator(".search-field--level select").input_value() == "3"
 
             updated_result = page.locator(".result-card").filter(has_text="Retrasar veneno")
-            updated_result.wait_for(timeout=30_000)
-            assert "LOCKED" in updated_result.inner_text()
-            assert note_text in updated_result.inner_text()
+            updated_result.click()
+            page.get_by_role("heading", name="Retrasar veneno").wait_for(timeout=30_000)
+            page.locator(".modal-shell .modal-grid dd").filter(has_text="Bloqueado").wait_for(timeout=30_000)
+            page.locator(".modal-shell .modal-section--wide").nth(2).locator(".modal-paragraph").wait_for(timeout=30_000)
+            assert note_text in page.locator(".modal-shell .modal-section--wide").nth(2).locator(".modal-paragraph").inner_text()
 
             print("Smoke E2E passed: spell-editing-ui flow is working.")
             return 0

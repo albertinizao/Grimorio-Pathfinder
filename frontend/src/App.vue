@@ -15,6 +15,7 @@ import {
 } from "./lib/spellApi";
 import type {
   LevelFilterMode,
+  SearchPage,
   SpellDetail,
   SpellListSummary,
   SpellSearchResult,
@@ -26,21 +27,31 @@ type ModalMode = "view" | "edit";
 
 const spellLists = ref<SpellListSummary[]>([]);
 const searchResults = ref<SpellSearchResult[]>([]);
+const searchPage = ref<SearchPage>({
+  page: 0,
+  size: 50,
+  totalItems: 0,
+  totalPages: 0,
+  hasNext: false,
+});
 const selectedSpell = ref<SpellDetail | null>(null);
 const modalMode = ref<ModalMode | null>(null);
 const errorMessage = ref<string | null>(null);
 const infoMessage = ref<string | null>(null);
 const searchBusy = ref(false);
 const detailBusy = ref(false);
+const jumpPageInput = ref<number | null>(null);
 let infoMessageTimeoutId: ReturnType<typeof window.setTimeout> | null = null;
 
 const searchForm = reactive({
   listType,
-  listName: "Clérigo",
-  levelMode: "UP_TO" as LevelFilterMode,
-  maxLevel: 3,
+  listName: "",
+  levelMode: "" as LevelFilterMode | "",
+  maxLevel: null as number | null,
   q: "",
 });
+
+const pageSizeOptions = [50, 100];
 
 const levelFilterModes: Array<{ value: LevelFilterMode; label: string }> = [
   { value: "UP_TO", label: "Hasta nivel" },
@@ -110,6 +121,34 @@ function formatSearchValue(value: string | null | undefined): string {
   return value && value.trim().length > 0 ? value : "—";
 }
 
+const currentPageStart = computed(() =>
+  searchPage.value.totalItems === 0 ? 0 : searchPage.value.page * searchPage.value.size + 1,
+);
+
+const currentPageEnd = computed(() =>
+  searchPage.value.totalItems === 0
+    ? 0
+    : Math.min((searchPage.value.page + 1) * searchPage.value.size, searchPage.value.totalItems),
+);
+
+const paginationSummary = computed(() =>
+  searchPage.value.totalItems === 0
+    ? "0 resultados"
+    : `Mostrando ${currentPageStart.value}-${currentPageEnd.value} de ${searchPage.value.totalItems}`,
+);
+
+const paginationDetails = computed(() =>
+  searchPage.value.totalItems === 0
+    ? "Sin paginación"
+    : `Página ${searchPage.value.page + 1} de ${Math.max(searchPage.value.totalPages, 1)}`,
+);
+
+const paginationLabel = computed(() =>
+  searchPage.value.totalItems === 0
+    ? "Página 0 / 0"
+    : `Página ${searchPage.value.page + 1} / ${searchPage.value.totalPages}`,
+);
+
 function formatSpellLists(spell: SpellDetail): string {
   if (spell.lists.length === 0) {
     return "—";
@@ -157,8 +196,16 @@ function setMessage(kind: "error" | "info", message: string | null): void {
     infoMessageTimeoutId = window.setTimeout(() => {
       infoMessage.value = null;
       infoMessageTimeoutId = null;
-    }, 10_000);
+    }, 5_000);
   }
+}
+
+function dismissInfoMessage(): void {
+  if (infoMessageTimeoutId !== null) {
+    window.clearTimeout(infoMessageTimeoutId);
+    infoMessageTimeoutId = null;
+  }
+  infoMessage.value = null;
 }
 
 function syncDraftsFromDetail(detail: SpellDetail | null): void {
@@ -179,6 +226,26 @@ function syncDraftsFromDetail(detail: SpellDetail | null): void {
   personalNotesDraft.value = detail?.personalNotes ?? "";
   translationStatusDraft.value = detail?.translationStatus ?? "AI_TRANSLATED";
   detailReasonDraft.value = "";
+}
+
+function applyListSelectionDefaults(listName: string): void {
+  if (!listName) {
+    searchForm.levelMode = "";
+    searchForm.maxLevel = null;
+    return;
+  }
+
+  if (searchForm.levelMode === "") {
+    searchForm.levelMode = "UP_TO";
+  }
+
+  if (searchForm.maxLevel === null) {
+    const current = spellLists.value.find(
+      (item) => item.listType === searchForm.listType && item.listName === listName,
+    );
+    const levels = Array.from(new Set(current?.levels ?? []));
+    searchForm.maxLevel = current?.maxLevel ?? levels[levels.length - 1] ?? 0;
+  }
 }
 
 function buildFieldPatch(): Record<string, string | string[] | null> {
@@ -229,41 +296,41 @@ function mergeUpdatedSpell(updated: SpellDetail): void {
   );
 }
 
-async function loadListsAndSearch(): Promise<void> {
+async function loadLists(): Promise<void> {
   try {
     setMessage("error", null);
-    searchBusy.value = true;
     const lists = await fetchSpellLists(listType);
     spellLists.value = lists;
-    if (lists.length > 0 && !lists.some((item) => item.listName === searchForm.listName)) {
-      searchForm.listName = lists[0].listName;
-      const initialLevels = Array.from(new Set(lists[0].levels));
-      searchForm.maxLevel = initialLevels[initialLevels.length - 1] ?? 0;
-    }
-    if (availableLevels.value.length > 0 && !availableLevels.value.includes(searchForm.maxLevel)) {
-      searchForm.maxLevel = availableLevels.value[availableLevels.value.length - 1] ?? 0;
-    }
-    await runSearch();
   } catch (error) {
     setMessage("error", toReadableError(error));
-  } finally {
-    searchBusy.value = false;
   }
 }
 
-async function runSearch(): Promise<void> {
+async function runSearch(page = 0): Promise<void> {
+  if (!searchForm.listName || searchForm.levelMode === "" || searchForm.maxLevel === null) {
+    setMessage("info", "Selecciona una lista de clase lanzadora y un nivel.");
+    return;
+  }
   try {
     setMessage("error", null);
     searchBusy.value = true;
-    const response = await searchSpells(searchForm);
+    searchPage.value.page = page;
+    const response = await searchSpells({
+      ...searchForm,
+      levelMode: searchForm.levelMode,
+      maxLevel: searchForm.maxLevel,
+      page,
+      size: searchPage.value.size,
+    });
     searchResults.value = response.results;
+    searchPage.value = response.page;
+    jumpPageInput.value = response.page.page + 1;
+    const totalItems = response.page.totalItems;
     setMessage(
       "info",
-      response.results.length === 1
+      totalItems === 1
         ? "1 conjuro encontrado."
-        : response.results.length > 1
-          ? `${response.results.length} conjuros encontrados.`
-          : "No hay conjuros para este filtro.",
+        : `${totalItems} conjuros encontrados.`,
     );
     if (selectedSpell.value) {
       const stillVisible = response.results.some((result) => result.spellId === selectedSpell.value?.spellId);
@@ -277,6 +344,44 @@ async function runSearch(): Promise<void> {
     setMessage("error", toReadableError(error));
   } finally {
     searchBusy.value = false;
+  }
+}
+
+async function clearSearchText(): Promise<void> {
+  searchForm.q = "";
+  if (searchForm.listName && searchForm.levelMode !== "" && searchForm.maxLevel !== null) {
+    await runSearch();
+  }
+}
+
+async function changePageSize(size: number): Promise<void> {
+  searchPage.value.size = size;
+  await runSearch(0);
+}
+
+async function goToPage(pageNumber: number | null): Promise<void> {
+  if (pageNumber === null) {
+    return;
+  }
+
+  const targetPage = Math.trunc(pageNumber);
+  if (!Number.isFinite(targetPage) || targetPage < 1 || targetPage > Math.max(searchPage.value.totalPages, 1)) {
+    setMessage("error", `Indica una página entre 1 y ${Math.max(searchPage.value.totalPages, 1)}.`);
+    return;
+  }
+
+  await runSearch(targetPage - 1);
+}
+
+async function goToPreviousPage(): Promise<void> {
+  if (searchPage.value.page > 0) {
+    await runSearch(searchPage.value.page - 1);
+  }
+}
+
+async function goToNextPage(): Promise<void> {
+  if (searchPage.value.hasNext) {
+    await runSearch(searchPage.value.page + 1);
   }
 }
 
@@ -308,7 +413,7 @@ async function saveFields(): Promise<void> {
       reason: detailReasonDraft.value || null,
     });
     mergeUpdatedSpell(updated);
-    await runSearch();
+    await runSearch(searchPage.value.page);
     setMessage("info", "Campos españoles guardados.");
   } catch (error) {
     setMessage("error", toReadableError(error));
@@ -329,7 +434,7 @@ async function saveNotes(): Promise<void> {
       expectedUpdatedAt: selectedSpell.value.updatedAt,
     });
     mergeUpdatedSpell(updated);
-    await runSearch();
+    await runSearch(searchPage.value.page);
     setMessage("info", "Notas personales guardadas.");
   } catch (error) {
     setMessage("error", toReadableError(error));
@@ -351,7 +456,7 @@ async function saveTranslationStatus(): Promise<void> {
       reason: detailReasonDraft.value || null,
     });
     mergeUpdatedSpell(updated);
-    await runSearch();
+    await runSearch(searchPage.value.page);
     setMessage("info", "Estado actualizado.");
   } catch (error) {
     setMessage("error", toReadableError(error));
@@ -361,11 +466,7 @@ async function saveTranslationStatus(): Promise<void> {
 }
 
 function onListNameChanged(): void {
-  const current = spellLists.value.find((item) => item.listType === searchForm.listType && item.listName === searchForm.listName);
-  if (current) {
-    const levels = Array.from(new Set(current.levels));
-    searchForm.maxLevel = levels[levels.length - 1] ?? 0;
-  }
+  applyListSelectionDefaults(searchForm.listName);
 }
 
 function closeModal(): void {
@@ -389,7 +490,8 @@ watch(
 );
 
 onMounted(() => {
-  void loadListsAndSearch();
+  void loadLists();
+  jumpPageInput.value = searchPage.value.page + 1;
 });
 
 onBeforeUnmount(() => {
@@ -412,7 +514,13 @@ onBeforeUnmount(() => {
     <section v-if="errorMessage" class="banner banner-error" role="alert">
       {{ errorMessage }}
     </section>
-    <section v-if="infoMessage" class="toast toast-info" role="status" aria-live="polite">
+    <section
+      v-if="infoMessage"
+      class="toast toast-info"
+      role="status"
+      aria-live="polite"
+      @click="dismissInfoMessage"
+    >
       {{ infoMessage }}
     </section>
 
@@ -429,6 +537,7 @@ onBeforeUnmount(() => {
           <label class="search-field search-field--list">
             <span>Lista de clase lanzadora</span>
             <select v-model="searchForm.listName" :disabled="searchBusy">
+              <option value="">Selecciona una clase</option>
               <option v-for="list in spellLists" :key="list.listName" :value="list.listName">
                 {{ list.listName }} ({{ list.minLevel }}-{{ list.maxLevel }})
               </option>
@@ -437,7 +546,8 @@ onBeforeUnmount(() => {
 
           <label class="search-field search-field--mode">
             <span>Modo</span>
-            <select v-model="searchForm.levelMode" :disabled="searchBusy">
+            <select v-model="searchForm.levelMode" :disabled="searchBusy || !searchForm.listName">
+              <option value="">Selecciona un modo</option>
               <option v-for="mode in levelFilterModes" :key="mode.value" :value="mode.value">
                 {{ mode.label }}
               </option>
@@ -446,7 +556,8 @@ onBeforeUnmount(() => {
 
           <label class="search-field search-field--level">
             <span>Nivel</span>
-            <select v-model.number="searchForm.maxLevel" :disabled="searchBusy">
+            <select v-model.number="searchForm.maxLevel" :disabled="searchBusy || !searchForm.listName">
+              <option :value="null">Selecciona un nivel</option>
               <option v-for="level in availableLevels" :key="level" :value="level">
                 {{ level }}
               </option>
@@ -464,17 +575,18 @@ onBeforeUnmount(() => {
           </label>
 
           <div class="search-actions search-field--actions">
-            <button class="primary-button" type="submit" :disabled="searchBusy">
+            <button
+              class="primary-button"
+              type="submit"
+              :disabled="searchBusy || !searchForm.listName || searchForm.levelMode === '' || searchForm.maxLevel === null"
+            >
               {{ searchBusy ? "Buscando..." : "Buscar" }}
             </button>
             <button
               class="secondary-button"
               type="button"
               :disabled="searchBusy"
-              @click="
-                searchForm.q = '';
-                void runSearch();
-              "
+              @click="clearSearchText"
             >
               Limpiar texto
             </button>
@@ -488,10 +600,27 @@ onBeforeUnmount(() => {
             <p class="eyebrow">Resultados</p>
             <h2>Hechizos encontrados</h2>
           </div>
-          <span class="muted">
-            {{ formatLevelFilterMode(searchForm.levelMode) }} {{ searchForm.maxLevel }}
-          </span>
+          <div class="results-toolbar">
+            <span class="muted">
+              {{ searchForm.levelMode ? formatLevelFilterMode(searchForm.levelMode) : "Sin selección" }}
+              {{ searchForm.maxLevel === null ? "" : ` ${searchForm.maxLevel}` }}
+            </span>
+            <label class="page-size-field">
+              <span>Por página</span>
+              <select
+                v-model.number="searchPage.size"
+                :disabled="searchBusy"
+                @change="void changePageSize(searchPage.size)"
+              >
+                <option v-for="size in pageSizeOptions" :key="size" :value="size">
+                  {{ size }}
+                </option>
+              </select>
+            </label>
+          </div>
         </div>
+
+        <p class="search-summary">{{ paginationSummary }} · {{ paginationDetails }}</p>
 
         <div class="results-list">
           <article
@@ -526,6 +655,36 @@ onBeforeUnmount(() => {
               </div>
             </dl>
           </article>
+        </div>
+
+        <div class="pagination-bar" aria-label="Paginación de resultados">
+          <button class="secondary-button" type="button" :disabled="searchBusy || searchPage.page <= 0" @click="goToPreviousPage">
+            Anterior
+          </button>
+          <span class="muted">{{ paginationLabel }}</span>
+          <form class="jump-page-form" @submit.prevent="goToPage(jumpPageInput)">
+            <label class="jump-page-field">
+              <span>Ir a página</span>
+              <input
+                v-model.number="jumpPageInput"
+                type="number"
+                min="1"
+                :max="Math.max(searchPage.totalPages, 1)"
+                :disabled="searchBusy || searchPage.totalPages === 0"
+              />
+            </label>
+            <button class="secondary-button" type="submit" :disabled="searchBusy || searchPage.totalPages === 0">
+              Ir
+            </button>
+          </form>
+          <button
+            class="secondary-button"
+            type="button"
+            :disabled="searchBusy || !searchPage.hasNext"
+            @click="goToNextPage"
+          >
+            Siguiente
+          </button>
         </div>
       </article>
     </section>

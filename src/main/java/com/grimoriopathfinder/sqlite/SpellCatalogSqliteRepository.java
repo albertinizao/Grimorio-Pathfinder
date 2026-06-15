@@ -246,7 +246,7 @@ public class SpellCatalogSqliteRepository {
                         list_type TEXT NOT NULL,
                         list_name TEXT NOT NULL,
                         level INTEGER NOT NULL,
-                        PRIMARY KEY (spell_id, list_type, list_name),
+                        PRIMARY KEY (spell_id, list_type, list_name, level),
                         FOREIGN KEY (spell_id) REFERENCES spells(id) ON DELETE CASCADE
                     ) STRICT;
                     """);
