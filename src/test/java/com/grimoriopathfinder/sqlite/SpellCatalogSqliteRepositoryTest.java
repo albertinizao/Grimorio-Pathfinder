@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.assertj.core.groups.Tuple;
 
 class SpellCatalogSqliteRepositoryTest {
 
@@ -78,6 +79,32 @@ class SpellCatalogSqliteRepositoryTest {
         assertThat(lists.items()).hasSize(1);
         assertThat(lists.items().getFirst().levels()).containsExactly(2, 5);
         assertThat(lists.items().getFirst().spellCount()).isEqualTo(3);
+    }
+
+    @Test
+    void preservesMultipleLevelsForTheSameClassEntry() {
+        var databasePath = tempDir.resolve("grimorio-levels.sqlite");
+        var repository = new SpellCatalogSqliteRepository(databasePath);
+        repository.rebuild(List.of(spellWithTwoLevels("wall-of-sound")));
+
+        var service = new SpellCatalogService(repository);
+
+        var detail = service.getSpellDetail("wall-of-sound");
+        assertThat(detail.lists()).extracting("listName", "level").containsExactlyInAnyOrder(
+                Tuple.tuple("Bardo", 4),
+                Tuple.tuple("Mago", 4),
+                Tuple.tuple("Hechicero", 5),
+                Tuple.tuple("Mago", 5),
+                Tuple.tuple("Bruto de sangre", 4),
+                Tuple.tuple("Psíquico", 5),
+                Tuple.tuple("Espiritualista", 5)
+        );
+
+        assertThat(service.listSpellLists("CLASS").items())
+                .extracting(item -> item.listName())
+                .contains("Mago");
+        assertThat(service.getSpellListLevels("CLASS", "Mago").levels())
+                .containsExactly(4, 5);
     }
 
     @Test
@@ -188,6 +215,47 @@ class SpellCatalogSqliteRepositoryTest {
                 "spells.csv",
                 "AI_TRANSLATED",
                 List.of(new SpellListEntry(id, "CLASS", "Clérigo", level)),
+                "",
+                Instant.parse("2026-06-11T00:00:00Z"),
+                Instant.parse("2026-06-11T00:00:00Z")
+        );
+    }
+
+    private Spell spellWithTwoLevels(String id) {
+        return new Spell(
+                id,
+                id,
+                id,
+                "sha256:" + id,
+                "Muro de Sonido",
+                "Wall of Sound",
+                "ilusión",
+                null,
+                List.of(),
+                "1 acción estándar",
+                "V, S",
+                "largo",
+                null,
+                null,
+                null,
+                "instantáneo",
+                "sí",
+                "no",
+                "Descripción",
+                "Description",
+                "Core Rulebook",
+                1,
+                "spells.csv",
+                "AI_TRANSLATED",
+                List.of(
+                        new SpellListEntry(id, "CLASS", "Bardo", 4),
+                        new SpellListEntry(id, "CLASS", "Mago", 4),
+                        new SpellListEntry(id, "CLASS", "Hechicero", 5),
+                        new SpellListEntry(id, "CLASS", "Mago", 5),
+                        new SpellListEntry(id, "CLASS", "Bruto de sangre", 4),
+                        new SpellListEntry(id, "CLASS", "Psíquico", 5),
+                        new SpellListEntry(id, "CLASS", "Espiritualista", 5)
+                ),
                 "",
                 Instant.parse("2026-06-11T00:00:00Z"),
                 Instant.parse("2026-06-11T00:00:00Z")

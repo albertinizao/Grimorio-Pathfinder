@@ -26,9 +26,18 @@ class SpellDatasetMagusCorrectionRegressionTest {
         var repository = new SpellDatasetJsonRepository();
         var dataset = repository.read(Path.of("data/generated/spells-es.generated.json"));
 
+        var slashClassNames = dataset.spells().stream()
+                .flatMap(spell -> spell.lists().stream())
+                .filter(entry -> "CLASS".equals(entry.listType()))
+                .map(entry -> entry.listName())
+                .filter(name -> name.contains("/"))
+                .collect(Collectors.toSet());
+
+        assertThat(slashClassNames).isEmpty();
+
         var actual = dataset.spells().stream()
                 .filter(spell -> spell.lists().stream().anyMatch(entry -> "CLASS".equals(entry.listType()) && "Mago".equals(entry.listName())))
-                .filter(spell -> spell.lists().stream().noneMatch(entry -> "CLASS".equals(entry.listType()) && "Hechicero/Mago".equals(entry.listName())))
+                .filter(spell -> spell.lists().stream().noneMatch(entry -> "CLASS".equals(entry.listType()) && "Hechicero".equals(entry.listName())))
                 .map(spell -> spell.nameEs())
                 .collect(Collectors.toSet());
 
