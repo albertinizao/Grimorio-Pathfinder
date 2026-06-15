@@ -44,7 +44,7 @@ No existe en el MVP un flag técnico adicional llamado `locked`.
 data/overrides/spells-es.overrides.json
 ```
 
-No vive en `spells-es.generated.json` ni en un archivo separado durante el MVP.
+La implementación actual mantiene `personalNotes` en el dataset generado cuando existe, pero las notas del usuario siguen considerándose canónicas en overrides.
 
 SQLite contiene una copia efectiva reconstruible para consulta y búsqueda.
 
@@ -55,7 +55,7 @@ Las fases de API de este roadmap fijan contratos funcionales mínimos.
 La especificación REST cerrada debe documentarse posteriormente en:
 
 ```text
-docs/10-api-rest.md
+docs/07-contrato-api-rest.md
 ```
 
 Hasta entonces, las rutas citadas son ejemplos funcionales obligatorios, no una especificación OpenAPI final.
@@ -82,8 +82,12 @@ backend/
 frontend/
 data/
   raw/
+    Hechizos-1.json
+    Hechizos-2.json
+    Hechizos-3.json
   generated/
   overrides/
+  local/
 docs/
 AGENTS.md
 README.md
@@ -134,6 +138,7 @@ Permitir que la aplicación cargue una fuente española versionada y la conviert
 ### Incluye
 
 - Lectura de `data/generated/spells-es.generated.json`.
+- Fuente original trazable en `data/raw/Hechizos-1.json`, `data/raw/Hechizos-2.json` y `data/raw/Hechizos-3.json`.
 - Lectura de `data/overrides/spells-es.overrides.json`.
 - Validación mínima de ambos archivos.
 - Aplicación de overrides sobre el dataset generado.
@@ -188,7 +193,7 @@ Para el flujo principal del MVP, `listType` será normalmente `CLASS`.
 - El frontend puede obtener listas, resultados y detalle.
 - El detalle incluye texto español, texto inglés de referencia y notas personales.
 - La API funciona sin conexión externa.
-- Los nombres y estructuras finales quedan pendientes de `docs/10-api-rest.md`.
+- Los nombres y estructuras finales quedan fijados en `docs/07-contrato-api-rest.md`.
 
 ## Fase 4 - Búsqueda avanzada MVP
 

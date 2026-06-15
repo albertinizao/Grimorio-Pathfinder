@@ -12,9 +12,15 @@ La fuente canónica española vive en archivos versionados.
 
 SQLite no es la fuente única de verdad. SQLite es una proyección local reconstruible usada para consulta, búsqueda y rendimiento.
 
-Flujo conceptual:
+Flujo actual:
 
 ```text
+data/raw/Hechizos-1.json
+        +
+data/raw/Hechizos-2.json
+        +
+data/raw/Hechizos-3.json
+        +
 data/generated/spells-es.generated.json
         +
 data/overrides/spells-es.overrides.json
@@ -71,6 +77,8 @@ No vive en:
 - un archivo separado de notas;
 - SQLite como fuente canónica.
 
+La implementación actual puede transportar `personalNotes` vacías o auxiliares en el dataset generado, pero las notas del usuario siguen viviendo canónicamente en overrides.
+
 SQLite contiene una copia efectiva reconstruible para consulta y búsqueda.
 
 ## Estructura de carpetas
@@ -80,7 +88,9 @@ Estructura esperada:
 ```text
 data/
   raw/
-    spells.csv
+    Hechizos-1.json
+    Hechizos-2.json
+    Hechizos-3.json
   generated/
     spells-es.generated.json
   overrides/
@@ -95,7 +105,9 @@ Contiene fuentes originales.
 Ejemplo:
 
 ```text
-data/raw/spells.csv
+data/raw/Hechizos-1.json
+data/raw/Hechizos-2.json
+data/raw/Hechizos-3.json
 ```
 
 Reglas:
@@ -122,7 +134,7 @@ Reglas:
 - No debe editarse manualmente desde la aplicación.
 - Puede sobrescribirse al regenerar traducciones.
 - No contiene las correcciones manuales finales si existen overrides.
-- No contiene `personalNotes`.
+- Puede conservar `personalNotes` vacías si el pipeline las emite; las notas del usuario siguen viviendo canónicamente en overrides.
 
 ### `data/overrides/`
 
@@ -183,7 +195,7 @@ Representa la biblioteca española generada previamente.
 
 | Campo | Tipo | Obligatorio | Reglas |
 |---|---:|---:|---|
-| `schemaVersion` | integer | sí | Versión del contrato JSON. Para este documento: `1`. |
+| `version` | integer | sí | Versión del contrato JSON. Para este documento: `1`. |
 | `generatedAt` | string ISO-8601 | sí | Fecha de generación del dataset. |
 | `sourceName` | string/null | sí | Nombre de la fuente o pipeline si se conoce. Puede ser `null`. |
 | `spells` | array | sí | Lista de conjuros generados. |
@@ -217,6 +229,9 @@ Todos estos campos deben existir en cada elemento de `spells`. Si el dato no exi
 | `sourceBook` | string/null | sí | `null` si no se conoce. |
 | `sourcePage` | integer/null | sí | `null` si no se conoce. |
 | `sourceName` | string/null | sí | Nombre de fuente específica si existe. |
+| `personalNotes` | string | sí | Notas auxiliares del dataset generado; normalmente `""`. |
+| `createdAt` | string ISO-8601/null | sí | Fecha de creación del registro efectivo. |
+| `updatedAt` | string ISO-8601/null | sí | Fecha de última modificación del registro efectivo. |
 | `translationStatus` | string | no | Debe pertenecer al enum permitido. |
 | `lists` | array | sí | Entradas `SpellListEntry`; puede estar vacío solo con advertencia. |
 
@@ -247,9 +262,9 @@ En `spells-es.generated.json`, lo normal es usar `NOT_TRANSLATED`, `AI_TRANSLATE
 
 ```json
 {
-  "schemaVersion": 1,
+  "version": 1,
   "generatedAt": "2026-06-11T00:00:00Z",
-  "sourceName": "pipeline-local",
+  "sourceName": "Hechizos-1.json + Hechizos-2.json + Hechizos-3.json",
   "spells": [
     {
       "id": "neutralize-poison",
@@ -274,7 +289,10 @@ En `spells-es.generated.json`, lo normal es usar `NOT_TRANSLATED`, `AI_TRANSLATE
       "descriptionEn": "You detoxify any sort of venom.",
       "sourceBook": "Core Rulebook",
       "sourcePage": null,
-      "sourceName": "spells.csv",
+      "sourceName": "Hechizos-1.json",
+      "personalNotes": "",
+      "createdAt": "2026-06-11T00:00:00Z",
+      "updatedAt": "2026-06-11T00:00:00Z",
       "translationStatus": "AI_TRANSLATED",
       "lists": [
         {
@@ -319,7 +337,7 @@ Los overrides representan cambios manuales del usuario sobre el dataset generado
 
 | Campo | Tipo | Obligatorio | Reglas |
 |---|---:|---:|---|
-| `schemaVersion` | integer | sí | Versión del contrato JSON. Para este documento: `1`. |
+| `version` | integer | sí | Versión del contrato JSON. Para este documento: `1`. |
 | `updatedAt` | string ISO-8601/null | sí | Última actualización conocida del archivo. |
 | `spells` | object | sí | Mapa por `spellId`. Puede estar vacío. |
 
@@ -360,7 +378,7 @@ No se permiten overrides de `nameEn`, `descriptionEn`, `sourceHash`, `sourceBook
 
 ```json
 {
-  "schemaVersion": 1,
+  "version": 1,
   "updatedAt": "2026-06-11T00:00:00Z",
   "spells": {
     "neutralize-poison": {
@@ -380,7 +398,7 @@ No se permiten overrides de `nameEn`, `descriptionEn`, `sourceHash`, `sourceBook
 
 ```json
 {
-  "schemaVersion": 1,
+  "version": 1,
   "updatedAt": "2026-06-11T00:00:00Z",
   "spells": {
     "neutralize-poison": {
@@ -637,7 +655,7 @@ Al importar, validar al menos:
 
 - el JSON generado existe;
 - el JSON generado puede parsearse;
-- `schemaVersion` es compatible;
+- `version` es compatible;
 - cada conjuro tiene `id`;
 - no hay duplicados de `id`;
 - cada conjuro tiene `nameEs` o está marcado como `NOT_TRANSLATED`;
@@ -658,7 +676,7 @@ Debe detener la importación si:
 - el JSON generado no existe;
 - el JSON generado no puede parsearse;
 - falta una estructura básica imprescindible;
-- `schemaVersion` no es compatible;
+- `version` no es compatible;
 - hay duplicados irresolubles de `id`;
 - un `SpellListEntry.level` es negativo.
 

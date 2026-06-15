@@ -564,7 +564,7 @@ Reglas:
 - Los resultados de búsqueda deben ser compactos.
 - La lógica de filtrado y búsqueda no debe vivir en controladores.
 - La documentación actual define contrato funcional mínimo.
-- La especificación REST cerrada debe quedar en `docs/10-api-rest.md`.
+- La especificación REST cerrada queda en `docs/07-contrato-api-rest.md`.
 
 ## Relación con frontend
 

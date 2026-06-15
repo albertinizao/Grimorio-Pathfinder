@@ -68,7 +68,7 @@ El bloqueo por campo queda fuera del MVP.
 data/overrides/spells-es.overrides.json
 ```
 
-No vive en `spells-es.generated.json` ni en un archivo separado durante el MVP.
+Las notas del usuario viven canónicamente en overrides; el dataset generado puede transportar el campo vacío o auxiliar, pero no es la fuente canónica.
 
 SQLite solo guarda una copia efectiva para consulta y búsqueda.
 
@@ -364,7 +364,7 @@ Ejemplo:
 
 ```json
 {
-  "schemaVersion": 1,
+  "version": 1,
   "updatedAt": "2026-06-11T00:00:00Z",
   "spells": {
     "neutralize-poison": {
@@ -383,7 +383,7 @@ Ejemplo de bloqueo:
 
 ```json
 {
-  "schemaVersion": 1,
+  "version": 1,
   "updatedAt": "2026-06-11T00:00:00Z",
   "spells": {
     "neutralize-poison": {
@@ -579,7 +579,7 @@ Reglas:
 
 - Puede regenerarse.
 - No contiene correcciones manuales finales.
-- No contiene `personalNotes`.
+- No contiene `personalNotes` del usuario; la implementación actual puede transportar el campo vacío como parte del dataset generado.
 - Debe conservar texto inglés.
 - Debe traer estados iniciales de traducción.
 - Debe poder combinarse con overrides.
@@ -729,7 +729,7 @@ Las rutas finales pueden cambiar, pero deben cubrir estos casos de uso.
 El contrato REST definitivo debe documentarse en:
 
 ```text
-docs/10-api-rest.md
+docs/07-contrato-api-rest.md
 ```
 
 Hasta que exista ese documento, estos endpoints son contrato funcional mínimo, no especificación OpenAPI final.
