@@ -13,7 +13,7 @@ import type {
   UpdateTranslationStatusRequest,
 } from "../types/spell";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? "";
 
 async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
   const method = init?.method?.toUpperCase() ?? "GET";

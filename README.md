@@ -226,6 +226,16 @@ Una funcionalidad se considera bien implementada si:
 - Backend: `./mvnw test` (`mvnw.cmd test` en Windows)
 - Frontend: `cd frontend && npm install && npm run build`
 
+## Ejecución simultánea con Kazkum Koldugum Summons
+
+Para evitar colisiones de puertos cuando ambos proyectos se ejecutan a la vez:
+
+- Backend de Grimorio: `8081`
+- Frontend de Grimorio: `5174`
+
+En desarrollo, el frontend consume el API mediante rutas relativas (`/api`) para que Vite pueda hacer proxy al backend.
+Si necesitas apuntar a otro host en un despliegue externo, define `VITE_API_BASE_URL`.
+
 ## Verificación local completa
 
 Cuando quieras comprobar el flujo local completo, ejecuta:
