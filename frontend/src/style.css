@@ -340,6 +340,13 @@ textarea:focus {
   flex: 1 1 auto;
 }
 
+.result-name-en {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
 .result-level {
   color: #cbd5e1;
   font-size: 0.78rem;
@@ -435,6 +442,56 @@ textarea:focus {
 
 .fields-grid .textarea-field {
   grid-column: 1 / -1;
+}
+
+.translation-field {
+  min-width: 0;
+}
+
+.translation-editor {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.9fr);
+  align-items: start;
+}
+
+.translation-editor textarea {
+  min-height: 140px;
+}
+
+.field-reference {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(8, 15, 31, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  color: #cbd5e1;
+  min-width: 0;
+}
+
+.field-reference--panel {
+  height: 100%;
+}
+
+.field-reference__label {
+  color: #93c5fd;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.field-reference__value {
+  margin: 0;
+  color: #e2e8f0;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.field-reference__value--block {
+  max-height: 100%;
+  overflow: auto;
 }
 
 .textarea-field textarea {
@@ -537,6 +594,10 @@ dd {
   }
 
   .fields-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .translation-editor {
     grid-template-columns: 1fr;
   }
 

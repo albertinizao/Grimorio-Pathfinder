@@ -1,6 +1,6 @@
 {
   "version" : 1,
-  "updatedAt" : "2026-06-15T12:05:34.843548500Z",
+  "updatedAt" : "2026-07-12T20:18:15.578786800Z",
   "spells" : {
     "delay-poison" : {
       "fields" : null,
@@ -59,6 +59,160 @@
       },
       "personalNotes" : "",
       "updatedAt" : "2026-06-15T12:05:34.843548500Z",
+      "reason" : null
+    },
+    "grave-words" : {
+      "fields" : {
+        "nameEs" : "Palabras de la Tumba",
+        "school" : "nigromancia",
+        "subschool" : "",
+        "descriptors" : [ "dependiente del idioma" ],
+        "castingTime" : "1 minuto",
+        "components" : "S",
+        "range" : "Toque",
+        "target" : "una criatura muerta",
+        "effect" : "",
+        "area" : "",
+        "duration" : "1 ronda",
+        "savingThrow" : "",
+        "spellResistance" : "",
+        "descriptionEs" : "Con este hechizo y un toque, puedes forzar a un cadáver a hablar contigo, pero no puedes hacerle preguntas específicas ni comunicarte con él en absoluto. El cadáver empezará a balbucear durante 1 ronda, escupiendo frases al azar. Hay un 10% de probabilidad de que esta información sea útil para el lanzador, pero es difícil distinguir si es útil (el DJ saca el percentil en secreto). La información útil puede incluir advertencias sobre peligros más profundos en una mazmorra, la palabra de mando de un objeto mágico, o incluso advertencias vagas y espectrales sobre tu futuro o el de tus compañeros. El DJ decide qué información, útil o no, el cadáver suelta en su balbuceo. Una vez que un cadáver ha sido objeto de palabras graves por un lanzador de un nuevo cadáver, cualquier nuevo intento de lanzar palabras graves sobre ese cadáver fracasa. Puedes lanzar este hechizo sobre un cadáver que haya estado fallecido durante cualquier tiempo, pero la cabeza del cadáver debe tener boca para poder hablar. Este hechizo no afecta a un cadáver que ha sido convertido en una criatura no-muerta.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-06-21T09:58:11.935676300Z",
+      "reason" : null
+    },
+    "atrapo-de-hormigas" : {
+      "fields" : {
+        "nameEs" : "Carga de la hormiga",
+        "school" : "transmutación",
+        "subschool" : "",
+        "descriptors" : [ ],
+        "castingTime" : "1 Acción estándar",
+        "components" : "V, S, M/DF (una polea pequeña)",
+        "range" : "Toque",
+        "target" : "criatura tocada",
+        "effect" : "",
+        "area" : "",
+        "duration" : "2 horas/nivel",
+        "savingThrow" : "Fortaleza anula (inofensivo)",
+        "spellResistance" : "Sí (inofensivo)",
+        "descriptionEs" : "La capacidad de carga del objetivo se triplica (véase la Tabla 7-4: Capacidad de carga en la página 171 del Manual Básico). Esto no afecta en absoluto la Fuerza real de la criatura, solo la cantidad de material que puede transportar mientras se beneficia de este hechizo. Tampoco afecta la carga debido a la armadura. Si la criatura lleva armadura, sigue recibiendo las penalizaciones normales por hacerlo, independientemente del peso que le permita el hechizo.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-07-12T14:52:39.267944600Z",
+      "reason" : null
+    },
+    "bendita-sea" : {
+      "fields" : {
+        "nameEs" : "Bendecir",
+        "school" : "encantamiento",
+        "subschool" : "compulsión",
+        "descriptors" : [ "afectación mental" ],
+        "castingTime" : "1 Acción estándar",
+        "components" : "V, S, DF",
+        "range" : "50 pies.",
+        "target" : "",
+        "effect" : "",
+        "area" : "El lanzador y todos los aliados en una ráfaga de 50 pies, centrados en el lanzador",
+        "duration" : "1 min./nivel",
+        "savingThrow" : "ninguno",
+        "spellResistance" : "Sí (inofensivo)",
+        "descriptionEs" : "Bendecir llena a tus aliados de valor. Cada aliado gana un bono de moral +1 en tiradas de ataque y en tiradas de salvación contra efectos de miedo. Bendecir contrarresta y disipa a la maldición.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-07-12T14:55:01.781985200Z",
+      "reason" : null
+    },
+    "bendice-el-agua" : {
+      "fields" : {
+        "nameEs" : "Bendecir agua",
+        "school" : "transmutación",
+        "subschool" : "",
+        "descriptors" : [ "bien" ],
+        "castingTime" : "1 minuto",
+        "components" : "V, S, M (5 libras de plata en polvo valoradas en 25 gp)",
+        "range" : "Toque",
+        "target" : "Un termo de agua tocado",
+        "effect" : "",
+        "area" : "",
+        "duration" : "instantáneo",
+        "savingThrow" : "Negación de voluntad (objeto)",
+        "spellResistance" : "sí (objeto)",
+        "descriptionEs" : "Esta transmutación imbuye un frasco (1 pinta) de agua con energía positiva, convirtiéndola en agua bendita.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-07-12T14:55:39.236333900Z",
+      "reason" : null
+    },
+    "defending-bone" : {
+      "fields" : {
+        "nameEs" : "Hueso defensor",
+        "school" : "nigromancia",
+        "subschool" : "",
+        "descriptors" : [ ],
+        "castingTime" : "1 Acción estándar",
+        "components" : "V, S, F (el cráneo o fémur de una criatura media), DF",
+        "range" : "Vida personal",
+        "target" : "tú",
+        "effect" : "",
+        "area" : "",
+        "duration" : "1 hora/nivel o hasta que se agote",
+        "savingThrow" : "",
+        "spellResistance" : "",
+        "descriptionEs" : "Animas un hueso con energía nigromántica, dándole el poder de flotar cerca de tu cuerpo e interponerse contra ataques físicos. Esto te da reducción de daño 5/contundente. Una vez que el hueso ha evitado un total de 5 puntos de daño por nivel de lanzador (máximo 50 puntos), se destruye y el hechizo se descarga. Este hechizo no tiene efecto si tienes reducción de daño de otra fuente.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-07-12T20:09:45.699230Z",
+      "reason" : null
+    },
+    "endure-elements-communal" : {
+      "fields" : {
+        "nameEs" : "Resistencia a los elementos, Comunal",
+        "school" : "abjuración",
+        "subschool" : "",
+        "descriptors" : [ ],
+        "castingTime" : "1 Acción estándar",
+        "components" : "V, S",
+        "range" : "Toque",
+        "target" : "criaturas tocadas",
+        "effect" : "",
+        "area" : "",
+        "duration" : "24 horas",
+        "savingThrow" : "Negaciones de voluntad (inofensivas)",
+        "spellResistance" : "Sí (inofensivo)",
+        "descriptionEs" : "Este hechizo funciona como los elementos de resistencia, excepto que divides la duración en incrementos de 1 hora entre las criaturas tocadas.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-07-12T20:12:14.052212400Z",
+      "reason" : null
+    },
+    "ant-haul-communal" : {
+      "fields" : {
+        "nameEs" : "Carga de la hormiga, Comunal",
+        "school" : "transmutación",
+        "subschool" : "",
+        "descriptors" : [ ],
+        "castingTime" : "1 Acción estándar",
+        "components" : "V, S, M/DF (una polea pequeña)",
+        "range" : "Toque",
+        "target" : "criaturas tocadas",
+        "effect" : "",
+        "area" : "",
+        "duration" : "2 horas/nivel",
+        "savingThrow" : "Fortaleza anula (inofensivo)",
+        "spellResistance" : "Sí (inofensivo)",
+        "descriptionEs" : "Este hechizo funciona como un acarreo de hormigas (véase la página 202 de la Guía Avanzada para Jugadores de Pathfinder RPG), excepto que puedes dividir la duración en intervalos de 2 horas entre las criaturas tocadas.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-07-12T20:18:15.578786800Z",
       "reason" : null
     }
   }

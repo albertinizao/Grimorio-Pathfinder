@@ -53,6 +53,7 @@ class SpellApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.results.length()").value(1))
                 .andExpect(jsonPath("$.results[0].spellId").value("delay-poison"))
+                .andExpect(jsonPath("$.results[0].nameEn").value("Delay Poison"))
                 .andExpect(jsonPath("$.results[0].matchSource").value("personalNotes"))
                 .andExpect(jsonPath("$.results[0].hasPersonalNotes").value(true))
                 .andExpect(jsonPath("$.results[0].translationStatus").value("AI_TRANSLATED"));

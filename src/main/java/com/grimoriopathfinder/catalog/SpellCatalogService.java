@@ -371,6 +371,7 @@ public class SpellCatalogService {
                 spell.id(),
                 spell.slug(),
                 spell.nameEs(),
+                spell.nameEn(),
                 selectedList,
                 spell.school(),
                 spell.subschool(),

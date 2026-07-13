@@ -51,6 +51,7 @@ export interface SpellSearchResult {
   spellId: string;
   slug: string;
   nameEs: string;
+  nameEn: string | null;
   selectedList: SpellSelectedList;
   school: string | null;
   subschool: string | null;

@@ -637,6 +637,7 @@ onBeforeUnmount(() => {
             <div class="result-topline">
               <div class="result-title">
                 <strong>{{ result.nameEs }}</strong>
+                <span class="result-name-en">{{ formatSearchValue(result.nameEn) }}</span>
                 <span class="result-level">Lv {{ result.selectedList.level }}</span>
               </div>
               <button class="edit-button" type="button" @click.stop="openSpell(result.spellId, 'edit')">
@@ -824,9 +825,13 @@ onBeforeUnmount(() => {
               </div>
 
               <div class="fields-grid">
-                <label>
+                <label class="translation-field">
                   <span>Nombre español</span>
                   <input v-model="fieldDrafts.nameEs" type="text" />
+                  <div class="field-reference">
+                    <span class="field-reference__label">Original en inglés</span>
+                    <p class="field-reference__value">{{ formatSearchValue(selectedSpell.nameEn) }}</p>
+                  </div>
                 </label>
                 <label>
                   <span>Escuela</span>
@@ -876,9 +881,17 @@ onBeforeUnmount(() => {
                   <span>Resistencia a conjuros</span>
                   <input v-model="fieldDrafts.spellResistance" type="text" />
                 </label>
-                <label class="textarea-field">
+                <label class="textarea-field translation-field">
                   <span>Descripción española</span>
-                  <textarea v-model="fieldDrafts.descriptionEs" rows="7"></textarea>
+                  <div class="translation-editor">
+                    <textarea v-model="fieldDrafts.descriptionEs" rows="7"></textarea>
+                    <aside class="field-reference field-reference--panel">
+                      <span class="field-reference__label">Original en inglés</span>
+                      <p class="field-reference__value field-reference__value--block">
+                        {{ formatSearchValue(selectedSpell.descriptionEn) }}
+                      </p>
+                    </aside>
+                  </div>
                 </label>
               </div>
             </section>

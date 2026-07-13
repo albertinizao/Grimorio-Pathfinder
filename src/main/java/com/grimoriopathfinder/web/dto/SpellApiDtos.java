@@ -60,6 +60,7 @@ public final class SpellApiDtos {
             String spellId,
             String slug,
             String nameEs,
+            String nameEn,
             SpellSelectedListDto selectedList,
             String school,
             String subschool,
