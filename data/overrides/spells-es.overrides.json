@@ -1,6 +1,6 @@
 {
   "version" : 1,
-  "updatedAt" : "2026-07-12T20:18:15.578786800Z",
+  "updatedAt" : "2026-07-18T08:23:08.657209400Z",
   "spells" : {
     "delay-poison" : {
       "fields" : null,
@@ -213,6 +213,28 @@
       },
       "personalNotes" : "",
       "updatedAt" : "2026-07-12T20:18:15.578786800Z",
+      "reason" : null
+    },
+    "escudo-otros" : {
+      "fields" : {
+        "nameEs" : "Escudar a otros",
+        "school" : "abjuración",
+        "subschool" : "",
+        "descriptors" : [ ],
+        "castingTime" : "1 Acción estándar",
+        "components" : "V, S, F (un par de anillos de platino valorados en 50 po que llevan tanto tú como el objetivo)",
+        "range" : "Cierre (25 pies + 5 pies/2 niveles)",
+        "target" : "una criatura",
+        "effect" : "",
+        "area" : "",
+        "duration" : "1 hora/nivel (D)",
+        "savingThrow" : "Negaciones de voluntad (inofensivas)",
+        "spellResistance" : "Sí (inofensivo)",
+        "descriptionEs" : "Este hechizo protege al sujeto y crea una conexión mística entre tú y el sujeto, de modo que algunas de sus heridas se transfieren a ti. El sujeto obtiene un bono de +1 de desviación a la CA y un bono de resistencia de +1 en las tiradas de salvación. Además, el sujeto recibe solo la mitad del daño de todas las heridas y ataques (incluidos los infligidos por habilidades especiales) que infligen daño en puntos de vida. La cantidad de daño que no recibe la criatura protegida la recibes tú. Las formas de daño que no implican puntos de vida, como los efectos de encantamiento, daño temporal de habilidades, drenaje de nivel y efectos de muerte, no se ven afectadas. Si el sujeto sufre una reducción de puntos de vida por una puntuación de Constitución baja, la reducción no se divide contigo porque no es daño en puntos de vida. Cuando termina el hechizo, el daño posterior ya no se divide entre el sujeto y tú, pero el daño ya dividido no se reasigna al sujeto. Si tú y el sujeto del hechizo os alejáis del alcance del otro, el hechizo termina.",
+        "translationStatus" : "MANUALLY_EDITED"
+      },
+      "personalNotes" : "",
+      "updatedAt" : "2026-07-18T08:23:08.657209400Z",
       "reason" : null
     }
   }
