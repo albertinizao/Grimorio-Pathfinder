@@ -33,7 +33,7 @@ data/generated/spells-es.generated.json
     ↓
 overrides manuales
     ↓
-SQLite local
+MariaDB local
     ↓
 consulta, búsqueda y edición en la app
 ```
@@ -70,7 +70,7 @@ data/overrides/spells-es.overrides.json
 
 Las notas del usuario viven canónicamente en overrides; el dataset generado puede transportar el campo vacío o auxiliar, pero no es la fuente canónica.
 
-SQLite solo guarda una copia efectiva para consulta y búsqueda.
+MariaDB solo guarda una copia efectiva para consulta y búsqueda.
 
 ## Objetivos
 
@@ -325,7 +325,7 @@ Campos editables en MVP:
 Cuando el usuario edita un campo traducido:
 
 ```text
-1. Actualizar el valor efectivo en SQLite.
+1. Actualizar el valor efectivo en MariaDB.
 2. Crear o actualizar el override correspondiente dentro de fields.
 3. Marcar el conjuro como MANUALLY_EDITED, salvo que el conjuro esté LOCKED o el usuario elija explícitamente otro estado.
 4. Actualizar índices si el campo es buscable.
@@ -335,7 +335,7 @@ Cuando el usuario edita un campo traducido:
 Cuando el usuario edita notas personales:
 
 ```text
-1. Actualizar notas en SQLite.
+1. Actualizar notas en MariaDB.
 2. Persistir notas como personalNotes en spells-es.overrides.json.
 3. Actualizar índices de búsqueda.
 4. No modificar descripción española.
@@ -636,7 +636,7 @@ Hacer esto:
 ```text
 abrir conjuro
     ↓
-leer conjuro efectivo desde SQLite
+leer conjuro efectivo desde MariaDB
     ↓
 mostrar campos españoles ya guardados
 ```
@@ -667,7 +667,7 @@ Campos editables que afectan a búsqueda:
 
 Reglas:
 
-- Tras editar, actualizar SQLite.
+- Tras editar, actualizar MariaDB.
 - Tras editar, actualizar índice.
 - La siguiente búsqueda debe usar el valor efectivo.
 - No buscar en el valor inglés aunque exista.
@@ -763,7 +763,7 @@ El usuario abre un conjuro y cambia `descriptionEs`.
 
 Resultado esperado:
 
-- se actualiza SQLite;
+- se actualiza MariaDB;
 - se crea/actualiza override en `fields.descriptionEs`;
 - el conjuro pasa a `MANUALLY_EDITED`, salvo que estuviera `LOCKED` o se indique otro estado explícitamente;
 - el texto inglés permanece intacto;
@@ -861,3 +861,4 @@ La gestión de traducción y edición es correcta si:
 - `LOCKED` no tiene doble semántica;
 - no se sobrescriben correcciones manuales;
 - el flujo funciona completamente offline.
+

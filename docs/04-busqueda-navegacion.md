@@ -742,13 +742,13 @@ Buscar en el dataset completo no debe bloquear perceptiblemente la UI.
 
 - Indexar campos de búsqueda.
 - No leer JSON en cada búsqueda.
-- Buscar contra SQLite, no contra archivos.
+- Buscar contra MariaDB, no contra archivos.
 - Evitar reconstruir índices salvo importación o edición de campos buscables.
 - La UI debe mostrar estado de carga si la búsqueda tarda.
 
-## Relación con SQLite
+## Relación con MariaDB
 
-SQLite debe almacenar lo necesario para búsqueda rápida.
+MariaDB debe almacenar lo necesario para búsqueda rápida.
 
 Puede usarse:
 
@@ -774,7 +774,7 @@ dataset generado + overrides = datos buscables efectivos
 
 Si un override modifica un campo buscable:
 
-- debe actualizarse SQLite;
+- debe actualizarse MariaDB;
 - debe actualizarse el índice;
 - la siguiente búsqueda debe reflejar el cambio.
 
@@ -927,3 +927,4 @@ La búsqueda y navegación del MVP son correctas si:
 - permiten abrir detalle;
 - conservan el contexto de búsqueda al volver;
 - funcionan completamente offline.
+

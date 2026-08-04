@@ -50,3 +50,4 @@ replay_pid*
 /frontend/dist/
 /frontend/.vite/
 /frontend/*.tsbuildinfo
+src/main/resources/application-local.properties

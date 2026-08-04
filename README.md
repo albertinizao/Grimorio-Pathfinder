@@ -30,7 +30,7 @@ La aplicación debe devolver todos los conjuros de la lista de clase lanzadora d
 - Backend: Java + Spring Boot.
 - Frontend: Vue.
 - Arquitectura backend: hexagonal.
-- Base de datos MVP: SQLite.
+- Base de datos MVP: MariaDB.
 - Aplicación local, personal y 100% offline.
 - Sin autenticación en MVP.
 - Sin Docker en MVP salvo petición explícita.
@@ -57,14 +57,14 @@ data/
   overrides/
     spells-es.overrides.json
   local/
-    grimorio.sqlite
+    gestion_grimorio
 ```
 
 Responsabilidades:
 
 - `spells-es.generated.json`: dataset español generado, regenerable y no editable desde la app.
 - `spells-es.overrides.json`: fuente canónica del MVP para correcciones manuales, estados manuales y `personalNotes`.
-- SQLite: proyección local reconstruible usada para búsqueda rápida y consulta.
+- MariaDB: proyección local reconstruible usada para búsqueda rápida y consulta.
 
 Las correcciones manuales tienen prioridad sobre el dataset generado y no deben sobrescribirse automáticamente.
 
@@ -93,7 +93,7 @@ data/overrides/spells-es.overrides.json
 
 No forma parte de `spells-es.generated.json` y no se guarda en un archivo separado durante el MVP.
 
-SQLite solo contiene una copia efectiva para consulta y búsqueda.
+MariaDB solo contiene una copia efectiva para consulta y búsqueda.
 
 ### Terminología
 
@@ -274,3 +274,20 @@ Si es la primera vez que trabajas con el frontend, instala antes sus dependencia
 cd .\frontend
 npm install
 ```
+
+### Ejecución empaquetada (backend + SPA)
+
+Para generar un artefacto único con la SPA incluida en el jar ejecutable:
+
+```powershell
+.\mvnw.cmd clean package
+java -jar .\target\grimorio-pathfinder-0.0.1-SNAPSHOT.jar
+```
+
+Durante `prepare-package`, Maven ejecuta `npm ci` y `npm run build` dentro de
+`frontend/` y copia `frontend/dist` a `static/` dentro del jar. Así, Spring Boot
+sirve la interfaz y la API desde el mismo origen. Las rutas del cliente (por
+ejemplo `/spells/123`) vuelven a `index.html`; las peticiones `/api/**`,
+`/actuator/**`, `/assets/**` y recursos inexistentes con extensión no usan ese
+fallback.
+

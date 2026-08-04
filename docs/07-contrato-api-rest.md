@@ -10,7 +10,7 @@ Base URL:
 /api
 ```
 
-La API es local, sin autenticación, pensada para consumo del frontend Vue y para uso offline sobre la proyección SQLite reconstruida desde los archivos versionados.
+La API es local, sin autenticación, pensada para consumo del frontend Vue y para uso offline sobre la proyección MariaDB reconstruida desde los archivos versionados.
 
 ## Resumen del contrato actual
 
@@ -292,3 +292,4 @@ El frontend actual consume estos recursos vía proxy local de Vite:
 - `PATCH /api/spells/{spellId}/translation-status`
 
 No debe reconstruir el conjuro efectivo por su cuenta ni escribir overrides directamente.
+

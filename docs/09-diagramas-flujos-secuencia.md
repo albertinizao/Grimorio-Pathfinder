@@ -29,7 +29,7 @@ flowchart TB
     Importer[SpellDatasetImportService]
     JsonRepo[JSON repositories]
     OverrideWriter[SpellOverridesJsonRepository]
-    Sqlite[SpellCatalogSqliteRepository]
+    MariaDB[SpellCatalogMariaDBRepository]
   end
 
   subgraph Data[Archivos y proyección]
@@ -37,7 +37,7 @@ flowchart TB
 Hechizos-1/2/3]
     Generated[spells-es.generated.json]
     Overrides[spells-es.overrides.json]
-    LocalDB[data/local/grimorio.sqlite]
+    LocalDB[data/local/gestion_grimorio]
   end
 
   UI --> Controller
@@ -49,11 +49,11 @@ Hechizos-1/2/3]
   Service --> Importer
   Service --> JsonRepo
   Service --> OverrideWriter
-  Service --> Sqlite
+  Service --> MariaDB
   Importer --> Raw
   Importer --> Generated
   Importer --> Overrides
-  Sqlite --> LocalDB
+  MariaDB --> LocalDB
 ```
 
 ## Responsabilidades por capa
@@ -61,7 +61,7 @@ Hechizos-1/2/3]
 - **Frontend Vue**: muestra búsqueda, detalle y edición.
 - **Web / API**: expone endpoints REST y traduce errores a `ProblemDetail`.
 - **Service**: orquesta lectura, búsqueda, detalle y escritura de overrides.
-- **Infrastructure**: importa JSON, compone el spell efectivo y reconstruye SQLite.
+- **Infrastructure**: importa JSON, compone el spell efectivo y reconstruye MariaDB.
 - **Data**: mantiene la fuente canónica versionada y la proyección local.
 
 ## Casos de uso cubiertos
@@ -90,7 +90,7 @@ spells-es.generated.json]
 spells-es.overrides.json] --> D[Importador local]
   B --> D
   D --> E[Spell efectivo]
-  E --> F[Rebuild SQLite local]
+  E --> F[Rebuild MariaDB local]
 ```
 
 ### Secuencia
@@ -101,7 +101,7 @@ sequenceDiagram
   participant Gen as Generated JSON
   participant Ov as Overrides JSON
   participant Imp as SpellDatasetImportService
-  participant Db as SpellCatalogSqliteRepository
+  participant Db as SpellCatalogMariaDBRepository
 
   Raw->>Imp: leer fuentes raw
   Gen->>Imp: leer spells-es.generated.json
@@ -122,7 +122,7 @@ sequenceDiagram
 flowchart TD
   A[Frontend] --> B[GET /api/spell-lists]
   B --> C[SpellCatalogService.listSpellLists]
-  C --> D[SQLite: listSpellLists]
+  C --> D[MariaDB: listSpellLists]
   D --> E[SpellListsResponseDto]
   E --> F[Frontend]
 ```
@@ -134,7 +134,7 @@ sequenceDiagram
   participant UI as Frontend Vue
   participant API as SpellApiController
   participant Service as SpellCatalogService
-  participant DB as SpellCatalogSqliteRepository
+  participant DB as SpellCatalogMariaDBRepository
 
   UI->>API: GET /api/spell-lists?listType=CLASS
   API->>Service: listSpellLists(listType)
@@ -154,7 +154,7 @@ sequenceDiagram
 flowchart TD
   A[Frontend] --> B[GET /api/spell-lists/levels]
   B --> C[SpellCatalogService.getSpellListLevels]
-  C --> D[SQLite: getSpellListLevels]
+  C --> D[MariaDB: getSpellListLevels]
   D --> E{¿Lista existe?}
   E -- sí --> F[SpellListLevelsResponseDto]
   E -- no --> G[422 ProblemDetail]
@@ -167,7 +167,7 @@ sequenceDiagram
   participant UI as Frontend Vue
   participant API as SpellApiController
   participant Service as SpellCatalogService
-  participant DB as SpellCatalogSqliteRepository
+  participant DB as SpellCatalogMariaDBRepository
 
   UI->>API: GET /api/spell-lists/levels?listType=CLASS&listName=Clérigo
   API->>Service: getSpellListLevels(listType, listName)
@@ -193,7 +193,7 @@ sequenceDiagram
 flowchart TD
   A[Frontend] --> B[GET /api/spells/search]
   B --> C[SpellCatalogService.searchSpells]
-  C --> D[SQLite: candidatos por lista y nivel]
+  C --> D[MariaDB: candidatos por lista y nivel]
   D --> E[Normalización y match textual]
   E --> F[Ranking y snippet]
   F --> G[SpellSearchResponseDto]
@@ -207,7 +207,7 @@ sequenceDiagram
   participant UI as Frontend Vue
   participant API as SpellApiController
   participant Service as SpellCatalogService
-  participant DB as SpellCatalogSqliteRepository
+  participant DB as SpellCatalogMariaDBRepository
 
   UI->>API: GET /api/spells/search?listType=CLASS&listName=Clérigo&maxLevel=3&levelMode=UP_TO&q=veneno
   API->>Service: searchSpells(...)
@@ -230,7 +230,7 @@ sequenceDiagram
 flowchart TD
   A[Frontend] --> B[GET /api/spells/{spellId}]
   B --> C[SpellCatalogService.getSpellDetail]
-  C --> D[SQLite: findSpellById]
+  C --> D[MariaDB: findSpellById]
   D --> E[Detalle efectivo]
   E --> F[SpellDetailResponseDto]
   F --> G[Frontend]
@@ -243,7 +243,7 @@ sequenceDiagram
   participant UI as Frontend Vue
   participant API as SpellApiController
   participant Service as SpellCatalogService
-  participant DB as SpellCatalogSqliteRepository
+  participant DB as SpellCatalogMariaDBRepository
 
   UI->>API: GET /api/spells/{spellId}
   API->>Service: getSpellDetail(spellId)
@@ -267,7 +267,7 @@ flowchart TD
   D --> E[Merge de campos]
   E --> F[Actualizar translationStatus]
   F --> G[Escribir overrides]
-  G --> H[Rebuild SQLite]
+  G --> H[Rebuild MariaDB]
   H --> I[Detalle actualizado]
 ```
 
@@ -279,7 +279,7 @@ sequenceDiagram
   participant API as SpellApiController
   participant Service as SpellCatalogService
   participant Ov as SpellOverridesJsonRepository
-  participant DB as SpellCatalogSqliteRepository
+  participant DB as SpellCatalogMariaDBRepository
 
   UI->>API: PATCH /api/spells/{spellId}/fields
   API->>Service: updateSpellFields(spellId, request)
@@ -305,7 +305,7 @@ flowchart TD
   C --> D[Leer override actual]
   D --> E[Actualizar personalNotes]
   E --> F[Escribir overrides]
-  F --> G[Rebuild SQLite]
+  F --> G[Rebuild MariaDB]
   G --> H[Detalle actualizado]
 ```
 
@@ -317,7 +317,7 @@ sequenceDiagram
   participant API as SpellApiController
   participant Service as SpellCatalogService
   participant Ov as SpellOverridesJsonRepository
-  participant DB as SpellCatalogSqliteRepository
+  participant DB as SpellCatalogMariaDBRepository
 
   UI->>API: PATCH /api/spells/{spellId}/notes
   API->>Service: updatePersonalNotes(spellId, request)
@@ -345,7 +345,7 @@ flowchart TD
   D -- no --> F[Conservar merge de override]
   E --> G[Escribir overrides]
   F --> G
-  G --> H[Rebuild SQLite]
+  G --> H[Rebuild MariaDB]
   H --> I[Detalle actualizado]
 ```
 
@@ -357,7 +357,7 @@ sequenceDiagram
   participant API as SpellApiController
   participant Service as SpellCatalogService
   participant Ov as SpellOverridesJsonRepository
-  participant DB as SpellCatalogSqliteRepository
+  participant DB as SpellCatalogMariaDBRepository
 
   UI->>API: PATCH /api/spells/{spellId}/translation-status
   API->>Service: updateTranslationStatus(spellId, request)
@@ -396,7 +396,8 @@ flowchart TD
 Estos diagramas reflejan el comportamiento actual de la aplicación:
 
 - la fuente canónica vive en archivos versionados;
-- SQLite es reconstruible;
+- MariaDB es reconstruible;
 - la API local expone lectura y edición;
 - el frontend solo consume la API;
 - las reglas de negocio viven en el servicio, no en la UI.
+

@@ -7,7 +7,23 @@ on:
 
 jobs:
   verify-local:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:11.4
+        env:
+          MARIADB_DATABASE: gestion_grimorio
+          MARIADB_USER: gestion_app
+          MARIADB_PASSWORD: ci-password
+          MARIADB_ROOT_PASSWORD: ci-root-password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
 
     steps:
       - name: Checkout
@@ -43,4 +59,8 @@ jobs:
         run: python -m playwright install chromium
 
       - name: Run local verification
-        run: python .\scripts\verify_local.py
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mariadb://localhost:3306/gestion_grimorio
+          SPRING_DATASOURCE_USERNAME: gestion_app
+          SPRING_DATASOURCE_PASSWORD: ci-password
+        run: python scripts/verify_local.py

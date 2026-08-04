@@ -1,0 +1,6 @@
+spring.datasource.url=jdbc:mariadb://localhost:3306/gestion_grimorio
+spring.datasource.username=gestion_app
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=validate
+spring.flyway.enabled=true
+spring.sql.init.mode=never

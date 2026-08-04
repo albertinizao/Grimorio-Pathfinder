@@ -70,7 +70,7 @@ The system MUST persist translation state only through `translationStatus`. `LOC
 
 ### Requirement: Reimport and Rebuild Safety
 
-Manual overrides MUST survive generated dataset reloads and SQLite rebuilds without data loss.
+Manual overrides MUST survive generated dataset reloads and MariaDB rebuilds without data loss.
 
 #### Scenario: Reimport generated data after manual editing
 
@@ -105,3 +105,4 @@ Manual overrides MUST survive generated dataset reloads and SQLite rebuilds with
 
 - When a user clears a previously overridden Spanish field, should the system persist an explicit empty override or remove that override key?
 - Does the MVP need field-level metadata such as last-edited timestamps in overrides, or is spell-level change tracking sufficient?
+

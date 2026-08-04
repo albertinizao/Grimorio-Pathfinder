@@ -177,7 +177,7 @@ Overrides MUST survive even when the generated dataset no longer contains the re
 ## Non-goals
 
 - Defining the generated dataset schema in full detail
-- Defining SQLite table design or search indexing
+- Defining MariaDB table design or search indexing
 - Defining REST DTOs or UI layouts
 - Defining English-text search behavior
 - Defining AI translation pipeline behavior
@@ -200,3 +200,4 @@ Overrides MUST survive even when the generated dataset no longer contains the re
 - Override entries can be associated reliably with spells through stable spell identifiers.
 - English reference text remains sourced from effective spell data, not manually rewritten as part of normal override usage.
 - Manual editing may affect Spanish gameplay fields, `personalNotes`, and `translationStatus`.
+

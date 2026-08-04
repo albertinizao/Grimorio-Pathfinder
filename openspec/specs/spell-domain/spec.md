@@ -148,7 +148,7 @@ The domain MUST preserve source metadata when the imported dataset provides it.
 
 - Defining JSON file formats or import procedures
 - Defining override persistence mechanics
-- Defining SQLite tables, indexes, or rebuild workflows
+- Defining MariaDB tables, indexes, or rebuild workflows
 - Defining REST DTOs or frontend presentation
 - Defining search behavior, ranking, or English-text search
 - Defining translation workflows or AI generation pipelines
@@ -169,3 +169,4 @@ The domain MUST preserve source metadata when the imported dataset provides it.
   composition is specified outside this domain spec.
 - Canonical terminology remains `lista de clase lanzadora` and `lista de conjuros`.
 - `listType` must remain extensible rather than locked to a closed enum in the MVP.
+

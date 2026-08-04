@@ -11,7 +11,7 @@ Uso principal: encontrar rápidamente conjuros útiles durante una partida o dur
 - Backend: Java + Spring Boot.
 - Frontend: Vue.
 - Arquitectura backend: hexagonal.
-- Base de datos MVP: SQLite.
+- Base de datos MVP: MariaDB.
 - Aplicación local, personal y 100% offline.
 - Sin autenticación en MVP.
 - Sin Docker en MVP salvo petición explícita.
@@ -35,7 +35,7 @@ No introducir formas alternativas para el mismo concepto.
 - El texto inglés original debe conservarse como referencia.
 - La búsqueda del MVP se realiza solo sobre contenido español efectivo y notas personales.
 - La fuente canónica española vive en archivos versionados.
-- La base SQLite es una proyección local reconstruible para búsqueda y uso rápido.
+- La base MariaDB es una proyección local reconstruible para búsqueda y uso rápido.
 
 Estructura conceptual:
 
@@ -58,7 +58,7 @@ Reglas:
 - Las correcciones manuales no deben sobrescribirse automáticamente.
 - Una traducción manual tiene prioridad sobre una generada.
 - La app debe poder aplicar overrides sobre el dataset generado.
-- SQLite no es fuente canónica irremplazable.
+- MariaDB no es fuente canónica irremplazable.
 
 ## Decisiones cerradas
 
@@ -245,7 +245,7 @@ Mantener arquitectura hexagonal.
 - estados;
 - validaciones.
 
-No depende de Spring, JPA, SQLite ni controladores.
+No depende de Spring, JPA, MariaDB ni controladores.
 
 ### Application
 
@@ -274,7 +274,7 @@ Interfaces, por ejemplo:
 
 Adaptadores técnicos:
 
-- SQLite;
+- MariaDB;
 - lector JSON;
 - escritor de overrides;
 - repositorios concretos;
@@ -389,3 +389,4 @@ Una funcionalidad está bien implementada si:
 - mantiene separación hexagonal;
 - tiene tests básicos;
 - es cómoda para usar en mesa.
+

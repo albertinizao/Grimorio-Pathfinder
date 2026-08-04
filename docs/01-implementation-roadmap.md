@@ -25,7 +25,7 @@ Objetivo: identidad estable, listas de conjuros, `translationStatus`, `personalN
 
 Referencia: `openspec/specs/dataset-import/spec.md`
 
-Objetivo: combinar `data/generated/spells-es.generated.json` + `data/overrides/spells-es.overrides.json` y reconstruir SQLite.
+Objetivo: combinar `data/generated/spells-es.generated.json` + `data/overrides/spells-es.overrides.json` y reconstruir MariaDB.
 
 ### 3. Read contract
 
@@ -61,7 +61,7 @@ La implementación actual ya cubre:
 
 - backend Spring Boot con arquitectura hexagonal básica;
 - dataset generado y overrides versionados;
-- importación a SQLite;
+- importación a MariaDB;
 - API REST local;
 - frontend Vue con búsqueda, detalle y edición;
 - tests que cubren flujo MVP y fronteras de arquitectura.
@@ -84,3 +84,5 @@ La congelación final del contrato REST está documentada en:
 ```text
 docs/07-contrato-api-rest.md
 ```
+
+

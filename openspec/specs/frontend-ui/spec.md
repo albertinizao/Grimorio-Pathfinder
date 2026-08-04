@@ -101,3 +101,4 @@ The frontend MUST behave as an offline/local-first client for the MVP.
 - Should the tablet MVP use a single-pane flow only, or switch to a split-view layout on wider tablet screens?
 - Should field-by-field editing happen inline inside the detail view, or through a dedicated edit mode per field group?
 - Is dark mode the only MVP theme, or does the product require a user-visible theme toggle from day one?
+

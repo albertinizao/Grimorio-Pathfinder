@@ -15,7 +15,7 @@ Cada fase debe producir algo ejecutable, comprobable y coherente con la visión 
 - Mantener la aplicación 100% offline.
 - No introducir servicios externos.
 - No añadir Docker en el MVP.
-- No sustituir SQLite salvo petición explícita.
+- No sustituir MariaDB salvo petición explícita.
 - No traducir conjuros al vuelo.
 - No buscar en inglés en el MVP.
 - No sobrescribir correcciones manuales.
@@ -46,7 +46,7 @@ data/overrides/spells-es.overrides.json
 
 La implementación actual mantiene `personalNotes` en el dataset generado cuando existe, pero las notas del usuario siguen considerándose canónicas en overrides.
 
-SQLite contiene una copia efectiva reconstruible para consulta y búsqueda.
+MariaDB contiene una copia efectiva reconstruible para consulta y búsqueda.
 
 ### API REST
 
@@ -71,7 +71,7 @@ Crear la estructura mínima del repositorio y dejar preparado el proyecto para d
 - Crear estructura base de carpetas.
 - Crear backend Spring Boot.
 - Crear frontend Vue.
-- Configurar SQLite para entorno local.
+- Configurar MariaDB para entorno local.
 - Añadir configuración básica de tests.
 - Añadir documentación inicial.
 
@@ -97,7 +97,7 @@ README.md
 
 - El backend arranca.
 - El frontend arranca.
-- Existe una base SQLite local o configuración preparada para crearla.
+- Existe una base MariaDB local o configuración preparada para crearla.
 - Hay tests mínimos ejecutables.
 - No hay dependencias externas obligatorias.
 
@@ -120,7 +120,7 @@ Definir el modelo mínimo necesario para representar conjuros, listas de conjuro
 
 ### Criterios de aceptación
 
-- El dominio no depende de Spring, JPA, SQLite ni controladores.
+- El dominio no depende de Spring, JPA, MariaDB ni controladores.
 - Un conjuro puede pertenecer a varias listas de conjuros.
 - El modelo permite listas especiales futuras mediante `listType`, `listName` y `level`.
 - El texto inglés no se pierde.
@@ -133,7 +133,7 @@ Documento de referencia: `docs/02-modelo-dominio.md`.
 
 ### Objetivo
 
-Permitir que la aplicación cargue una fuente española versionada y la convierta en datos consultables en SQLite.
+Permitir que la aplicación cargue una fuente española versionada y la convierta en datos consultables en MariaDB.
 
 ### Incluye
 
@@ -143,13 +143,13 @@ Permitir que la aplicación cargue una fuente española versionada y la conviert
 - Validación mínima de ambos archivos.
 - Aplicación de overrides sobre el dataset generado.
 - Conservación de overrides huérfanos como advertencias.
-- Persistencia/importación en SQLite.
+- Persistencia/importación en MariaDB.
 - Reconstrucción de la base local desde archivos.
 - Tests de importación.
 
 ### Criterios de aceptación
 
-- La base SQLite puede reconstruirse desde el dataset español.
+- La base MariaDB puede reconstruirse desde el dataset español.
 - Los overrides tienen prioridad sobre el dataset generado.
 - Una corrección manual no se sobrescribe automáticamente.
 - Las notas personales se leen únicamente desde overrides.
@@ -215,7 +215,7 @@ lista de clase lanzadora + nivel máximo + término/frase opcional
 - Normalización de mayúsculas/minúsculas.
 - Normalización de acentos.
 - Normalización de espacios y puntuación básica.
-- Índices suficientes en SQLite para unos pocos miles de conjuros.
+- Índices suficientes en MariaDB para unos pocos miles de conjuros.
 - Tests de búsqueda.
 
 ### Campos buscables
@@ -355,7 +355,7 @@ dataset español generado
         ↓
 overrides manuales
         ↓
-importación a SQLite
+importación a MariaDB
         ↓
 búsqueda por lista de clase lanzadora + nivel máximo + término
         ↓
@@ -443,3 +443,5 @@ El MVP se considera completo cuando existe una aplicación local que permite:
 - conservar texto inglés de referencia;
 - funcionar offline;
 - usarse cómodamente en tablet con modo oscuro.
+
+

@@ -42,17 +42,17 @@ The import flow MUST preserve orphan overrides as warnings and MUST NOT fail the
 - AND it MUST keep the orphan override in canonical storage
 - AND it MUST NOT treat that warning alone as a fatal rebuild error
 
-### Requirement: SQLite as Reconstructible Projection
+### Requirement: MariaDB as Reconstructible Projection
 
-The import flow MUST treat SQLite as a rebuildable local projection derived from versioned files rather than as an irreplaceable canonical source.
+The import flow MUST treat MariaDB as a rebuildable local projection derived from versioned files rather than as an irreplaceable canonical source.
 
 #### Scenario: Local projection is rebuilt
 
 - GIVEN the effective spell data has been composed from generated data and overrides
 - WHEN the local database is rebuilt
-- THEN SQLite SHALL be populated from that effective data
+- THEN MariaDB SHALL be populated from that effective data
 - AND the rebuild MUST preserve English reference text and effective manual corrections in the projection
-- AND the rebuild MUST NOT redefine SQLite as the canonical source of truth
+- AND the rebuild MUST NOT redefine MariaDB as the canonical source of truth
 
 ### Requirement: Offline Execution
 
@@ -84,9 +84,10 @@ The import flow MUST run fully offline.
 
 - The generated dataset is a local, versioned artifact that may be regenerated outside the MVP runtime.
 - Overrides remain locally available even when some generated spell ids disappear temporarily.
-- Rebuild/import may be re-run multiple times to refresh the SQLite projection.
+- Rebuild/import may be re-run multiple times to refresh the MariaDB projection.
 
 ## Open Questions
 
 - Should minimal validation fail fast on the first malformed record, or continue importing valid records while collecting errors?
 - How should orphan override warnings be surfaced to the user in the MVP: logs only, import report, or visible UI notification?
+

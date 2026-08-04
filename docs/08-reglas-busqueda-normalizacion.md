@@ -6,7 +6,7 @@ Este documento fija el comportamiento real de la búsqueda del MVP de **Grimorio
 
 La búsqueda actual se ejecuta en dos pasos:
 
-1. SQLite filtra candidatos por `listType`, `listName` y nivel.
+1. MariaDB filtra candidatos por `listType`, `listName` y nivel.
 2. La capa de servicio normaliza el texto y aplica el match textual sobre los candidatos.
 
 No hay búsqueda en inglés en el MVP.
@@ -146,7 +146,7 @@ La búsqueda filtra por `SpellListEntry`:
 - La búsqueda se puede hacer sin texto.
 - La búsqueda respeta notas personales.
 - El frontend no debe recalcular la normalización por su cuenta.
-- La proyección SQLite almacena un `search_text` auxiliar, pero la coincidencia actual se resuelve en la capa de servicio sobre los candidatos.
+- La proyección MariaDB almacena un `search_text` auxiliar, pero la coincidencia actual se resuelve en la capa de servicio sobre los candidatos.
 
 ## Casos borde conocidos
 
@@ -154,3 +154,4 @@ La búsqueda filtra por `SpellListEntry`:
 - `size = 0` se comporta como búsqueda no paginada;
 - `q` vacío no rompe la navegación;
 - un nivel no disponible para la lista devuelve `422` desde la API.
+

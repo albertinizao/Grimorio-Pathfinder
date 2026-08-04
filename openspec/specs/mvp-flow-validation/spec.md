@@ -14,7 +14,7 @@ The MVP flow MUST start from the generated Spanish dataset plus overrides and pr
 
 - GIVEN `data/generated/spells-es.generated.json` and `data/overrides/spells-es.overrides.json` are available locally
 - WHEN the application imports or rebuilds local data
-- THEN the SQLite projection SHALL be derived from those file sources
+- THEN the MariaDB projection SHALL be derived from those file sources
 - AND override values SHALL win over regenerated Spanish values for the same spell
 
 ### Requirement: Search Flow Matches the Main MVP Use Case
@@ -100,3 +100,4 @@ The validated MVP flow MUST remain usable without internet connectivity.
 
 - What level of automated end-to-end test coverage is required to prove this flow: API-only, UI-only, or both?
 - Should reimport validation also assert behavior for orphan overrides in the MVP acceptance suite, or is that covered elsewhere?
+

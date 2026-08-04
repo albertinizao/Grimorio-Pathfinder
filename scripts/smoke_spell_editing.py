@@ -37,28 +37,29 @@ def main() -> int:
     try:
         generated_path = temp_dir / "spells-es.generated.json"
         overrides_path = temp_dir / "spells-es.overrides.json"
-        sqlite_path = temp_dir / "grimorio.sqlite"
         shutil.copy2(TEST_FIXTURE_GENERATED, generated_path)
         shutil.copy2(TEST_FIXTURE_OVERRIDES, overrides_path)
 
         backend_log = temp_dir / "backend.log"
         frontend_log = temp_dir / "frontend.log"
+        mvnw_command = ["cmd", "/c", ".\\mvnw.cmd", "spring-boot:run"] if os.name == "nt" else ["./mvnw", "spring-boot:run"]
+        npm_command = ["cmd", "/c", "npm"] if os.name == "nt" else ["npm"]
         backend = start_process(
             name="backend",
-            command=["cmd", "/c", ".\\mvnw.cmd", "spring-boot:run"],
+            command=mvnw_command,
             cwd=ROOT,
             env={
                 "SERVER_PORT": str(backend_port),
                 "GRIMORIO_DATASET_GENERATED_PATH": str(generated_path),
                 "GRIMORIO_DATASET_OVERRIDES_PATH": str(overrides_path),
-                "GRIMORIO_SQLITE_PATH": str(sqlite_path),
-                "GRIMORIO_SQLITE_AUTO_REBUILD": "true",
+                "SPRING_PROFILES_ACTIVE": "local",
+                "GRIMORIO_CATALOG_AUTO_REBUILD": "true",
             },
             log_path=backend_log,
         )
         frontend = start_process(
             name="frontend",
-            command=["cmd", "/c", "npm", "run", "dev", "--", "--host", "127.0.0.1", "--port", str(frontend_port)],
+            command=npm_command + ["run", "dev", "--", "--host", "127.0.0.1", "--port", str(frontend_port)],
             cwd=FRONTEND_DIR,
             env={
                 "VITE_API_BASE_URL": f"http://127.0.0.1:{backend_port}",

@@ -15,7 +15,7 @@ The backend MUST be organized into domain, application, ports, and infrastructur
 - GIVEN a backend component is being added
 - WHEN the component belongs to business rules
 - THEN it SHALL live in domain
-- AND it MUST NOT depend on Spring, SQLite, controllers, or filesystem APIs
+- AND it MUST NOT depend on Spring, MariaDB, controllers, or filesystem APIs
 
 #### Scenario: Application orchestration
 
@@ -38,7 +38,7 @@ The backend MUST expose technical adapters for web, persistence, and file I/O wi
 #### Scenario: Persistence adapter
 
 - GIVEN data must be stored or read
-- WHEN SQLite or JSON is involved
+- WHEN MariaDB or JSON is involved
 - THEN the implementation SHALL live in infrastructure
 - AND it MUST satisfy ports defined by the inner layers
 
@@ -51,17 +51,17 @@ The frontend MUST be a separate Vue SPA that consumes backend APIs only.
 - GIVEN the frontend needs data
 - WHEN it renders lists, detail, or filters
 - THEN it MUST call the local API
-- AND it MUST NOT read SQLite or data files directly
+- AND it MUST NOT read MariaDB or data files directly
 
 ### Requirement: Reconstructible Local Data Model
 
-The project MUST treat versioned JSON files as the canonical data source and SQLite as a reconstructible projection.
+The project MUST treat versioned JSON files as the canonical data source and MariaDB as a reconstructible projection.
 
 #### Scenario: Dataset rebuild
 
 - GIVEN generated data and overrides exist
 - WHEN the local projection is rebuilt
-- THEN the system SHALL derive SQLite from those files
+- THEN the system SHALL derive MariaDB from those files
 - AND it MUST preserve the English reference text and manual overrides
 
 ### Requirement: Offline Local-First Dependency Model
@@ -77,7 +77,7 @@ The MVP MUST run without external services, authentication, Docker, or remote da
 
 ### Requirement: Project-Level Technology Boundaries
 
-The architecture MUST use Java + Spring Boot for the backend, Vue for the frontend, and SQLite for the local projection.
+The architecture MUST use Java + Spring Boot for the backend, Vue for the frontend, and MariaDB for the local projection.
 
 #### Scenario: Technology choice consistency
 
@@ -85,3 +85,4 @@ The architecture MUST use Java + Spring Boot for the backend, Vue for the fronte
 - WHEN implementation decisions are made
 - THEN they SHALL align with the approved stack
 - AND they SHOULD preserve future PWA readiness without changing the MVP stack
+

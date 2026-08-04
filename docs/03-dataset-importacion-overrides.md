@@ -2,7 +2,7 @@
 
 ## Propósito
 
-Este documento define cómo **Grimorio Pathfinder** gestiona su fuente de datos española, cómo la importa a SQLite y cómo conserva las correcciones manuales del usuario.
+Este documento define cómo **Grimorio Pathfinder** gestiona su fuente de datos española, cómo la importa a MariaDB y cómo conserva las correcciones manuales del usuario.
 
 El objetivo es que la aplicación pueda reconstruir su base local desde archivos versionados sin perder traducciones corregidas, notas personales ni estados de revisión.
 
@@ -10,7 +10,7 @@ El objetivo es que la aplicación pueda reconstruir su base local desde archivos
 
 La fuente canónica española vive en archivos versionados.
 
-SQLite no es la fuente única de verdad. SQLite es una proyección local reconstruible usada para consulta, búsqueda y rendimiento.
+MariaDB no es la fuente única de verdad. MariaDB es una proyección local reconstruible usada para consulta, búsqueda y rendimiento.
 
 Flujo actual:
 
@@ -27,7 +27,7 @@ data/overrides/spells-es.overrides.json
         ↓
 importador local
         ↓
-SQLite
+MariaDB
         ↓
 búsqueda y consulta en la app
 ```
@@ -75,11 +75,11 @@ No vive en:
 
 - `spells-es.generated.json`;
 - un archivo separado de notas;
-- SQLite como fuente canónica.
+- MariaDB como fuente canónica.
 
 La implementación actual puede transportar `personalNotes` vacías o auxiliares en el dataset generado, pero las notas del usuario siguen viviendo canónicamente en overrides.
 
-SQLite contiene una copia efectiva reconstruible para consulta y búsqueda.
+MariaDB contiene una copia efectiva reconstruible para consulta y búsqueda.
 
 ## Estructura de carpetas
 
@@ -490,7 +490,7 @@ Reglas:
 - reportarlo como advertencia;
 - conservarlo en `spells-es.overrides.json` para posible recuperación futura.
 
-## Importación a SQLite
+## Importación a MariaDB
 
 La importación debe construir la base local a partir de:
 
@@ -508,7 +508,7 @@ data/overrides/spells-es.overrides.json
 4. Validar estructura mínima de overrides.
 5. Aplicar overrides permitidos.
 6. Construir modelo efectivo.
-7. Persistir en SQLite.
+7. Persistir en MariaDB.
 8. Reconstruir índices de búsqueda.
 9. Informar de errores o advertencias.
 ```
@@ -522,9 +522,9 @@ data/overrides/spells-es.overrides.json
 - Si el dataset generado cambia, los overrides compatibles deben seguir aplicándose.
 - Si un override referencia un `spellId` inexistente, debe conservarse y reportarse como advertencia, no borrarse automáticamente.
 
-## Reconstrucción de SQLite
+## Reconstrucción de MariaDB
 
-SQLite puede borrarse y reconstruirse.
+MariaDB puede borrarse y reconstruirse.
 
 Esto debe ser seguro siempre que existan:
 
@@ -535,10 +535,10 @@ data/overrides/spells-es.overrides.json
 
 ### Reglas
 
-- La base SQLite no debe contener información irrecuperable que no exista en archivos.
+- La base MariaDB no debe contener información irrecuperable que no exista en archivos.
 - Si la app permite editar, debe escribir overrides antes de depender de una reconstrucción.
 - Los datos locales de usuario del MVP deben ir a overrides.
-- No usar SQLite como única fuente de verdad para `personalNotes`.
+- No usar MariaDB como única fuente de verdad para `personalNotes`.
 
 ## Identificadores estables
 
@@ -547,7 +547,7 @@ Los identificadores son críticos para que los overrides sobrevivan.
 ### Reglas
 
 - Cada conjuro debe tener un `id` estable.
-- El `id` no debe depender de SQLite.
+- El `id` no debe depender de MariaDB.
 - El `id` no debe cambiar por modificar la traducción española.
 - El `id` debe ser apto para enlazar overrides.
 - Si el nombre inglés cambia ligeramente, debe intentarse conservar el mismo `id` si representa el mismo conjuro.
@@ -600,7 +600,7 @@ Las notas personales son contenido del usuario.
 
 - Deben persistirse en overrides.
 - Deben aplicarse durante importación.
-- Deben guardarse en SQLite para búsqueda.
+- Deben guardarse en MariaDB para búsqueda.
 - Deben incluirse en el texto buscable.
 - No deben mezclarse con `descriptionEs`.
 - No deben aparecer como si fueran texto del conjuro.
@@ -608,7 +608,7 @@ Las notas personales son contenido del usuario.
 
 ## Búsqueda e índices
 
-SQLite se usa para búsqueda rápida.
+MariaDB se usa para búsqueda rápida.
 
 ### Reglas
 
@@ -702,7 +702,7 @@ Cuando el usuario edita desde la aplicación:
 ```text
 1. Validar la petición en el caso de uso.
 2. Actualizar el modelo efectivo.
-3. Persistir cambio en SQLite.
+3. Persistir cambio en MariaDB.
 4. Leer overrides actuales.
 5. Crear o actualizar únicamente la entrada y campo afectados.
 6. Escribir el archivo completo preservando overrides existentes.
@@ -814,7 +814,7 @@ Cubrir al menos:
 7. Detectar `id` duplicados.
 8. Reportar override huérfano como advertencia.
 9. No sobrescribir `LOCKED`.
-10. Reconstruir SQLite desde archivos.
+10. Reconstruir MariaDB desde archivos.
 11. Rechazar o advertir `locked` como flag no canónico.
 12. Preservar campos desconocidos de overrides sin aplicarlos.
 
@@ -823,7 +823,7 @@ Cubrir al menos:
 Este módulo se considera correcto si:
 
 - la app puede cargar el dataset español;
-- SQLite se reconstruye desde archivos;
+- MariaDB se reconstruye desde archivos;
 - los overrides se aplican correctamente;
 - las correcciones manuales sobreviven a reimportaciones;
 - las notas personales sobreviven a reimportaciones;
@@ -832,3 +832,5 @@ Este módulo se considera correcto si:
 - no hay dependencia de internet ni de servicios externos;
 - no se escribe manualmente sobre el dataset generado;
 - no hay ambigüedad entre `LOCKED` como estado y un flag técnico inexistente.
+
+

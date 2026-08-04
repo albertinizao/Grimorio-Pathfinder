@@ -139,7 +139,7 @@ Spanish-facing labels derived from this behavior SHOULD preserve the project's c
 
 ## Assumptions
 
-- Search runs against the local reconstructible SQLite projection after overrides have already been applied to effective content.
+- Search runs against the local reconstructible MariaDB projection after overrides have already been applied to effective content.
 - `listName` values come from imported data and are selected through lookup data rather than free-form user invention.
 - The MVP dataset size is small enough for deterministic ordering and normalized local search without remote indexing services.
 
@@ -147,3 +147,4 @@ Spanish-facing labels derived from this behavior SHOULD preserve the project's c
 
 - Should the final implementation return every matching result in one response for MVP, or should `docs/07-contrato-api-rest.md` later define a lightweight pagination shape?
 - How should snippets be generated when the only match comes from `personalNotes`: raw note excerpt, highlighted fragment, or a generic match indicator?
+

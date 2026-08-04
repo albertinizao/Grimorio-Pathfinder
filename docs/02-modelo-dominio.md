@@ -6,7 +6,7 @@ Este documento define el modelo funcional de dominio de **Grimorio Pathfinder**.
 
 No es un diseño de base de datos ni una especificación de clases finales. Su objetivo es fijar los conceptos, reglas e invariantes que deben respetar backend, importador, búsqueda, API y frontend.
 
-El dominio debe mantenerse independiente de Spring, SQLite, JPA, controladores REST y detalles de infraestructura.
+El dominio debe mantenerse independiente de Spring, MariaDB, JPA, controladores REST y detalles de infraestructura.
 
 ## Principios del dominio
 
@@ -16,7 +16,7 @@ El dominio debe mantenerse independiente de Spring, SQLite, JPA, controladores R
 - Un conjuro puede pertenecer a varias listas de conjuros.
 - Las listas de conjuros no deben limitarse a clases rígidas.
 - Las correcciones manuales tienen prioridad sobre contenido generado.
-- La base SQLite es una proyección local reconstruible, no la fuente canónica irremplazable.
+- La base MariaDB es una proyección local reconstruible, no la fuente canónica irremplazable.
 - El dominio debe permitir reconstruirse desde dataset generado + overrides.
 
 ## Terminología canónica
@@ -59,7 +59,7 @@ Campos conceptuales:
 ### Reglas
 
 - `id` debe ser estable.
-- `id` no debe depender del identificador interno de SQLite.
+- `id` no debe depender del identificador interno de MariaDB.
 - `slug` puede usarse para rutas o referencias humanas.
 - `sourceId` identifica el conjuro dentro de la fuente original si existe.
 - `sourceHash` permite detectar cambios en el texto o datos originales.
@@ -192,9 +192,9 @@ Reglas:
 - Las notas personales forman parte de la búsqueda.
 - Las notas personales no proceden del dataset generado.
 - Las notas personales se persisten canónicamente en `data/overrides/spells-es.overrides.json`.
-- SQLite solo contiene una copia efectiva reconstruible para consulta y búsqueda.
+- MariaDB solo contiene una copia efectiva reconstruible para consulta y búsqueda.
 - No existe archivo separado de notas en el MVP.
-- Las notas personales deben conservarse al reconstruir la base SQLite.
+- Las notas personales deben conservarse al reconstruir la base MariaDB.
 
 ### Fechas
 
@@ -418,7 +418,7 @@ Identificador estable del conjuro.
 
 Reglas:
 
-- No depende de SQLite.
+- No depende de MariaDB.
 - No cambia al reimportar.
 - Debe ser apto para enlazar overrides.
 - Debe derivarse de forma predecible desde la fuente o dataset.
@@ -528,12 +528,12 @@ Estas reglas deben cumplirse siempre:
 - Un override manual tiene prioridad sobre contenido generado.
 - `LOCKED` no debe sobrescribirse automáticamente.
 - La búsqueda MVP no debe incluir texto inglés.
-- Las notas personales deben sobrevivir a reconstrucciones de SQLite.
+- Las notas personales deben sobrevivir a reconstrucciones de MariaDB.
 - El dominio no debe depender de infraestructura.
 
-## Relación con SQLite
+## Relación con MariaDB
 
-SQLite es una proyección local para consulta rápida.
+MariaDB es una proyección local para consulta rápida.
 
 El modelo de dominio no debe asumir:
 
@@ -617,3 +617,5 @@ El modelo de dominio es válido si permite:
 - evitar sobrescritura de correcciones manuales;
 - funcionar sin servicios externos;
 - mantenerse independiente de infraestructura.
+
+

@@ -6,9 +6,9 @@ Este documento fija el contrato técnico real que usa la implementación actual 
 
 - `data/generated/spells-es.generated.json`
 - `data/overrides/spells-es.overrides.json`
-- `data/local/grimorio.sqlite`
+- `data/local/gestion_grimorio`
 
-La fuente canónica de verdad para edición manual es el archivo de overrides. SQLite es solo una proyección local reconstruible.
+La fuente canónica de verdad para edición manual es el archivo de overrides. MariaDB es solo una proyección local reconstruible.
 
 ## Visión general del flujo
 
@@ -25,7 +25,7 @@ data/overrides/spells-es.overrides.json
         ↓
 importador local
         ↓
-data/local/grimorio.sqlite
+data/local/gestion_grimorio
 ```
 
 ## `spells-es.generated.json`
@@ -229,13 +229,14 @@ La implementación actual:
 - aplica overrides sobre el dataset generado;
 - reporta overrides huérfanos como advertencia;
 - ignora campos de override no permitidos;
-- reconstruye SQLite desde los datos efectivos.
+- reconstruye MariaDB desde los datos efectivos.
 
 ## Reglas de implementación relevantes
 
 - `spells-es.generated.json` es regenerable.
 - `spells-es.overrides.json` es la fuente manual canónica.
-- SQLite no es la fuente de verdad.
-- `search_text` en SQLite es un auxiliar interno; no forma parte del contrato JSON.
+- MariaDB no es la fuente de verdad.
+- `search_text` en MariaDB es un auxiliar interno; no forma parte del contrato JSON.
 - Las notas del usuario deben sobrevivir a reimportaciones y rebuilds.
 - El texto inglés original debe mantenerse en el dataset generado y en el detalle efectivo.
+

@@ -111,3 +111,4 @@ The spell detail MUST make translation and review status explicit.
 
 - Should timestamps be mandatory in the external detail DTO from MVP day one, or only exposed once edit flows are implemented?
 - Should the default UI state for the English reference section be collapsed on tablet layouts, or is that purely a frontend presentation decision?
+

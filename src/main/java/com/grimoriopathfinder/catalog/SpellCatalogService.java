@@ -4,7 +4,7 @@ import com.grimoriopathfinder.dataset.SpellDatasetImportService;
 import com.grimoriopathfinder.overrides.SpellOverrideEntry;
 import com.grimoriopathfinder.overrides.SpellOverridesFile;
 import com.grimoriopathfinder.overrides.SpellOverridesJsonRepository;
-import com.grimoriopathfinder.sqlite.SpellCatalogSqliteRepository;
+import com.grimoriopathfinder.application.port.out.SpellCatalogRepository;
 import com.grimoriopathfinder.spells.Spell;
 import com.grimoriopathfinder.spells.SpellListEntry;
 import com.grimoriopathfinder.web.dto.SpellApiDtos;
@@ -86,13 +86,13 @@ public class SpellCatalogService {
     );
     private static final String SORT_NAME = "LEVEL_ASC_NAME_ES_ASC";
 
-    private final SpellCatalogSqliteRepository repository;
+    private final SpellCatalogRepository repository;
     private final SpellDatasetImportService importService;
     private final SpellOverridesJsonRepository overridesRepository;
     private final Path generatedPath;
     private final Path overridesPath;
 
-    public SpellCatalogService(SpellCatalogSqliteRepository repository) {
+    public SpellCatalogService(SpellCatalogRepository repository) {
         this.repository = repository;
         this.importService = null;
         this.overridesRepository = null;
@@ -102,7 +102,7 @@ public class SpellCatalogService {
 
     @Autowired
     public SpellCatalogService(
-            SpellCatalogSqliteRepository repository,
+            SpellCatalogRepository repository,
             SpellDatasetImportService importService,
             SpellOverridesJsonRepository overridesRepository,
             @Value("${grimorio.dataset.generated-path:data/generated/spells-es.generated.json}") String generatedPath,
@@ -360,7 +360,7 @@ public class SpellCatalogService {
         );
     }
 
-    private SpellApiDtos.SpellSearchResultDto toSearchResult(SpellCatalogSqliteRepository.SearchCandidate candidate, SearchHit searchHit) {
+    private SpellApiDtos.SpellSearchResultDto toSearchResult(SpellCatalogRepository.SearchCandidate candidate, SearchHit searchHit) {
         var spell = candidate.spell();
         var selectedList = new SpellApiDtos.SpellSelectedListDto(
                 candidate.selectedList().listType(),
@@ -775,7 +775,7 @@ public class SpellCatalogService {
     private record SearchHit(String matchSource, String snippet, int rank) {
     }
 
-    private record SearchMatch(SpellCatalogSqliteRepository.SearchCandidate candidate, SearchHit hit) {
+    private record SearchMatch(SpellCatalogRepository.SearchCandidate candidate, SearchHit hit) {
         private int sortRank() {
             return hit == null ? 0 : hit.rank();
         }

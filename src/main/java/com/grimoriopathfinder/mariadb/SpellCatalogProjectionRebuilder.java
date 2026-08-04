@@ -1,6 +1,7 @@
-package com.grimoriopathfinder.sqlite;
+package com.grimoriopathfinder.mariadb;
 
 import com.grimoriopathfinder.dataset.SpellDatasetImportService;
+import com.grimoriopathfinder.application.port.out.SpellCatalogRepository;
 import java.nio.file.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +16,17 @@ public class SpellCatalogProjectionRebuilder implements ApplicationRunner {
     private static final Logger log = LoggerFactory.getLogger(SpellCatalogProjectionRebuilder.class);
 
     private final SpellDatasetImportService importService;
-    private final SpellCatalogSqliteRepository repository;
+    private final SpellCatalogRepository repository;
     private final Path generatedPath;
     private final Path overridesPath;
     private final boolean autoRebuild;
 
     public SpellCatalogProjectionRebuilder(
             SpellDatasetImportService importService,
-            SpellCatalogSqliteRepository repository,
+            SpellCatalogRepository repository,
             @Value("${grimorio.dataset.generated-path}") String generatedPath,
             @Value("${grimorio.dataset.overrides-path}") String overridesPath,
-            @Value("${grimorio.sqlite.auto-rebuild:true}") boolean autoRebuild
+            @Value("${grimorio.catalog.auto-rebuild:true}") boolean autoRebuild
     ) {
         this.importService = importService;
         this.repository = repository;

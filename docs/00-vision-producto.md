@@ -100,16 +100,16 @@ data/
   overrides/
     spells-es.overrides.json
   local/
-    grimorio.sqlite
+    gestion_grimorio
 ```
 
-La base SQLite local es una proyección reconstruible desde esos archivos y se usa para búsqueda rápida.
+La base MariaDB local es una proyección reconstruible desde esos archivos y se usa para búsqueda rápida.
 
 Responsabilidad de cada archivo:
 
 - `spells-es.generated.json` contiene el dataset español generado y puede regenerarse.
 - `spells-es.overrides.json` contiene correcciones manuales, estados manuales y `personalNotes`.
-- SQLite contiene datos efectivos para consulta; no es la fuente canónica irremplazable.
+- MariaDB contiene datos efectivos para consulta; no es la fuente canónica irremplazable.
 
 ### 4. Correcciones protegidas
 
@@ -163,7 +163,7 @@ data/overrides/spells-es.overrides.json
 
 La implementación actual mantiene el campo en el dataset generado cuando está presente, pero las notas del usuario se consideran canónicas en overrides.
 
-SQLite guarda una copia efectiva para mostrarla y buscarla.
+MariaDB guarda una copia efectiva para mostrarla y buscarla.
 
 ## Alcance del MVP
 
@@ -171,7 +171,7 @@ El MVP incluye:
 
 - carga/importación del dataset español;
 - aplicación de overrides;
-- base local SQLite;
+- base local MariaDB;
 - búsqueda por lista de clase lanzadora, nivel máximo y texto opcional;
 - búsqueda en notas personales;
 - listado de resultados;
@@ -286,3 +286,5 @@ Una funcionalidad debe considerarse correcta si:
 - no sobrescribe correcciones manuales;
 - responde con rapidez en búsquedas habituales;
 - mantiene una experiencia cómoda para mesa.
+
+
